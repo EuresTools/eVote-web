@@ -20,6 +20,8 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    private $oldAttributes = array();
+
     /**
      * @inheritdoc
      */
@@ -50,7 +52,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             'id' => 'ID',
             'username' => 'Username',
-            'password_hash' => 'Password Hash',
+            'password_hash' => 'Password',
             'auth_key' => 'Auth Key',
             'is_admin' => 'Is Admin',
             'organizer_id' => 'Organizer ID',
@@ -68,13 +70,23 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
 
+    public function afterFind() {
+        if (parent::afterFind()) {
+            $this->oldAttributes = $this->attributes;
+        }
+    }
 
-    // Generate auth keys for users for cookie based login.
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->auth_key = \Yii::$app->security->generateRandomString();
+                $this->created_at = new \yii\db\Expression('NOW()');
             }
+            // Hash the password.
+            if ($this->oldAttributes->password_hash !== $this->password_hash) {
+                $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($this->password_hash);
+            }
+            $this->updated_at = new \yii\db\Expression('NOW()');
             return true;
         }
         return false;
@@ -112,5 +124,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function isOrganizer() {
         return $this->getOrganizer()->exists();
+    }
+
+    public function isAdmin() {
+        return $this->is_admin;
     }
 }
