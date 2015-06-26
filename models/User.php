@@ -111,6 +111,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     public function isOrganizer() {
-        return $this->getOrganizer() !== null;
+        return $this->getOrganizer()->exists();
     }
 }
