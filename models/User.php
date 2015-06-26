@@ -2,102 +2,115 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $password_hash
+ * @property string $auth_key
+ * @property integer $is_admin
+ * @property integer $organizer_id
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @property Organizer $organizer
+ */
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
     /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
+        return [
+            [['username', 'password_hash'], 'required'],
+            [['is_admin', 'organizer_id'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['username', 'password_hash', 'auth_key'], 'string', 'max' => 255],
+            [['username'], 'unique']
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Username',
+            'password_hash' => 'Password Hash',
+            'auth_key' => 'Auth Key',
+            'is_admin' => 'Is Admin',
+            'organizer_id' => 'Organizer ID',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrganizer()
+    {
+        return $this->hasOne(Organizer::className(), ['id' => 'organizer_id']);
+    }
+
+
+
+    // Generate auth keys for users for cookie based login.
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->auth_key = \Yii::$app->security->generateRandomString();
             }
+            return true;
         }
-
-        return null;
+        return false;
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
 
-        return null;
+    public static function findByUsername($username) {
+        return static::findOne(['username' => $username]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
+    public function validatePassword($password) {
+        return Yii::$app->getSecurity()->validatePassword($password, $this->password_hash);
+    }
+
+    /* IdentityInterface */
+    public static function findIdentity($id) {
+        return static::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type=null) {
+        // Intentionally empty.
+    }
+
+    public function getId() {
         return $this->id;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
+    public function getAuthKey() {
+        return $this->auth_key;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
+    public function validateAuthKey($authKey) {
+        return $this->getAuthKey() === $authKey;
     }
 
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+    public function isOrganizer() {
+        return $this->getOrganizer() !== null;
     }
 }

@@ -10,6 +10,7 @@ class m150626_093838_create_user_table extends Migration
             'id' => Schema::TYPE_PK,
             'username' => Schema::TYPE_STRING . ' NOT NULL UNIQUE',
             'password_hash' => Schema::TYPE_STRING . ' NOT NULL',
+            'auth_key' => Schema::TYPE_STRING,
             'is_admin' => Schema::TYPE_BOOLEAN . ' DEFAULT FALSE',
             'organizer_id' => Schema::TYPE_INTEGER,
             'created_at' => Schema::TYPE_DATETIME,
