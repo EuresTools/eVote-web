@@ -51,6 +51,17 @@ class Organizer extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->created_at = new \yii\db\Expression('NOW()');
+            }
+            $this->updated_at = new \yii\db\Expression('NOW()');
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

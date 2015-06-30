@@ -36,6 +36,7 @@ AppAsset::register($this);
             $items = [];
             if (Yii::$app->user->identity && Yii::$app->user->identity->isAdmin()) {
                 $items[] = ['label' => 'Users', 'url' => ['/user']];
+                $items[] = ['label' => 'Organizers', 'url' => ['/organizer']];
             }
             if (Yii::$app->user->isGuest) {
                 $items[] = ['label' => 'Login', 'url' => ['/site/login']];
