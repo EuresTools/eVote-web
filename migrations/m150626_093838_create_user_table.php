@@ -17,7 +17,7 @@ class m150626_093838_create_user_table extends Migration
             'updated_at' => Schema::TYPE_DATETIME
         ]);
 
-        $this->addForeignKey('user_organizer_id', 'user', 'organizer_id', 'organizer', 'id', $delete = 'CASCADE');
+        $this->addForeignKey('user_organizer_id', 'user', 'organizer_id', 'organizer', 'id', $delete='SET NULL');
     }
 
     public function down() {
