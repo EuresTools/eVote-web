@@ -38,6 +38,9 @@ AppAsset::register($this);
                 $items[] = ['label' => 'Users', 'url' => ['/user']];
                 $items[] = ['label' => 'Organizers', 'url' => ['/organizer']];
             }
+            if (Yii::$app->user->identity && Yii::$app->user->identity->isOrganizer()) {
+                $items[] = ['label' => 'Polls', 'url' => ['/poll']];
+            }
             if (Yii::$app->user->isGuest) {
                 $items[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {
