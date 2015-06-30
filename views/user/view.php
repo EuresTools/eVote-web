@@ -30,10 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
-            'password_hash',
-            'auth_key',
+            //'password_hash',
+            //'auth_key',
             'is_admin',
-            'organizer_id',
+            [
+            'label' => 'Poll Organizer',
+            'value' => $model->isOrganizer() ? $model->getOrganizer()->one()->name : 'None'
+            ],
+            //'organizer_id',
             'created_at',
             'updated_at',
         ],

@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+use yii\helpers\ArrayHelper;
+use app\models\Organizer;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,15 +19,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
+    <?php //echo $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'is_admin')->textInput() ?>
+    <?= $form->field($model, 'is_admin')->checkBox() ?>
 
-    <?= $form->field($model, 'organizer_id')->textInput() ?>
+    <?= $form->field($model, 'organizer_id')->dropDownList(ArrayHelper::map(Organizer::find()->all(), 'id', 'name'), ['prompt' => 'None']) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?php //echo $form->field($model, 'organizer_id')->textInput() ?>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?php // echo $form->field($model, 'created_at')->textInput() ?>
+
+    <?php // echo $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -55,7 +55,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'password_hash' => 'Password',
             'auth_key' => 'Auth Key',
             'is_admin' => 'Is Admin',
-            'organizer_id' => 'Organizer ID',
+            'organizer_id' => 'Poll Organizer',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
