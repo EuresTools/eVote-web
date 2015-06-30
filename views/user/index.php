@@ -29,13 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             //'password_hash',
             //'auth_key',
-            //'is_admin',
-            [
-                'attribute' => 'is_admin',
-                'value' => function($data) {
-                    return $data->isAdmin() ? 'Yes' : 'No';
-                }
-            ],
+            'is_admin',
+            //[
+                //'attribute' => 'is_admin',
+                //'value' => function($data) {
+                    //return $data->isAdmin() ? 'Yes' : 'No';
+                //}
+            //],
             // 'organizer_id',
             // 'created_at',
             // 'updated_at',
