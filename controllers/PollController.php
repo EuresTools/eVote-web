@@ -5,9 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Poll;
 use app\models\PollSearch;
+use app\models\Option;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\Model;
 
 /**
  * PollController implements the CRUD actions for Poll model.
@@ -60,15 +62,39 @@ class PollController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Poll();
+        //$model = new Poll();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //return $this->redirect(['view', 'id' => $model->id]);
+        //} else {
+            //return $this->render('create', [
+                //'poll' => $model,
+            //]);
+        //}
+
+
+
+
+
+        $optionCount = count(Yii::$app->request->post('options', []));
+        $poll = new Poll();
+        $options = [new Option(), new Option()];
+        for ($i = 2; $i < $count; $i++) {
+            $options[] = new Option();
         }
+
+        if (Model::loadMultiple([$poll, $options], Yii::$app->request->post())) {
+            return $this->redirect(['index']);
+            if($poll->validate() && Model::validateMultiple($options)) {
+                $poll->save(false);
+                $id = $poll->getPrimaryKey();
+                $option->poll_id = $id;
+                $option->save(false);
+                return $this->redirect(['poll/view', 'id' => $id]);
+            }
+        }
+        return $this->render('create', ['poll' => $poll, 'options' => $options]);
+
     }
 
     /**
