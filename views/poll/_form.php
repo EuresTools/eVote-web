@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\datetime\DateTimePicker;
+use kartik\datecontrol\Module;
+use kartik\datecontrol\DateControl;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Poll */
@@ -19,23 +20,20 @@ use kartik\datetime\DateTimePicker;
 
     <?= $form->field($poll, 'select_max')->textInput() ?>
 
-    <?= $form->field($poll, 'start_time')->widget(DateTimePicker::className(), [
-        'convertFormat' => true,
-        'pluginOptions' => [
-            'startDate' => (new DateTime('NOW'))->format('Y-m-d H:i'),
-            'todayHighlight' => true,
-            'autoclose' => true,
-        ],
+
+    <?= $form->field($poll, 'start_time')->widget(DateControl::classname(), [
+        'type' => DateControl::FORMAT_DATETIME,
+        'displayFormat' => 'd MMM, yyyy HH:mm',
+        //'saveFormat' => 'php:Y-m-d H:i:s',
+        'saveFormat' => 'php:Y-m-d H:i:s',
+    ]) ?>
+
+    <?= $form->field($poll, 'end_time')->widget(DateControl::classname(), [
+        'type' => DateControl::FORMAT_DATETIME,
+        'displayFormat' => 'd MMM, yyyy HH:mm',
+        'saveFormat' => 'php:Y-m-d H:i:s',
     ]) ?>
     
-    <?= $form->field($poll, 'end_time')->widget(DateTimePicker::className(), [
-        'convertFormat' => true,
-        'pluginOptions' => [
-            'startDate' => (new DateTime('NOW'))->format('Y-m-d H:i'),
-            'todayHighlight' => true,
-            'autoclose' => true,
-        ],
-    ]) ?>
 
     <?php //echo $form->field($model, 'organizer_id')->textInput() ?>
 
@@ -55,7 +53,7 @@ use kartik\datetime\DateTimePicker;
         <button type="button" id="add-btn" class="btn btn-primary pull-right" onclick="addField()">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
-        <button type="button" id="remove-btn" class="btn btn-danger pull-right" onclick="removeField()" style="display: none">
+        <button type="button" id="remove-btn" class="btn btn-danger pull-right" onclick="removeField()">
             <span class="glyphicon glyphicon-minus"></span>
         </button>
     </span>
@@ -69,6 +67,20 @@ use kartik\datetime\DateTimePicker;
 </div>
 
 <script type='text/javascript'>
+
+$(document).ready(function() {
+    updateRemoveButton();
+});
+
+function updateRemoveButton() {
+    var count = $("#options-container > div").length;
+    if (count <= 2) {
+        $("#remove-btn").hide();
+    } else {
+        $("#remove-btn").show();
+    }
+}
+
 function addField() {
     var container = document.getElementById("options-container");
     var count = $("#options-container > div").length + 1;
@@ -96,7 +108,7 @@ function addField() {
     div.appendChild(helpdiv);
     container.appendChild(div);
 
-    $("#remove-btn").show();
+    updateRemoveButton();
 }
 
 function removeField() {
@@ -106,9 +118,7 @@ function removeField() {
         var lastChild = container.lastChild;
         container.removeChild(lastChild);
     }
-    if (count <= 3) {
-        $("#remove-btn").hide();
-    }
+    updateRemoveButton();
 }
 
 </script>

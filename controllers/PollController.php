@@ -60,8 +60,7 @@ class PollController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         //$model = new Poll();
 
         //if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -73,28 +72,31 @@ class PollController extends Controller
         //}
 
 
-
-
-
-        $optionCount = count(Yii::$app->request->post('options', []));
+        $optionCount = count(Yii::$app->request->post('Option'));
         $poll = new Poll();
+        $poll->organizer_id = Yii::$app->user->identity->getOrganizer()->one()->getPrimaryKey();
         $options = [new Option(), new Option()];
-        for ($i = 2; $i < $count; $i++) {
-            $options[] = new Option();
+        for ($i = 2; $i < $optionCount; $i++) {
+            $options[] = (new Option());
         }
 
-        if (Model::loadMultiple([$poll, $options], Yii::$app->request->post())) {
-            return $this->redirect(['index']);
-            if($poll->validate() && Model::validateMultiple($options)) {
-                $poll->save(false);
-                $id = $poll->getPrimaryKey();
-                $option->poll_id = $id;
-                $option->save(false);
-                return $this->redirect(['poll/view', 'id' => $id]);
+        if ($poll->load(Yii::$app->request->post()) && Model::loadMultiple($options, Yii::$app->request->post())) { 
+            $transaction = Yii::$app->db->beginTransaction();
+            if ($poll->save()) {
+                foreach ($options as $option) {
+                    $option->poll_id = $poll->id;
+                    if (!$option->save()) {
+                        Yii::trace("$option->poll_id", "poll id");
+                        $transaction->rollback();
+                        return $this->render('create', ['poll' => $poll, 'options' => $options]);
+                    }
+                }
+                $transaction->commit();
+                return $this->redirect(['poll/view', 'id' => $poll->id]);
             }
+            $transaction->rollback();
         }
         return $this->render('create', ['poll' => $poll, 'options' => $options]);
-
     }
 
     /**

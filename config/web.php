@@ -1,5 +1,7 @@
 <?php
 
+use kartik\datecontrol\Module;
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
@@ -44,6 +46,17 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
+    'modules' => [
+        'datecontrol' => [
+            'class' => 'kartik\datecontrol\Module',
+            'widgetSettings' => [
+                'class' => 'yii\jui\DateTimePicker',
+                'displaySettings' => [
+                    Module::FORMAT_DATETIME => 'd M, yyyy HH:mm',
+                ],
+            ],
+        ],
+    ],
 ];
 
 if (YII_ENV_DEV) {

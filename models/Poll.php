@@ -38,11 +38,11 @@ class Poll extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['question', 'start_time', 'end_time', 'organizer_id'], 'required'],
+            [['question', 'start_time', 'end_time', 'select_min', 'select_max', 'organizer_id'], 'required'],
             [['question'], 'string'],
             [['select_min', 'select_max', 'organizer_id'], 'integer'],
             [['start_time', 'end_time', 'created_at', 'updated_at'], 'safe'],
-            [['start_time', 'end_time'], 'date'],
+            [['start_time', 'end_time'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             // Right now these are just compared as strings...
             //['start_time', 'compare', 'compareAttribute' => 'end_time', 'operator' => '<'],
             //['end_time', 'compare', 'compareAttribute' => 'start_time', 'operator' => '>'],
@@ -74,7 +74,7 @@ class Poll extends \yii\db\ActiveRecord
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->organizer_id = $user->identity->getOrganizer()->one()->id;
+                //$this->organizer_id = Yii::$app->user->identity->getOrganizer()->one()->id;
                 $this->created_at = new \yii\db\Expression('NOW()');
             }
             $this->updated_at = new \yii\db\Expression('NOW()');
