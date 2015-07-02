@@ -26,7 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id',
-            'title',
+            [
+            'attribute' => 'title',
+            'format' => 'raw',
+            'value' => function($data) {
+                return Html::a(Html::encode($data->title), ['view', 'id' => $data->id]);
+            }
+            ],
             'question:ntext',
             'select_min',
             'select_max',
