@@ -19,7 +19,7 @@ class PollSearch extends Poll
     {
         return [
             [['id', 'select_min', 'select_max', 'organizer_id'], 'integer'],
-            [['question', 'start_time', 'end_time', 'created_at', 'updated_at'], 'safe'],
+            [['title', 'question', 'start_time', 'end_time', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 

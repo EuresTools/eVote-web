@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "poll".
  *
  * @property integer $id
+ * @property string $title
  * @property string $question
  * @property integer $select_min
  * @property integer $select_max
@@ -38,8 +39,8 @@ class Poll extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['question', 'start_time', 'end_time', 'select_min', 'select_max', 'organizer_id'], 'required'],
-            [['question'], 'string'],
+            [['title', 'question', 'start_time', 'end_time', 'select_min', 'select_max', 'organizer_id'], 'required'],
+            [['title', 'question'], 'string'],
             [['select_min', 'select_max', 'organizer_id'], 'integer'],
             [['start_time', 'end_time', 'created_at', 'updated_at'], 'safe'],
             [['start_time', 'end_time'], 'date', 'format' => 'php:Y-m-d H:i:s'],
@@ -60,6 +61,7 @@ class Poll extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'title' => 'Title',
             'question' => 'Question',
             'select_min' => 'Minimum Selections',
             'select_max' => 'Maximum Selections',

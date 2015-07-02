@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo ListView::widget([
                 'dataProvider' => $dataProvider,
                 'itemView' => function($model, $key, $index, $widget) {
-                    return Html::a(Html::encode($model->question), ['poll/view', 'id' => $model->id], []);
+                    return Html::a(Html::encode($model->title), ['poll/view', 'id' => $model->id], []);
                 }
             ]);
         }

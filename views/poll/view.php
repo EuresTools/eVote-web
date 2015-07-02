@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             //'id',
             //'question:ntext',
+            'title',
             [
                 'attribute' => 'organizer_id',
                 'format' => 'raw',

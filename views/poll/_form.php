@@ -14,6 +14,8 @@ use kartik\datecontrol\DateControl;
 
     <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
+    <?= $form->field($poll, 'title')->textInput() ?>
+
     <?= $form->field($poll, 'question')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($poll, 'select_min')->textInput() ?>

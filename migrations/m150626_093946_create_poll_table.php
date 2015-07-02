@@ -8,6 +8,7 @@ class m150626_093946_create_poll_table extends Migration
     public function up() {
         $this->createTable('poll', [
             'id' => Schema::TYPE_PK,
+            'title' => Schema::TYPE_STRING . ' NOT NULL',
             'question' => Schema::TYPE_TEXT . ' NOT NULL',
             'select_min' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
             'select_max' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 1',
