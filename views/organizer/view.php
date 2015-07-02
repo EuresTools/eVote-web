@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ListView;
+use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Organizer */
@@ -25,6 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+
+    <h2>Information</h2>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -33,6 +37,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             'updated_at',
         ],
+    ]) ?>
+
+    <?php 
+        $polls = $model->getPolls()->all();
+        $allModels = [];
+        foreach ($polls as $poll) {
+            //$attributes[] = ['label' => $poll->created_at, 'value' => $poll->question];
+            $allModels[] = ['key' => "$poll->question"];
+        }
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $polls,//$allModels,
+        ]);
+    ?>
+
+    <?php if (count($polls) > 0) { echo "<h2>Polls</h2>"; } ?>
+
+    <?= ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => function($model, $key, $index, $widget) {
+            return Html::a(Html::encode($model->question), ['poll/view', 'id' => $model->id], []);
+        }
     ]) ?>
 
 </div>
