@@ -25,16 +25,38 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+<?php
+    // Populate the attribute array for display.
+    $attributes = ['question:ntext'];
+    foreach ($model->getOptions()->all() as $index => $option) {
+        $no = $index + 1;
+        $attributes[] = ['attribute' => "Option $no", 'value' => $option->text];
+    }
+
+?>
+
+    <h2>Poll</h2>
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => $attributes,
+    ]) ?>
+
+
+    <h2>Information</h2>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'question:ntext',
+            //'id',
+            //'question:ntext',
+            [
+                'attribute' => 'organizer_id',
+                'format' => 'raw',
+                'value' => Html::a(Html::encode($model->getOrganizer()->one()->name), ['/organizer/view', 'id' => $model->getOrganizer()->one()->id]),
+            ],
             'select_min',
             'select_max',
             'start_time',
             'end_time',
-            'organizer_id',
             'created_at',
             'updated_at',
         ],

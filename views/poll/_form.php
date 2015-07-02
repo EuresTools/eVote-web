@@ -12,7 +12,7 @@ use kartik\datecontrol\DateControl;
 
 <div class="poll-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
 
     <?= $form->field($poll, 'question')->textarea(['rows' => 6]) ?>
 
@@ -24,14 +24,23 @@ use kartik\datecontrol\DateControl;
     <?= $form->field($poll, 'start_time')->widget(DateControl::classname(), [
         'type' => DateControl::FORMAT_DATETIME,
         'displayFormat' => 'd MMM, yyyy HH:mm',
-        //'saveFormat' => 'php:Y-m-d H:i:s',
         'saveFormat' => 'php:Y-m-d H:i:s',
+        'options' => [
+            'pluginOptions' => [
+                'autoclose' => true,
+            ],
+        ],
     ]) ?>
 
     <?= $form->field($poll, 'end_time')->widget(DateControl::classname(), [
         'type' => DateControl::FORMAT_DATETIME,
         'displayFormat' => 'd MMM, yyyy HH:mm',
         'saveFormat' => 'php:Y-m-d H:i:s',
+        'options' => [
+            'pluginOptions' => [
+                'autoclose' => true,
+            ],
+        ],
     ]) ?>
     
 

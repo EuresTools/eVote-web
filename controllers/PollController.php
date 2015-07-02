@@ -72,9 +72,9 @@ class PollController extends Controller
         //}
 
 
-        $optionCount = count(Yii::$app->request->post('Option'));
         $poll = new Poll();
         $poll->organizer_id = Yii::$app->user->identity->getOrganizer()->one()->getPrimaryKey();
+        $optionCount = count(Yii::$app->request->post('Option'));
         $options = [new Option(), new Option()];
         for ($i = 2; $i < $optionCount; $i++) {
             $options[] = (new Option());
@@ -92,7 +92,7 @@ class PollController extends Controller
                     }
                 }
                 $transaction->commit();
-                return $this->redirect(['poll/view', 'id' => $poll->id]);
+                return $this->redirect(['view', 'id' => $poll->id]);
             }
             $transaction->rollback();
         }
@@ -105,17 +105,47 @@ class PollController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+    public function actionUpdate($id) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $poll = $this->findModel($id);
+        $oldOptions = $poll->getOptions()->all();
+        $optionCount = count(Yii::$app->request->post('Option'));
+
+        $options = [new Option(), new Option()];
+        for ($i = 2; $i < $optionCount; $i++) {
+            $options[] = (new Option());
         }
+
+        if ($poll->load(Yii::$app->request->post()) && Model::loadMultiple($options, Yii::$app->request->post())) { 
+            $transaction = Yii::$app->db->beginTransaction();
+            foreach ($oldOptions as $option) {
+                $option->delete();
+            }
+
+            if ($poll->save()) {
+                foreach ($options as $option) {
+                    $option->poll_id = $poll->id;
+                    if (!$option->save()) {
+                        $transaction->rollback();
+                        return $this->render('update', ['poll' => $poll, 'options' => $options]);
+                    }
+                }
+                $transaction->commit();
+                return $this->redirect(['view', 'id' => $poll->id]);
+            }
+            $transaction->rollback();
+        }
+        return $this->render('update', ['poll' => $poll, 'options' => $oldOptions]);
+
+        //$model = $this->findModel($id);
+
+        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //return $this->redirect(['view', 'id' => $model->id]);
+        //} else {
+            //return $this->render('update', [
+                //'model' => $model,
+            //]);
+        //}
     }
 
     /**
@@ -126,8 +156,20 @@ class PollController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $transaction = Yii::$app->db->beginTransaction();
+        $poll = $this->findModel($id);
+        $options = $poll->getOptions()->all();
+        foreach ($options as $option) {
+            if($option->delete() === false) {
+                $transaction->rollback();
+                return $this->redirect(['index']);
+            }
+        }
+        if($poll->delete() === false) {
+            $transaction->rollback();
+            return $this->redirect(['index']);
+        }
+        $transaction->commit();
         return $this->redirect(['index']);
     }
 
