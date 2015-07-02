@@ -66,6 +66,7 @@ class PollSearch extends Poll
             'updated_at' => $this->updated_at,
         ]);
 
+        $query->andFilterWhere(['like', 'title', $this->title]);
         $query->andFilterWhere(['like', 'question', $this->question]);
 
         return $dataProvider;
