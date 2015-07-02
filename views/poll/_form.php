@@ -68,9 +68,9 @@ use kartik\datecontrol\DateControl;
 
 <script type='text/javascript'>
 
-$(document).ready(function() {
+window.onload = function() {
     updateRemoveButton();
-});
+}
 
 function updateRemoveButton() {
     var count = $("#options-container > div").length;
