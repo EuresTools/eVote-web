@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\data\ArrayDataProvider;
+use app\models\MemberSearch;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Poll */
@@ -42,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 
-    <h2>Information</h2>
+    <h2>About</h2>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -63,4 +66,25 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?php
+        $members = $model->getMembers()->all();
+        //$dataProvider = new ArrayDataProvider([
+            //'allModels' => $members,
+        //]);
+
+        if(count($members) > 0) {
+            echo Html::tag('h2', 'Members');
+            echo GridView::widget([
+                'dataProvider' => $memberDataProvider,
+                'filterModel' => $memberSearchModel, 
+                //'itemView' => function($model, $key, $index, $widget) {
+                    //return $model->name;
+                'columns' => [
+                    'name',
+                ],
+            ]);
+        }
+    ?>
+
 </div>
+

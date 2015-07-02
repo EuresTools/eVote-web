@@ -6,6 +6,7 @@ use Yii;
 use app\models\Poll;
 use app\models\PollSearch;
 use app\models\Option;
+use app\models\MemberSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -49,8 +50,12 @@ class PollController extends Controller
      * @return mixed
      */
     public function actionView($id) {
+        $memberSearchModel = new MemberSearch();
+        $memberDataProvider = $memberSearchModel->search(Yii::$app->request->queryParams);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'memberSearchModel' => $memberSearchModel,
+            'memberDataProvider' => $memberDataProvider,
         ]);
     }
 

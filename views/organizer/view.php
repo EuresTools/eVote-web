@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\widgets\ListView;
+use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
 
-    <h2>Information</h2>
+    <h2>About</h2>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -41,25 +41,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php 
         $polls = $model->getPolls()->all();
-        $allModels = [];
-        foreach ($polls as $poll) {
-            //$attributes[] = ['label' => $poll->created_at, 'value' => $poll->question];
-            $allModels[] = ['key' => "$poll->question"];
-        }
-
         $dataProvider = new ArrayDataProvider([
-            'allModels' => $polls,//$allModels,
+            'allModels' => $polls,
         ]);
-    ?>
-
-    <?php
-        if (count($polls) > 0) {
+        if(count($polls) > 0) {
             echo Html::tag('h2', 'Polls');
-            echo ListView::widget([
+            echo GridView::widget([
                 'dataProvider' => $dataProvider,
-                'itemView' => function($model, $key, $index, $widget) {
-                    return Html::a(Html::encode($model->title), ['poll/view', 'id' => $model->id], []);
-                }
+                'columns' => [
+                    [
+                        'attribute' => 'title',
+                        'format' => 'raw',
+                        'value' => function($data) {
+                            return Html::a(Html::encode($data->title), ['poll/view', 'id' => $data->id]);
+                        }
+                    ],
+                ],
             ]);
         }
     ?>
