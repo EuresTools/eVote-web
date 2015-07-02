@@ -52,13 +52,16 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
     ?>
 
-    <?php if (count($polls) > 0) { echo "<h2>Polls</h2>"; } ?>
-
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemView' => function($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->question), ['poll/view', 'id' => $model->id], []);
+    <?php
+        if (count($polls) > 0) {
+            echo Html::tag('h2', 'Polls');
+            echo ListView::widget([
+                'dataProvider' => $dataProvider,
+                'itemView' => function($model, $key, $index, $widget) {
+                    return Html::a(Html::encode($model->question), ['poll/view', 'id' => $model->id], []);
+                }
+            ]);
         }
-    ]) ?>
+    ?>
 
 </div>
