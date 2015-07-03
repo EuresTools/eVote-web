@@ -5,9 +5,12 @@ namespace app\controllers;
 use Yii;
 use app\models\Member;
 use app\models\MemberSearch;
+use app\models\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use app\components\ExcelParser;
 
 /**
  * MemberController implements the CRUD actions for Member model.
@@ -30,10 +33,12 @@ class MemberController extends Controller
      * Lists all Member models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($poll_id)
     {
         $searchModel = new MemberSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+        $params[$searchModel->formName()]['poll_id'] = $poll_id;
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -58,7 +63,7 @@ class MemberController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($poll_id)
     {
         $model = new Member();
 
@@ -69,6 +74,26 @@ class MemberController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    /* Parses an Excel file and creates multiple instances of the Member model. 
+        * If creation is successful, the browser will be redirected to the 
+        * 'index' page. */
+    public function actionImport($poll_id) {
+        $model = new UploadForm();
+
+        if(Yii::$app->request->isPost) {
+            $model->excelFile = UploadedFile::getInstance($model, 'excelFile');
+            $file = $model->upload();
+            if($file) {
+                $members = ExcelParser::parseMembers($file->tempName);
+                return $this->redirect('index');
+            }
+        }
+        return $this->render('import', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
@@ -102,6 +127,7 @@ class MemberController extends Controller
 
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the Member model based on its primary key value.

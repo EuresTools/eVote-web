@@ -12,11 +12,15 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
             'rules' => [
+                '/' => 'site/index',
+                'poll/<poll_id:\d+>/members' => 'member/index',
+                'poll/<poll_id:\d+>/members/<action:\w+>' => 'member/<action>',
+                '<controller:\w+>' => '<controller>/index',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                'poll/<poll_id:\d+>/members/' => 'member/index',
             ],
         ],
         'request' => [

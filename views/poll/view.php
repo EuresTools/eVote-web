@@ -68,13 +68,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php
         $members = $model->getMembers()->all();
-        //$dataProvider = new ArrayDataProvider([
-            //'allModels' => $members,
-        //]);
-
         if(count($members) >= 0) {
             echo Html::tag('h2', 'Members');
-            echo Html::button('Edit Members', ['class' => 'btn btn-primary']);
+            echo Html::a('Edit Members', ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
             echo GridView::widget([
                 'dataProvider' => $memberDataProvider,
                 'filterModel' => $memberSearchModel, 

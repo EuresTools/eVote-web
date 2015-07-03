@@ -35,8 +35,17 @@ class PollController extends Controller
      */
     public function actionIndex()
     {
+        $user = Yii::$app->user->identity;
+        $organizer = $user->getOrganizer()->one();
         $searchModel = new PollSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $params = Yii::$app->request->queryParams;
+
+        // Only show the organizer's own polls, unless the user is also an admin.
+        if(!$user->isAdmin()) {
+            $params[$searchModel->formName()]['organizer_id'] = $organizer->id;
+        }
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -51,8 +60,10 @@ class PollController extends Controller
      */
     public function actionView($id) {
         $memberSearchModel = new MemberSearch();
-        //$memberDataProvider = $memberSearchModel->search(['poll_id' => $id]);
-        $memberDataProvider = $memberSearchModel->search([$memberSearchModel->formName() =>['poll_id' => $id]]);
+        // Only display the members for this poll.
+        $params = Yii::$app->request->queryParams;
+        $params[$memberSearchModel->formName()]['poll_id'] = $id;
+        $memberDataProvider = $memberSearchModel->search($params);
         return $this->render('view', [
             'model' => $this->findModel($id),
             'memberSearchModel' => $memberSearchModel,
