@@ -72,8 +72,9 @@ $this->params['breadcrumbs'][] = $this->title;
             //'allModels' => $members,
         //]);
 
-        if(count($members) > 0) {
+        if(count($members) >= 0) {
             echo Html::tag('h2', 'Members');
+            echo Html::button('Edit Members', ['class' => 'btn btn-primary']);
             echo GridView::widget([
                 'dataProvider' => $memberDataProvider,
                 'filterModel' => $memberSearchModel, 

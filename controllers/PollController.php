@@ -51,11 +51,12 @@ class PollController extends Controller
      */
     public function actionView($id) {
         $memberSearchModel = new MemberSearch();
-        $memberDataProvider = $memberSearchModel->search(Yii::$app->request->queryParams);
+        //$memberDataProvider = $memberSearchModel->search(['poll_id' => $id]);
+        $memberDataProvider = $memberSearchModel->search([$memberSearchModel->formName() =>['poll_id' => $id]]);
         return $this->render('view', [
             'model' => $this->findModel($id),
             'memberSearchModel' => $memberSearchModel,
-            'memberDataProvider' => $memberDataProvider,
+            'memberDataProvider' => $memberDataProvider
         ]);
     }
 
