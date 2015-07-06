@@ -85,7 +85,6 @@ class Poll extends \yii\db\ActiveRecord
     }
 
     public function beforeDelete() {
-        return false;
         foreach($this->members as $member) {
             if($member->delete() === false) {
                 return false;
