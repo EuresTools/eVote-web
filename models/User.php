@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\base\BaseModel;
 
 /**
  * This is the model class for table "user".
@@ -18,7 +19,7 @@ use Yii;
  *
  * @property Organizer $organizer
  */
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class User extends BaseModel implements \yii\web\IdentityInterface
 {
     private $oldAttributes = array();
 
@@ -69,14 +70,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasOne(Organizer::className(), ['id' => 'organizer_id']);
     }
 
-
-    public function afterFind() {
+    public function afterFind()
+    {
         if (parent::afterFind()) {
             $this->oldAttributes = $this->attributes;
         }
     }
 
-    public function beforeSave($insert) {
+    /*
+    public function beforeSave($insert)
+    {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->auth_key = \Yii::$app->security->generateRandomString();
@@ -87,46 +90,61 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
                 $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($this->password_hash);
             }
             $this->updated_at = new \yii\db\Expression('NOW()');
+
             return true;
         }
         return false;
     }
+    */
 
-
-    public static function findByUsername($username) {
+    public static function findByUsername($username)
+    {
         return static::findOne(['username' => $username]);
     }
 
-    public function validatePassword($password) {
+    public function validatePassword($password)
+    {
         return Yii::$app->getSecurity()->validatePassword($password, $this->password_hash);
     }
 
     /* IdentityInterface */
-    public static function findIdentity($id) {
+    public static function findIdentity($id)
+    {
         return static::findOne($id);
     }
 
-    public static function findIdentityByAccessToken($token, $type=null) {
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
         // Intentionally empty.
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getAuthKey() {
+    public function getAuthKey()
+    {
         return $this->auth_key;
     }
 
-    public function validateAuthKey($authKey) {
+    public function validateAuthKey($authKey)
+    {
         return $this->getAuthKey() === $authKey;
     }
 
-    public function isOrganizer() {
+    public function isOrganizer()
+    {
         return $this->getOrganizer()->exists();
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->is_admin;
+    }
+
+    protected function setNewPassword($new_password)
+    {
+        $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($new_password);
     }
 }

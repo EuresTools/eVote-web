@@ -5,22 +5,26 @@ use kartik\datecontrol\Module;
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'basic',
+    'id' => 'eVote',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager' 'yii\rbac\PhpManager'
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            //'enableStrictParsing' => true,
+            // 'enableStrictParsing' => true,
             'rules' => [
                 '/' => 'site/index',
                 'poll/<poll_id:\d+>/members' => 'member/index',
                 'poll/<poll_id:\d+>/members/<action:\w+>' => 'member/<action>',
-                '<controller:\w+>' => '<controller>/index',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                // not needed
+                // '<controller:\w+>' => '<controller>/index',  // breaks admin module.
+                // '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
         'request' => [
@@ -55,6 +59,14 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
     ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/*',
+            'admin/*', // add or remove allowed actions to this list
+            'debug/*',
+        ]
+    ],
     'params' => $params,
     'modules' => [
         'datecontrol' => [
@@ -66,6 +78,10 @@ $config = [
                 ],
             ],
         ],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',
+        ]
     ],
 ];
 

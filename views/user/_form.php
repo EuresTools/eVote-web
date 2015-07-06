@@ -17,7 +17,7 @@ use app\models\Organizer;
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'new_password')->textInput(['maxlength' => true]) ?>
 
     <?php //echo $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
 
