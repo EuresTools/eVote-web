@@ -30,10 +30,10 @@ phpunit.phar
 # Created by https://www.gitignore.io
 
 ### Yii ###
-assets/*
+#assets/*
 !assets/.gitignore
 protected/runtime/*
 !protected/runtime/.gitignore
 protected/data/*.db
 themes/classic/views/
-
+composer.lock
