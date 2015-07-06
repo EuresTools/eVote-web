@@ -24,24 +24,26 @@ use kartik\datecontrol\DateControl;
 
 
     <?= $form->field($poll, 'start_time')->widget(DateControl::classname(), [
+        'name' => 'Poll[start_time]',
         'type' => DateControl::FORMAT_DATETIME,
         'displayFormat' => 'd MMM, yyyy HH:mm',
         'saveFormat' => 'php:Y-m-d H:i:s',
         'options' => [
-            'pluginOptions' => [
-                'autoclose' => true,
-            ],
+            //'pluginOptions' => [
+                //'autoclose' => true,
+            //],
         ],
     ]) ?>
 
     <?= $form->field($poll, 'end_time')->widget(DateControl::classname(), [
+        'name' => 'Poll[end_time]',
         'type' => DateControl::FORMAT_DATETIME,
         'displayFormat' => 'd MMM, yyyy HH:mm',
         'saveFormat' => 'php:Y-m-d H:i:s',
         'options' => [
-            'pluginOptions' => [
-                'autoclose' => true,
-            ],
+            //'pluginOptions' => [
+                //'autoclose' => true,
+            //],
         ],
     ]) ?>
     

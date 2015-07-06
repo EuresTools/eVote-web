@@ -5,6 +5,7 @@ namespace app\components;
 use Yii;
 use \PHPExcel;
 use \PHPExcel_IOFactory;
+use yii\helpers\ArrayHelper;
 
 class ExcelParser {
 
@@ -36,20 +37,20 @@ class ExcelParser {
                     $topFound = true;
                 }
             } else {
-                $name = self::getCellValue($worksheet, $currRow, $columns['name']);
-                if ($name !== $prevName) {
+                $name = self::getCellValue($worksheet, $currRow, ArrayHelper::getValue($columns, 'name'));
+                if (trim(strtolower($name)) !== trim(strtolower($prevName))) {
                     if($member !== null) {
                         $members[] = $member;
                     }
                     $member = [];
                     $member['name'] = $name;
-                    $member['group'] = self::getCellValue($worksheet, $currRow, $columns['group']);
+                    $member['group'] = self::getCellValue($worksheet, $currRow, ArrayHelper::getValue($columns, 'group'));
                     $member['contacts'] = [];
 
                     $tups =[[$columns['contact1'], $columns['email1']], [$columns['contact2'], $columns['email2']]];
                     foreach ($tups as $tup) {
                         list($contact_col, $email_col) = $tup;
-                        $emailValue = self::getCellValue($worksheet, $currRow, $email_col);
+                        $emailValue = trim(self::getCellValue($worksheet, $currRow, $email_col));
                         if($emailValue !== null && $emailValue !== '') {
                             $contact = [];
                             $contact['email'] = $emailValue;
@@ -159,6 +160,7 @@ class ExcelParser {
         //$columnNames = ['organization', 'stakeholdergroup', 'contactperson1', 'contactperson2', 'emailaddress1', 'emailaddress2'];
         $currCell = -1;
         foreach ($topRow->getCellIterator() as $cell) {
+            $currCell++;
             $cellValue = $cell->getCalculatedValue();
             if(is_string($cellValue)) {
                 $cellValue = self::cleanString($cellValue);
@@ -167,6 +169,6 @@ class ExcelParser {
                 }
             }
         }
-        return columns;
+        return $columns;
     }
 }

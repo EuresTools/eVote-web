@@ -67,6 +67,15 @@ class Member extends \yii\db\ActiveRecord
         return false;
     }
 
+    public function beforeDelete() {
+        foreach($this->contacts as $contact) {
+            if($contact->delete() === false) {
+                return false;
+            }
+        }
+        return parent::beforeDelete();
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

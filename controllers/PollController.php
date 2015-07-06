@@ -174,18 +174,12 @@ class PollController extends Controller
     {
         $transaction = Yii::$app->db->beginTransaction();
         $poll = $this->findModel($id);
-        $options = $poll->getOptions()->all();
-        foreach ($options as $option) {
-            if($option->delete() === false) {
-                $transaction->rollback();
-                return $this->redirect(['index']);
-            }
-        }
-        if($poll->delete() === false) {
+
+        if($poll->delete()) {
+            $transaction->commit();
+        } else {
             $transaction->rollback();
-            return $this->redirect(['index']);
         }
-        $transaction->commit();
         return $this->redirect(['index']);
     }
 

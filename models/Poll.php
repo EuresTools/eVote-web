@@ -76,13 +76,32 @@ class Poll extends \yii\db\ActiveRecord
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                //$this->organizer_id = Yii::$app->user->identity->getOrganizer()->one()->id;
                 $this->created_at = new \yii\db\Expression('NOW()');
             }
             $this->updated_at = new \yii\db\Expression('NOW()');
             return true;
         }
         return false;
+    }
+
+    public function beforeDelete() {
+        return false;
+        foreach($this->members as $member) {
+            if($member->delete() === false) {
+                return false;
+            }
+        }
+        foreach($this->options as $option) {
+            if($option->delete() === false) {
+                return false;
+            }
+        }
+        //foreach($this->codes as $code) {
+            //if($code->delete() === false) {
+                //return false;
+            //}
+        //}
+        return parent::beforeDelete();
     }
 
     /**

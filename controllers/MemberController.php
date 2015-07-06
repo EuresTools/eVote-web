@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Member;
+use app\models\Contact;
 use app\models\MemberSearch;
 use app\models\UploadForm;
 use yii\web\Controller;
@@ -86,7 +87,38 @@ class MemberController extends Controller
             $model->excelFile = UploadedFile::getInstance($model, 'excelFile');
             $file = $model->upload();
             if($file) {
-                $members = ExcelParser::parseMembers($file->tempName);
+                $member_dicts = ExcelParser::parseMembers($file->tempName);
+                $transaction = Yii::$app->db->beginTransaction();
+                foreach ($member_dicts as $dict) {
+                    $member = new Member();
+                    $member->poll_id = $poll_id;
+                    $member->name = $dict['name'];
+                    $member->group = $dict['group'];
+                    if($member->save()) {
+                        foreach($dict['contacts'] as $contact_dict) {
+                            $contact = new Contact();
+                            $contact->member_id = $member->id;
+                            $contact->name = $contact_dict['name'];
+                            $contact->email = $contact_dict['email'];
+                            if(!$contact->save()) {
+                                Yii::trace('Contact failed to save');
+                                var_dump($contact);
+                                die();
+                                $transaction->rollback();
+                                return $this->render('import', [
+                                    'model' => $model,
+                                ]);
+                            }
+                        }
+                    } else {
+                        Yii::trace('Member failed to save');
+                        $transaction->rollback();
+                        return $this->render('import', [
+                            'model' => $model,
+                        ]);
+                    }
+                }
+                $transaction->commit();
                 return $this->redirect('index');
             }
         }
@@ -121,11 +153,19 @@ class MemberController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($poll_id, $id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
+        $member = $this->findModel($id);
 
-        return $this->redirect(['index']);
+        $transaction = Yii::$app->db->beginTransaction();
+        if($member->delete()) {
+            $transaction->commit();
+        } else {
+            $transaction->rollback();
+            Yii::$app->getSession()->setFlash('error', 'Could not delete member');
+        }
+        return $this->redirect(['index', 'poll_id' => $poll_id]);
     }
 
 
