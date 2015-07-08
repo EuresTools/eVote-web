@@ -38,11 +38,13 @@ $columns = [
             'vAlign'=>'middle',
             'width'=>'180px',
             'value'=>function ($model, $key, $index, $widget) {
-                return Html::a(
-                    $model->organizer,
-                    ['/organizer/view', 'id' => $model->organizer->getPrimaryKey()],
-                    ['title'=>'View organizer detail']
-                );
+                if ($model->organizer) {
+                    return Html::a(
+                        $model->organizer,
+                        ['/organizer/view', 'id' => $model->organizer->getPrimaryKey()],
+                        ['title'=>'View organizer detail']
+                    );
+                }
             },
             'filterType'=>GridView::FILTER_SELECT2,
             'filter'=>ArrayHelper::map(Organizer::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
