@@ -16,6 +16,8 @@ use app\models\Organizer;
 <div class="user-form">
 <?php
     $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_HORIZONTAL]);
+
+    echo $form->errorSummary([$model]);
     echo Form::widget([
         'model' => $model,
         'form' => $form,

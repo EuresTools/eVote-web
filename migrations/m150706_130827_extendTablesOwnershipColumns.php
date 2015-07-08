@@ -31,8 +31,8 @@ class m150706_130827_extendTablesOwnershipColumns extends Migration
             // $this->createIndex('idx_'.$table.'_created_by', $table, 'created_by', $unique = false);
             // $this->createIndex('idx_'.$table.'_updated_by', $table, 'updated_by', $unique = false);
 
-            $this->addForeignKey($table.'_created_by', $table, 'created_by', 'user', 'id');
-            $this->addForeignKey($table.'_updated_by', $table, 'updated_by', 'user', 'id');
+            $this->addForeignKey($table.'_created_by', $table, 'created_by', 'user', 'id', $delete = 'SET NULL', $update = 'CASCADE');
+            $this->addForeignKey($table.'_updated_by', $table, 'updated_by', 'user', 'id', $delete = 'SET NULL', $update = 'CASCADE');
         }
 
 

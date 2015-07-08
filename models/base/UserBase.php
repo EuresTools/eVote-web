@@ -59,7 +59,7 @@ class UserBase extends \app\models\base\BaseModel
     public function rules()
     {
         return [
-            [['username', 'password_hash'], 'required'],
+            [['username', 'password_hash'], 'required', 'on' => ['login', 'register']],
             [['is_admin', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['username', 'password_hash', 'auth_key'], 'string', 'max' => 255],

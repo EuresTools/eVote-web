@@ -85,22 +85,25 @@ class PollBase extends \app\models\base\BaseModel
 
     public function beforeDelete()
     {
-        foreach ($this->members as $member) {
-            if ($member->delete() === false) {
-                return false;
+        if(parent::beforeDelete()) {
+            foreach ($this->codes as $code) {
+                if ($code->delete() === false) {
+                    return false;
+                }
             }
-        }
-        foreach ($this->options as $option) {
-            if ($option->delete() === false) {
-                return false;
+            foreach ($this->members as $member) {
+                if ($member->delete() === false) {
+                    return false;
+                }
             }
-        }
-        foreach ($this->codes as $code) {
-            if ($code->delete() === false) {
-                return false;
+            foreach ($this->options as $option) {
+                if ($option->delete() === false) {
+                    return false;
+                }
             }
+            return true;
         }
-        return parent::beforeDelete();
+        return false;
     }
 
 
