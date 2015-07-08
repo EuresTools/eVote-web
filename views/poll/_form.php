@@ -1,139 +1,78 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use kartik\datecontrol\Module;
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
 use kartik\datecontrol\DateControl;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Poll */
-/* @var $form yii\widgets\ActiveForm */
+/**
+ * @var yii\web\View $this
+ * @var app\models\Poll $model
+ * @var kartik\widgets\ActiveForm $form
+ */
 ?>
-
 <div class="poll-form">
+<?php
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_HORIZONTAL]);
+    echo Form::widget([
+    'model' => $model,
+    'form' => $form,
+    'columns' => 1,
+    'attributes' => [
 
-    <?php $form = ActiveForm::begin(['enableClientValidation' => false]); ?>
+'title'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Title...', 'maxlength'=>255]],
 
-    <?= $form->field($poll, 'title')->textInput() ?>
+'question'=>['type'=> Form::INPUT_TEXTAREA, 'options'=>['placeholder'=>'Enter Question...','rows'=> 6]],
 
-    <?= $form->field($poll, 'question')->textarea(['rows' => 6]) ?>
+'select_min'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Select Min...']],
 
-    <?= $form->field($poll, 'select_min')->textInput() ?>
-
-    <?= $form->field($poll, 'select_max')->textInput() ?>
+'select_max'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Select Max...']],
 
 
-    <?= $form->field($poll, 'start_time')->widget(DateControl::classname(), [
-        'name' => 'Poll[start_time]',
-        'type' => DateControl::FORMAT_DATETIME,
-        'displayFormat' => 'd MMM, yyyy HH:mm',
-        'saveFormat' => 'php:Y-m-d H:i:s',
-        'options' => [
-            //'pluginOptions' => [
-                //'autoclose' => true,
-            //],
-        ],
-    ]) ?>
+'start_time'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(),'options'=>['type'=>DateControl::FORMAT_DATETIME, 'displayFormat' => 'd MMM, yyyy HH:mm','saveFormat' => 'php:Y-m-d H:i:s',]],
 
-    <?= $form->field($poll, 'end_time')->widget(DateControl::classname(), [
-        'name' => 'Poll[end_time]',
-        'type' => DateControl::FORMAT_DATETIME,
-        'displayFormat' => 'd MMM, yyyy HH:mm',
-        'saveFormat' => 'php:Y-m-d H:i:s',
-        'options' => [
-            //'pluginOptions' => [
-                //'autoclose' => true,
-            //],
-        ],
-    ]) ?>
-    
+'end_time'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(),'options'=>[
+    'type'=>DateControl::FORMAT_DATETIME,
+    'displayFormat' => 'd MMM, yyyy HH:mm',
+    'saveFormat' => 'php:Y-m-d H:i:s',
 
-    <?php //echo $form->field($model, 'organizer_id')->textInput() ?>
+    // 'pluginOptions' => [
+    //     'autoclose' => true,
+    // ],
+    ],
+],
 
-    <?php //echo $form->field($model, 'created_at')->textInput() ?>
+//'organizer_id'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Organizer ID...']],
 
-    <?php //echo $form->field($model, 'updated_at')->textInput() ?>
 
-    <div id='options-container'>
-        <?php
-        foreach ($options as $index => $option) {
-            $no = $index + 1;
-            echo $form->field($option, "[$index]text")->label("Option $no")->textInput();
-        }
-        ?>
-    </div>
-    <span class="input-group-btn">
-        <button type="button" id="add-btn" class="btn btn-primary pull-right" onclick="addField()">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
-        <button type="button" id="remove-btn" class="btn btn-danger pull-right" onclick="removeField()">
-            <span class="glyphicon glyphicon-minus"></span>
-        </button>
-    </span>
 
+    ]
+    ]);
+
+
+
+    echo $this->render('_options_form', ['model'=>$model, 'modelOptions'=> $modelOptions, 'form'=>$form]);
+
+
+    ?>
+    <?php
+    /*
+    echo Html::beginTag('div', ['class'=>'form-group']);
+    echo Html::beginTag('div', ['class'=>'col-sm-offset-3 col-sm-9']);
+    echo Html::a('<i class="glyphicon glyphicon-plus"></i> add Option', '#', ['class' => 'btn btn-primary pull-right', 'data-action' => 'add-option']);
+    echo Html::a('<i class="glyphicon glyphicon-remove"></i> remove Option', '#', ['class' => 'btn btn-danger pull-right', 'data-action' => 'remove-option', 'style'=>'margin-right:5px;']);
+    echo Html::endTag('div');
+    echo Html::endTag('div');
+    */
+    ?>
     <div class="form-group">
-        <?= Html::submitButton($poll->isNewRecord ? 'Create' : 'Update', ['class' => $poll->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="col-sm-offset-2 col-sm-10">
+        <?php
+        echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        ?>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
+<?php
+ActiveForm::end();
+?>
 </div>
-
-<script type='text/javascript'>
-
-window.onload = function() {
-    updateRemoveButton();
-}
-
-function updateRemoveButton() {
-    var count = $("#options-container > div").length;
-    if (count <= 2) {
-        $("#remove-btn").hide();
-    } else {
-        $("#remove-btn").show();
-    }
-}
-
-function addField() {
-    var container = document.getElementById("options-container");
-    var count = $("#options-container > div").length + 1;
-    var index = count - 1;
-
-    var div = document.createElement("div");
-    div.className = "form-group field-option-" + index + "-text required";
-
-    var label = document.createElement("label");
-    label.className = "control-label";
-    label.htmlFor = "option-" + index + "-text";
-    label.innerHTML = "Option " + count;
-
-    var input = document.createElement("input");
-    input.type = "text";
-    input.id = "option-" + index + "-text";
-    input.className = "form-control";
-    input.name = "Option[" + index + "][text]";
-
-    var helpdiv = document.createElement("div");
-    helpdiv.className = "help-block";
-
-    div.appendChild(label);
-    div.appendChild(input);
-    div.appendChild(helpdiv);
-    container.appendChild(div);
-
-    updateRemoveButton();
-}
-
-function removeField() {
-    var count = $("#options-container > div").length;
-    if (count > 2) {
-        var container = document.getElementById("options-container");
-        var lastChild = container.lastChild;
-        container.removeChild(lastChild);
-    }
-    updateRemoveButton();
-}
-
-</script>
-
-

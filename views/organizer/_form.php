@@ -1,27 +1,37 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+use kartik\datecontrol\DateControl;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Organizer */
-/* @var $form yii\widgets\ActiveForm */
+/**
+ * @var yii\web\View $this
+ * @var app\models\Organizer $model
+ * @var kartik\widgets\ActiveForm $form
+ */
 ?>
-
 <div class="organizer-form">
+<?php
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_HORIZONTAL]);
+    echo Form::widget([
+    'model' => $model,
+    'form' => $form,
+    'columns' => 1,
+    'attributes' => [
+'name'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Name...', 'maxlength'=>255]],
+    ]
+    ]);
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?php //echo $form->field($model, 'created_at')->textInput() ?>
-
-    <?php //echo $form->field($model, 'updated_at')->textInput() ?>
-
+    ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="col-sm-offset-2 col-sm-10">
+        <?php
+        echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        ?>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
+<?php
+ActiveForm::end();
+?>
 </div>

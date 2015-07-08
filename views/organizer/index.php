@@ -3,35 +3,24 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\OrganizerSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+* @var yii\web\View $this
+* @var yii\data\ActiveDataProvider $dataProvider
+* @var app\models\search\OrganizerSearch $searchModel
+*/
 
-$this->title = 'Organizers';
+$this->title = Yii::t('app', 'Organizers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="organizer-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-        <?= Html::a('Create Organizer', ['create'], ['class' => 'btn btn-success']) ?>
+<?= Html::a(Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'Organizer',
+]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
-            'name',
-            //'created_at',
-            //'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    <?php echo $this->render('_grid', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]); ?>
 </div>

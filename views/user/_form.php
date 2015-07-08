@@ -1,40 +1,45 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+use kartik\datecontrol\DateControl;
 use yii\helpers\ArrayHelper;
 use app\models\Organizer;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\User */
-/* @var $form yii\widgets\ActiveForm */
+/**
+ * @var yii\web\View $this
+ * @var app\models\User $model
+ * @var kartik\widgets\ActiveForm $form
+ */
 ?>
-
 <div class="user-form">
+<?php
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_HORIZONTAL]);
+    echo Form::widget([
+        'model' => $model,
+        'form' => $form,
+        'columns' => 1,
+        'attributes' => [
+            'username'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Username...', 'maxlength'=>true]],
+            'new_password'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Password to set one', 'maxlength'=>true]],
+            'is_admin'=>['type'=> Form::INPUT_CHECKBOX, 'options'=>['placeholder'=>'Enter Is Admin...']],
+            'organizer_id'=>['type'=> Form::INPUT_DROPDOWN_LIST, 'items'=>ArrayHelper::map(Organizer::find()->all(), 'id', 'name'), 'options'=>['prompt'=>'None']],
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'new_password')->textInput(['maxlength' => true]) ?>
-
-    <?php //echo $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'is_admin')->checkBox() ?>
-
-    <?= $form->field($model, 'organizer_id')->dropDownList(ArrayHelper::map(Organizer::find()->all(), 'id', 'name'), ['prompt' => 'None']) ?>
-
-    <?php //echo $form->field($model, 'organizer_id')->textInput() ?>
-
-    <?php // echo $form->field($model, 'created_at')->textInput() ?>
-
-    <?php // echo $form->field($model, 'updated_at')->textInput() ?>
-
+            //'created_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(), 'options'=>['type'=>DateControl::FORMAT_DATETIME]],
+            //'updated_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(), 'options'=>['type'=>DateControl::FORMAT_DATETIME]],
+            //'auth_key'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Auth Key...', 'maxlength'=>255]],
+        ]
+    ]);
+    ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <div class="col-sm-offset-2 col-sm-10">
+        <?php
+        echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        ?>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
+<?php
+ActiveForm::end();
+?>
 </div>

@@ -2,28 +2,25 @@
 
 namespace app\models;
 
-use Yii;
+use \app\models\query\OptionQuery;
 
-/**
- * This is the model class for table "option".
- *
- * @property integer $id
- * @property string $text
- * @property integer $poll_id
- * @property string $created_at
- * @property string $updated_at
- *
- * @property Poll $poll
- * @property VoteOption[] $voteOptions
- */
-class Option extends \yii\db\ActiveRecord
+class Option extends \app\models\base\OptionBase
 {
     /**
-     * @inheritdoc
+     * @return returns representingColumn default null
      */
-    public static function tableName()
+    public static function representingColumn()
     {
-        return 'option';
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     * @return OptionQuery
+     */
+    public static function find()
+    {
+        return new OptionQuery(get_called_class());
     }
 
     /**
@@ -31,52 +28,7 @@ class Option extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [
-            [['text', 'poll_id'], 'required'],
-            [['poll_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['text'], 'string', 'max' => 255]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'text' => 'Text',
-            'poll_id' => 'Poll ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-        ];
-    }
-
-    public function beforeSave($insert) {
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
-                $this->created_at = new \yii\db\Expression('NOW()');
-            }
-            $this->updated_at = new \yii\db\Expression('NOW()');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPoll()
-    {
-        return $this->hasOne(Poll::className(), ['id' => 'poll_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVoteOptions()
-    {
-        return $this->hasMany(VoteOption::className(), ['option_id' => 'id']);
+        return array_merge(parent::rules(), [
+        ]);
     }
 }

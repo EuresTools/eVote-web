@@ -13,6 +13,25 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="body-content">
+        <div class="row">
+            <div class="col-lg-12">
+            <?php
+            /*
+            echo Yii::$app->user->id;
+            echo '<br />';
+            print '<pre>';
+            print_r(Yii::$app->user);
+            print '</pre>';
+
+
+            print '<pre>';
+            print_r(Yii::$app->user->identity);
+            print '</pre>';
+            */
+            ?>
+
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-lg-4">

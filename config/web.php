@@ -65,6 +65,8 @@ $config = [
             'site/*',
             'admin/*', // add or remove allowed actions to this list
             'debug/*',
+            'gii/*',
+            'user2/*',
         ]
     ],
     'params' => $params,
@@ -81,7 +83,20 @@ $config = [
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
-        ]
+        ],
+        'gridview'=> [
+            'class'=>'\kartik\grid\Module',
+            // other module settings
+            'downloadAction' => 'gridview/export/download',
+            // i18n requires an alias named '@kvgrid' => '@vendor/kartik-v/yii2-grid/messages',
+            /*
+            'i18n' => [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@kvgrid/messages',
+                'forceTranslation' => true
+            ],
+            */
+        ],
     ],
 ];
 
@@ -92,6 +107,21 @@ if (YII_ENV_DEV) {
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = 'yii\gii\Module';
+
+
+     $config['modules']['gii'] = [
+        'class'      => 'yii\gii\Module',
+        'generators' => [
+            // neue gii generators from extension
+            'eurescomModel' => [
+                    'class' => 'app\components\mygii\generators\model\Generator',
+            ],
+            'eurescomCrud' => [
+                    'class' => 'app\components\mygii\generators\crud\Generator',
+            ],
+        ]
+    ];
+
 }
 
 return $config;

@@ -4,18 +4,21 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Poll;
-use app\models\PollSearch;
 use app\models\Option;
-use app\models\MemberSearch;
-use yii\web\Controller;
+use app\models\search\PollSearch;
+use app\models\search\MemberSearch;
+use app\components\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\base\Model;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+use app\components\base\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * PollController implements the CRUD actions for Poll model.
  */
-class PollController extends Controller
+class PollController extends BaseController
 {
     public function behaviors()
     {
@@ -35,21 +38,12 @@ class PollController extends Controller
      */
     public function actionIndex()
     {
-        $user = Yii::$app->user->identity;
-        $organizer = $user->getOrganizer()->one();
-        $searchModel = new PollSearch();
-
-        $params = Yii::$app->request->queryParams;
-
-        // Only show the organizer's own polls, unless the user is also an admin.
-        if(!$user->isAdmin()) {
-            $params[$searchModel->formName()]['organizer_id'] = $organizer->id;
-        }
-        $dataProvider = $searchModel->search($params);
+        $searchModel = new PollSearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -58,7 +52,8 @@ class PollController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $memberSearchModel = new MemberSearch();
         // Only display the members for this poll.
         $params = Yii::$app->request->queryParams;
@@ -76,43 +71,58 @@ class PollController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
-        //$model = new Poll();
+    public function actionCreate()
+    {
+        $model = new Poll();
+        $modelOptions = [new Option(),new Option()];
 
-        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['view', 'id' => $model->id]);
-        //} else {
-            //return $this->render('create', [
-                //'poll' => $model,
-            //]);
-        //}
+        if ($model->load(Yii::$app->request->post())) {
 
+            $modelOptions = Model::createMultiple(Option::classname());
+            Model::loadMultiple($modelOptions, Yii::$app->request->post());
 
-        $poll = new Poll();
-        $poll->organizer_id = Yii::$app->user->identity->getOrganizer()->one()->getPrimaryKey();
-        $optionCount = count(Yii::$app->request->post('Option'));
-        $options = [new Option(), new Option()];
-        for ($i = 2; $i < $optionCount; $i++) {
-            $options[] = (new Option());
-        }
+            //$OptionsAttributeToValidate=array_keys($modelOptions[0]->getAttributes(null, $except = ['poll_id']));
 
-        if ($poll->load(Yii::$app->request->post()) && Model::loadMultiple($options, Yii::$app->request->post())) { 
-            $transaction = Yii::$app->db->beginTransaction();
-            if ($poll->save()) {
-                foreach ($options as $option) {
-                    $option->poll_id = $poll->id;
-                    if (!$option->save()) {
-                        Yii::trace("$option->poll_id", "poll id");
-                        $transaction->rollback();
-                        return $this->render('create', ['poll' => $poll, 'options' => $options]);
-                    }
-                }
-                $transaction->commit();
-                return $this->redirect(['view', 'id' => $poll->id]);
+            // ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                    //ActiveForm::validateMultiple($modelOptions, $OptionsAttributeToValidate),
+                    //ActiveForm::validate($model, array_keys($model->getAttributes(null, $except = ['organizer_id'])))
+                    ActiveForm::validateMultiple($modelOptions),
+                    ActiveForm::validate($model)
+                );
             }
-            $transaction->rollback();
+
+             // validate all models
+            // $valid = $model->validate(array_keys($model->getAttributes(null, $except = ['organizer_id'])));
+            // $valid = Model::validateMultiple($modelOptions, $OptionsAttributeToValidate) && $valid;
+
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelOptions) && $valid;
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        foreach ($modelOptions as $modelOption) {
+                            $modelOption->poll_id = $model->id;
+                            if (! ($flag = $modelOption->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
         }
-        return $this->render('create', ['poll' => $poll, 'options' => $options]);
+        return $this->render('create', ['model' => $model, 'modelOptions' => $modelOptions]);
     }
 
     /**
@@ -121,48 +131,62 @@ class PollController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
 
-        $poll = $this->findModel($id);
-        $oldOptions = $poll->getOptions()->all();
-        $optionCount = count(Yii::$app->request->post('Option'));
+        $model = $this->findModel($id);
+        $modelOptions = $model->options;
 
-        $options = [new Option(), new Option()];
-        for ($i = 2; $i < $optionCount; $i++) {
-            $options[] = (new Option());
-        }
+        if ($model->load(Yii::$app->request->post())) {
 
-        if ($poll->load(Yii::$app->request->post()) && Model::loadMultiple($options, Yii::$app->request->post())) { 
-            $transaction = Yii::$app->db->beginTransaction();
-            foreach ($oldOptions as $option) {
-                $option->delete();
+            $oldIDs = ArrayHelper::map($modelOptions, 'id', 'id');
+            $modelOptions = Model::createMultiple(Option::classname(), $modelOptions);
+            Model::loadMultiple($modelOptions, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelOptions, 'id', 'id')));
+
+            // ajax validation
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ArrayHelper::merge(
+                    ActiveForm::validateMultiple($modelOptions),
+                    ActiveForm::validate($model)
+                );
             }
 
-            if ($poll->save()) {
-                foreach ($options as $option) {
-                    $option->poll_id = $poll->id;
-                    if (!$option->save()) {
-                        $transaction->rollback();
-                        return $this->render('update', ['poll' => $poll, 'options' => $options]);
+            // validate all models
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelOptions) && $valid;
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        if (! empty($deletedIDs)) {
+                            Option::deleteAll(['id' => $deletedIDs]);
+                        }
+                        foreach ($modelOptions as $modelOption) {
+                            $modelOption->poll_id = $model->id;
+                            if (! ($flag = $modelOption->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
                     }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
                 }
-                $transaction->commit();
-                return $this->redirect(['view', 'id' => $poll->id]);
             }
-            $transaction->rollback();
         }
-        return $this->render('update', ['poll' => $poll, 'options' => $oldOptions]);
-
-        //$model = $this->findModel($id);
-
-        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['view', 'id' => $model->id]);
-        //} else {
-            //return $this->render('update', [
-                //'model' => $model,
-            //]);
-        //}
+        return $this->render('update', [
+            'model' => $model,
+            'modelOptions' => (empty($modelOptions)) ? [new Option(), new Option()] : $modelOptions
+        ]);
     }
+
 
     /**
      * Deletes an existing Poll model.
@@ -172,14 +196,7 @@ class PollController extends Controller
      */
     public function actionDelete($id)
     {
-        $transaction = Yii::$app->db->beginTransaction();
-        $poll = $this->findModel($id);
-
-        if($poll->delete()) {
-            $transaction->commit();
-        } else {
-            $transaction->rollback();
-        }
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 

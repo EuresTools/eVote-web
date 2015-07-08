@@ -5,7 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\User;
 use app\models\forms\UserForm;
-use app\models\UserSearch;
+use app\models\search\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -77,8 +77,7 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
-
+        $model = new UserForm(['scenario' => 'create']);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -99,7 +98,6 @@ class UserController extends Controller
         if (($model = UserForm::findOne($id)) === null) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

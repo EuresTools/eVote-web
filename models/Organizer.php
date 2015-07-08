@@ -2,27 +2,25 @@
 
 namespace app\models;
 
-use Yii;
+use \app\models\query\OrganizerQuery;
 
-/**
- * This is the model class for table "organizer".
- *
- * @property integer $id
- * @property string $name
- * @property string $created_at
- * @property string $updated_at
- *
- * @property Poll[] $polls
- * @property User[] $users
- */
-class Organizer extends \yii\db\ActiveRecord
+class Organizer extends \app\models\base\OrganizerBase
 {
     /**
-     * @inheritdoc
+     * @return returns representingColumn default null
      */
-    public static function tableName()
+    public static function representingColumn()
     {
-        return 'organizer';
+        return ['name'];
+    }
+
+    /**
+     * @inheritdoc
+     * @return OrganizerQuery
+     */
+    public static function find()
+    {
+        return new OrganizerQuery(get_called_class());
     }
 
     /**
@@ -30,51 +28,7 @@ class Organizer extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [
-            [['name'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 255],
-            [['name'], 'unique']
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-        ];
-    }
-
-    public function beforeSave($insert) {
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
-                $this->created_at = new \yii\db\Expression('NOW()');
-            }
-            $this->updated_at = new \yii\db\Expression('NOW()');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPolls()
-    {
-        return $this->hasMany(Poll::className(), ['organizer_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUsers()
-    {
-        return $this->hasMany(User::className(), ['organizer_id' => 'id']);
+        return array_merge(parent::rules(), [
+        ]);
     }
 }

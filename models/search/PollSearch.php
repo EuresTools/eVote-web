@@ -1,10 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\components\behaviors\RememberFiltersBehavior;
 use app\models\Poll;
 
 /**
@@ -12,46 +13,39 @@ use app\models\Poll;
  */
 class PollSearch extends Poll
 {
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['id', 'select_min', 'select_max', 'organizer_id'], 'integer'],
+            [['id', 'select_min', 'select_max', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
             [['title', 'question', 'start_time', 'end_time', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
+    public function behaviors()
+    {
+        return [
+           RememberFiltersBehavior::className(),
+        ];
+    }
+
     public function search($params)
     {
         $query = Poll::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
         ]);
 
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
@@ -64,10 +58,12 @@ class PollSearch extends Poll
             'organizer_id' => $this->organizer_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
-        $query->andFilterWhere(['like', 'question', $this->question]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'question', $this->question]);
 
         return $dataProvider;
     }

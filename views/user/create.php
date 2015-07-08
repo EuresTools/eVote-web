@@ -2,18 +2,21 @@
 
 use yii\helpers\Html;
 
+/**
+ * @var yii\web\View $this
+ * @var app\models\User $model
+ */
 
-/* @var $this yii\web\View */
-/* @var $model app\models\User */
-
-$this->title = 'Create User';
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'User',
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

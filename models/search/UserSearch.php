@@ -1,10 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\components\behaviors\RememberFiltersBehavior;
 use app\models\User;
 
 /**
@@ -12,48 +13,53 @@ use app\models\User;
  */
 class UserSearch extends User
 {
-    /**
-     * @inheritdoc
-     */
+    public $organizer;
+
+
     public function rules()
     {
         return [
-            [['id', 'is_admin', 'organizer_id'], 'integer'],
+            [['id', 'is_admin', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
             [['username', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'safe'],
+            [['organizer'], 'safe'], //relation attributes
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
+    public function behaviors()
+    {
+        return [
+           RememberFiltersBehavior::className(),
+        ];
+    }
+
     public function search($params)
     {
         $query = User::find();
 
+        $query->joinWith(['organizer']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
         ]);
 
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
+
+        $dataProvider->sort->attributes['organizer'] = [
+            'asc' => ['organizer.name' => SORT_ASC],
+            'desc' => ['organizer.name' => SORT_DESC],
+        ];
+
 
         $query->andFilterWhere([
             'id' => $this->id,
@@ -61,11 +67,19 @@ class UserSearch extends User
             'organizer_id' => $this->organizer_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['like', 'auth_key', $this->auth_key]);
+            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
+
+            ->andFilterWhere(['like', 'organizer.name', $this->organizer])
+        ;
+
+
+
 
         return $dataProvider;
     }

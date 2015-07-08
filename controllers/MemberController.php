@@ -5,8 +5,10 @@ namespace app\controllers;
 use Yii;
 use app\models\Member;
 use app\models\Contact;
-use app\models\MemberSearch;
-use app\models\UploadForm;
+use app\models\search\MemberSearch;
+use app\components\controllers\BaseController;
+
+use app\models\forms\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -16,7 +18,7 @@ use app\components\ExcelParser;
 /**
  * MemberController implements the CRUD actions for Member model.
  */
-class MemberController extends Controller
+class MemberController extends BaseController
 {
     public function behaviors()
     {
@@ -44,6 +46,7 @@ class MemberController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'poll_id'=>$poll_id,
         ]);
     }
 
@@ -77,16 +80,17 @@ class MemberController extends Controller
         }
     }
 
-    /* Parses an Excel file and creates multiple instances of the Member model. 
-        * If creation is successful, the browser will be redirected to the 
+    /* Parses an Excel file and creates multiple instances of the Member model.
+        * If creation is successful, the browser will be redirected to the
         * 'index' page. */
-    public function actionImport($poll_id) {
+    public function actionImport($poll_id)
+    {
         $model = new UploadForm();
 
-        if(Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
             $model->excelFile = UploadedFile::getInstance($model, 'excelFile');
             $file = $model->upload();
-            if($file) {
+            if ($file) {
                 $member_dicts = ExcelParser::parseMembers($file->tempName);
                 $transaction = Yii::$app->db->beginTransaction();
                 foreach ($member_dicts as $dict) {

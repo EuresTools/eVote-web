@@ -1,4 +1,6 @@
 <?php
+// change the following paths if necessary
+require_once(__DIR__ . '/../globals.php');
 
 // comment out the following two lines when deployed to production
 defined('YII_DEBUG') or define('YII_DEBUG', true);

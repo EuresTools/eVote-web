@@ -4,35 +4,19 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Organizer;
-use app\models\OrganizerSearch;
-use yii\web\Controller;
+use app\models\search\OrganizerSearch;
+use app\components\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
-use yii\filters\AccessControl;
-use app\components\AccessRule;
 
 /**
  * OrganizerController implements the CRUD actions for Organizer model.
  */
-class OrganizerController extends Controller
+class OrganizerController extends BaseController
 {
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'ruleConfig' => [
-                    'class' => AccessRule::className(),
-                ],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
-                ],
-
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -48,12 +32,12 @@ class OrganizerController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new OrganizerSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new OrganizerSearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -76,7 +60,7 @@ class OrganizerController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Organizer();
+        $model = new Organizer;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

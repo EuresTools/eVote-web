@@ -3,45 +3,23 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\UserSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+* @var yii\web\View $this
+* @var yii\data\ActiveDataProvider $dataProvider
+* @var app\models\search\UserSearch $searchModel
+*/
 
-$this->title = 'Users';
+$this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a(Yii::t('app', 'Create {modelClass}', ['modelClass' => 'User']), ['create'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Import From Excel', ["poll/$poll_id/members/import"], ['class' => 'btn btn-info']) ?>
     </p>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
-            'username',
-            //'password_hash',
-            //'auth_key',
-            'is_admin',
-            //[
-                //'attribute' => 'is_admin',
-                //'value' => function($data) {
-                    //return $data->isAdmin() ? 'Yes' : 'No';
-                //}
-            //],
-            // 'organizer_id',
-            // 'created_at',
-            // 'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    <?php echo $this->render('_grid', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]); ?>
 </div>

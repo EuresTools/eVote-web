@@ -12,6 +12,8 @@ class UserForm extends User
     public function rules()
     {
         return array_merge(parent::rules(), [
+            [['username'], 'required'],
+            [['new_password'], 'required', 'on' => ['create']],
             [['new_password'], 'safe'],
             [['new_password'], 'string', 'max' => 255],
         ]);

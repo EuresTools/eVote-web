@@ -2,18 +2,22 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Organizer */
+/**
+ * @var yii\web\View $this
+ * @var app\models\Organizer $model
+ */
 
-$this->title = 'Update Organizer: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Organizers', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+    'modelClass' => 'Organizer',
+]) . ' ' . $model->__toString();
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Organizers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->__toString(), 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="organizer-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

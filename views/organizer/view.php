@@ -2,63 +2,45 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\grid\GridView;
-use yii\data\ArrayDataProvider;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Organizer */
+/**
+ * @var yii\web\View $this
+ * @var app\models\Organizer $model
+ */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Organizers', 'url' => ['index']];
+$this->title = $model->__toString();
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Organizers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="organizer-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
     </p>
 
-
-    <h2>About</h2>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
+            'id',
             'name',
             'created_at',
             'updated_at',
+            //'created_by',
+            //'updated_by',
+            'creator',
+            'editor',
         ],
     ]) ?>
-
-    <?php 
-        $polls = $model->getPolls()->all();
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $polls,
-        ]);
-        if(count($polls) > 0) {
-            echo Html::tag('h2', 'Polls');
-            echo GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
-                    [
-                        'attribute' => 'title',
-                        'format' => 'raw',
-                        'value' => function($data) {
-                            return Html::a(Html::encode($data->title), ['poll/view', 'id' => $data->id]);
-                        }
-                    ],
-                ],
-            ]);
-        }
-    ?>
-
+    <?= $this->render('_polls', [
+        'model' => $model,
+    ]) ?>
 </div>

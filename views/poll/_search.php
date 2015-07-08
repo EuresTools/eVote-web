@@ -3,9 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\PollSearch */
-/* @var $form yii\widgets\ActiveForm */
+/**
+ * @var yii\web\View $this
+ * @var app\models\search\PollSearch $model
+ * @var yii\widgets\ActiveForm $form
+ */
 ?>
 
 <div class="poll-search">
@@ -17,13 +19,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
+    <?= $form->field($model, 'title') ?>
+
     <?= $form->field($model, 'question') ?>
 
     <?= $form->field($model, 'select_min') ?>
 
     <?= $form->field($model, 'select_max') ?>
 
-    <?= $form->field($model, 'start_time') ?>
+    <?php // echo $form->field($model, 'start_time') ?>
 
     <?php // echo $form->field($model, 'end_time') ?>
 
@@ -33,9 +37,13 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'updated_at') ?>
 
+    <?php // echo $form->field($model, 'created_by') ?>
+
+    <?php // echo $form->field($model, 'updated_by') ?>
+
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

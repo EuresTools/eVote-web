@@ -32,15 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             //'password_hash',
             //'auth_key',
-            //'is_admin',
-            [
-                'attribute' => 'is_admin',
-                'value' => $model->isAdmin() ? 'Yes' : 'No'
-            ],
+            'is_admin:boolean',
+            //'organizer',
             [
                 'attribute' => 'organizer_id',
                 'format' => 'raw',
-                'value' => $model->isOrganizer() ? Html::a(Html::encode($model->getOrganizer()->one()->name), ['/organizer/view', 'id' => $model->getOrganizer()->one()->id]) : 'None'
+                'value' => $model->isOrganizer() ? Html::a(Html::encode($model->organizer), ['/organizer/view', 'id' => $model->organizer->getPrimaryKey()]) : 'None'
+                //'value' => $model->isOrganizer() ? Html::a(Html::encode($model->getOrganizer()->one()->name), ['/organizer/view', 'id' => $model->getOrganizer()->one()->id]) : 'None'
             ],
             'created_at',
             'updated_at',

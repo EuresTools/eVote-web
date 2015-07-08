@@ -2,21 +2,25 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Poll */
+/**
+ * @var yii\web\View $this
+ * @var app\models\Poll $model
+ */
 
-$this->title = 'Update Poll: ' . ' ' . $poll->id;
-$this->params['breadcrumbs'][] = ['label' => 'Polls', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $poll->id, 'url' => ['view', 'id' => $poll->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+    'modelClass' => 'Poll',
+]) . ' ' . $model->__toString();
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Polls'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->__toString(), 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="poll-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <?= $this->render('_form', [
-        'poll' => $poll,
-        'options' => $options,
+        'model' => $model,
+        'modelOptions' => $modelOptions,
     ]) ?>
 
 </div>

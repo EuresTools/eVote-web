@@ -2,18 +2,21 @@
 
 use yii\helpers\Html;
 
+/**
+ * @var yii\web\View $this
+ * @var app\models\Member $model
+ */
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Member */
-
-$this->title = 'Create Member';
-$this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => ['index']];
+$this->title = Yii::t('app', 'Create {modelClass}', [
+    'modelClass' => 'Member',
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Members'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="member-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

@@ -2,28 +2,25 @@
 
 namespace app\models;
 
-use Yii;
+use \app\models\query\ContactQuery;
 
-/**
- * This is the model class for table "contact".
- *
- * @property integer $id
- * @property string $name
- * @property string $email
- * @property integer $member_id
- * @property string $created_at
- * @property string $updated_at
- *
- * @property Member $member
- */
-class Contact extends \yii\db\ActiveRecord
+class Contact extends \app\models\base\ContactBase
 {
     /**
-     * @inheritdoc
+     * @return returns representingColumn default null
      */
-    public static function tableName()
+    public static function representingColumn()
     {
-        return 'contact';
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     * @return ContactQuery
+     */
+    public static function find()
+    {
+        return new ContactQuery(get_called_class());
     }
 
     /**
@@ -31,34 +28,7 @@ class Contact extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [
-            [['email', 'member_id'], 'required'],
-            [['member_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['name', 'email'], 'string', 'max' => 255]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'email' => 'Email',
-            'member_id' => 'Member ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-        ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMember()
-    {
-        return $this->hasOne(Member::className(), ['id' => 'member_id']);
+        return array_merge(parent::rules(), [
+        ]);
     }
 }
