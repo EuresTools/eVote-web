@@ -19,7 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
     <?= Html::a(Yii::t('app', 'Create {modelClass}', ['modelClass' => 'User']), ['create'], ['class' => 'btn btn-success']) ?>
-    <?= Html::a('Import From Excel', ["poll/$poll_id/members/import"], ['class' => 'btn btn-info']) ?>
     </p>
     <?php echo $this->render('_grid', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]); ?>
 </div>
