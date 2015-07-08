@@ -13,7 +13,7 @@ use yii\widgets\Pjax;
 $columns = [
         ['class' => 'app\components\grid\ActionColumn'],
         //['class' => 'yii\grid\SerialColumn'],
-        'id',
+        //'id',
         'name',
         'created_at',
         'updated_at',
