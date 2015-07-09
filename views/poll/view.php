@@ -5,6 +5,8 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use app\models\MemberSearch;
+use app\components\helpers\PollUrl;
+
 
 /**
  * @var yii\web\View $this
@@ -83,7 +85,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //'itemView' => function($model, $key, $index, $widget) {
                 //return $model->name;
             'columns' => [
-                'name',
+                [
+                    'attribute' => 'name',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Html::a($data->name, PollUrl::toRoute(['member/view', 'id' => $data->id, 'poll_id' => $data->poll_id]));;
+                    }
+                ],
                 [
                     'attribute' => 'code',
                     'label' => 'Voting Code',
@@ -96,10 +104,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         });
                         $str = Html::beginTag('ul', ['class' => 'list-unstyled']);
                         foreach($codes as $code) {
-                            if($code->is_valid) {
-                                $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-valid']));
+                            if($code->vote && $code->is_valid) {
+                                $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-used', 'title' => 'A vote has been submitted using this code']));
+                            }
+                            elseif($code->is_valid) {
+                                $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-valid', 'title' => 'This code has not yet been used']));
                             } else {
-                                $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-invalid']));
+                                $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated']));
                             }
                         }
                         $str .= Html::endTag('ul');

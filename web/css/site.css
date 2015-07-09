@@ -112,3 +112,7 @@ a.desc:after {
     color: red;
     text-decoration: line-through;
 }
+
+.token-used {
+    color: green;
+}
