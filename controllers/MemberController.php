@@ -14,6 +14,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\helpers\ArrayHelper;
 use app\components\ExcelParser;
 
 /**
@@ -106,15 +107,15 @@ class MemberController extends PollDependedController
                             $contact = new Contact();
                             $contact->member_id = $member->id;
                             $contact->name = $contact_dict['name'];
-                            $contact->email = $contact_dict['email'];
+                            $contact->email = trim(strtr($contact_dict['email'], ';', ''));
                             if(!$contact->save()) {
-                                Yii::trace('Contact failed to save');
-                                var_dump($contact);
-                                die();
-                                $transaction->rollback();
-                                return $this->render('import', [
-                                    'model' => $model,
-                                ]);
+                                //Yii::trace('Contact failed to save');
+                                //var_dump($contact);
+                                //die();
+                                //$transaction->rollback();
+                                //return $this->render('import', [
+                                    //'model' => $model,
+                                //]);
                             }
                         }
                     } else {
@@ -182,5 +183,19 @@ class MemberController extends PollDependedController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionEmail() {
+
+        $members = Member::find()->where($this->getPollSearchOptions())->with('codes.vote')->all();
+
+        foreach($members as $member) {
+            \Yii::$app->mailer->compose('sendVotingCodes', ['member' => $member])
+                    ->setFrom([\Yii::$app->params['adminEmail'] => \Yii::$app->name . ' robot'])
+                    ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
+                    ->setSubject('Your voting code ' . \Yii::$app->name)
+                    ->send();
+        }
+        return true;
     }
 }
