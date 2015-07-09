@@ -11,7 +11,15 @@ use yii\widgets\Pjax;
  */
 
 $columns = [
-        ['class' => 'app\components\grid\ActionColumn'],
+
+
+        [
+            'class' => 'app\components\grid\ActionColumn',
+            'urlCreator' => function ($action, $model, $key, $index) {
+                return Yii::$app->controller->createUrl([$action, 'id'=>$key]);
+            }
+        ],
+
         //['class' => 'yii\grid\SerialColumn'],
         //'id',
         'name',

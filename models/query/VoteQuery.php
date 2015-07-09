@@ -22,18 +22,18 @@ class VoteQuery extends ActiveQuery
         return $this;
     }
 
-    public function project_searchOptions($project_searchOptions = [])
+    public function poll_searchOptions($poll_searchOptions = [])
     {
-        if (is_array($project_searchOptions) && sizeof($project_searchOptions)) {
-            $this->andWhere($project_searchOptions);
+        if (is_array($poll_searchOptions) && sizeof($poll_searchOptions)) {
+            $this->andWhere($poll_searchOptions);
         }
         return $this;
     }
 
-    public function p_id($p_id = null)
+    public function poll_id($poll_id = null)
     {
-        if ($p_id) {
-            $this->andWhere(['p_id' => $p_id]);
+        if ($poll_id) {
+            $this->andWhere(['poll_id' => $poll_id]);
         }
         return $this;
     }

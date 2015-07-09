@@ -18,8 +18,40 @@ $config = [
             // 'enableStrictParsing' => true,
             'rules' => [
                 '/' => 'site/index',
+
+                /*
                 'poll/<poll_id:\d+>/members' => 'member/index',
+                'poll/<poll_id:\d+>/members/<id:\d+>' => 'member/view',
                 'poll/<poll_id:\d+>/members/<action:\w+>' => 'member/<action>',
+                'poll/<poll_id:\d+>/members/<action:\w+>/<id:\d+>' => 'member/<action>',
+                */
+
+                [
+                    // PollSpecificUrlRule rule for links like /poll/poll_id/controller
+                    // 'class' => 'app\components\UrlRules\PollSpecificUrlRule',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s',
+                    'route' => '<controller>'
+                ],
+                [
+                    // PollSpecificUrlRule rule for links like /poll/poll_id/controller/id
+                    // 'class' => 'app\components\UrlRules\PollSpecificUrlRule',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s/<id:\d+>',
+                    'route' => '<controller>/view'
+                ],
+                [
+                    // PollSpecificUrlRule rule for links like /poll/poll_id/controller/action
+                    // 'class' => 'app\components\UrlRules\PollSpecificUrlRule',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s/<action:[-a-zA-Z]*>',
+                    'route' => '<controller>/<action>'
+                ],
+                [
+                    // PollSpecificUrlRule rule for links like /poll/poll_id/controller/action/id
+                    //'class' => 'app\components\UrlRules\PollSpecificUrlRule',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s/<action:[-a-zA-Z]*>/<id:\d+>',
+                    'route' => '<controller>/<action>'
+                ],
+
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 // not needed
@@ -55,6 +87,7 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
@@ -120,6 +153,12 @@ if (YII_ENV_DEV) {
                     'class' => 'app\components\mygii\generators\crud\Generator',
             ],
         ]
+    ];
+
+    $config['components']['log']['targets']['firebug'] =  [
+        'class' => 'app\components\log\FirePHPTarget',
+        'levels' => ['trace','info'],
+        'categories' => ['firebug'],
     ];
 
 }

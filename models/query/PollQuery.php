@@ -22,19 +22,4 @@ class PollQuery extends ActiveQuery
         return $this;
     }
 
-    public function project_searchOptions($project_searchOptions = [])
-    {
-        if (is_array($project_searchOptions) && sizeof($project_searchOptions)) {
-            $this->andWhere($project_searchOptions);
-        }
-        return $this;
-    }
-
-    public function p_id($p_id = null)
-    {
-        if ($p_id) {
-            $this->andWhere(['p_id' => $p_id]);
-        }
-        return $this;
-    }
 }

@@ -27,4 +27,20 @@ class CodeQuery extends ActiveQuery
         $this->andWhere(['is_valid' => true]);
         return $this;
     }
+
+    public function poll_searchOptions($poll_searchOptions = [])
+    {
+        if (is_array($poll_searchOptions) && sizeof($poll_searchOptions)) {
+            $this->andWhere($poll_searchOptions);
+        }
+        return $this;
+    }
+
+    public function poll_id($poll_id = null)
+    {
+        if ($poll_id) {
+            $this->andWhere(['poll_id' => $poll_id]);
+        }
+        return $this;
+    }
 }

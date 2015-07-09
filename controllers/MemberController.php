@@ -7,6 +7,7 @@ use app\models\Member;
 use app\models\Contact;
 use app\models\search\MemberSearch;
 use app\components\controllers\BaseController;
+use app\components\controllers\PollDependedController;
 
 use app\models\forms\UploadForm;
 use yii\web\Controller;
@@ -18,7 +19,8 @@ use app\components\ExcelParser;
 /**
  * MemberController implements the CRUD actions for Member model.
  */
-class MemberController extends BaseController
+//class MemberController extends BaseController
+class MemberController extends PollDependedController
 {
     public function behaviors()
     {
@@ -36,17 +38,18 @@ class MemberController extends BaseController
      * Lists all Member models.
      * @return mixed
      */
-    public function actionIndex($poll_id)
+    public function actionIndex()
     {
+
         $searchModel = new MemberSearch();
+        $this->setPollSearchOptions($searchModel);
         $params = Yii::$app->request->queryParams;
-        $params[$searchModel->formName()]['poll_id'] = $poll_id;
+
         $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'poll_id'=>$poll_id,
         ]);
     }
 
@@ -67,10 +70,10 @@ class MemberController extends BaseController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($poll_id)
+    public function actionCreate()
     {
         $model = new Member();
-
+        $this->setPollAttributes($model);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -83,7 +86,7 @@ class MemberController extends BaseController
     /* Parses an Excel file and creates multiple instances of the Member model.
         * If creation is successful, the browser will be redirected to the
         * 'index' page. */
-    public function actionImport($poll_id)
+    public function actionImport()
     {
         $model = new UploadForm();
 
@@ -95,7 +98,7 @@ class MemberController extends BaseController
                 $transaction = Yii::$app->db->beginTransaction();
                 foreach ($member_dicts as $dict) {
                     $member = new Member();
-                    $member->poll_id = $poll_id;
+                    $this->setPollAttributes($member);
                     $member->name = $dict['name'];
                     $member->group = $dict['group'];
                     if($member->save()) {
@@ -157,19 +160,10 @@ class MemberController extends BaseController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($poll_id, $id)
+    public function actionDelete($id)
     {
-        //$this->findModel($id)->delete();
-        $member = $this->findModel($id);
-
-        $transaction = Yii::$app->db->beginTransaction();
-        if($member->delete()) {
-            $transaction->commit();
-        } else {
-            $transaction->rollback();
-            Yii::$app->getSession()->setFlash('error', 'Could not delete member');
-        }
-        return $this->redirect(['index', 'poll_id' => $poll_id]);
+        $this->findModel($id)->delete();
+        return $this->redirect(['index']);
     }
 
 
@@ -182,7 +176,8 @@ class MemberController extends BaseController
      */
     protected function findModel($id)
     {
-        if (($model = Member::findOne($id)) !== null) {
+        //if (($model = Member::findOne($id)) !== null) {
+        if (($model = Member::find()->primary_key($id)->poll_searchOptions($this->getPollSearchOptions())->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
