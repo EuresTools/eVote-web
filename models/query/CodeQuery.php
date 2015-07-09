@@ -1,5 +1,6 @@
 <?php
 
+
 namespace app\models\query;
 
 use yii\db\ActiveQuery;
@@ -22,19 +23,8 @@ class CodeQuery extends ActiveQuery
         return $this;
     }
 
-    public function project_searchOptions($project_searchOptions = [])
-    {
-        if (is_array($project_searchOptions) && sizeof($project_searchOptions)) {
-            $this->andWhere($project_searchOptions);
-        }
-        return $this;
-    }
-
-    public function p_id($p_id = null)
-    {
-        if ($p_id) {
-            $this->andWhere(['p_id' => $p_id]);
-        }
+    public function valid() {
+        $this->andWhere(['is_valid' => true]);
         return $this;
     }
 }

@@ -25,7 +25,7 @@ use app\models\Vote;
     * @property User $createdBy
     * @property Member $member
     * @property Poll $poll
-    * @property Vote[] $votes
+    * @property Vote $votes
     */
 class CodeBase extends \app\models\base\BaseModel
 {
@@ -109,8 +109,9 @@ class CodeBase extends \app\models\base\BaseModel
     /**
     * @return \yii\db\ActiveQuery
     */
-    public function getVotes()
+    public function getVote()
     {
-        return $this->hasMany(Vote::className(), ['code_id' => 'id']);
+        //return $this->hasMany(Vote::className(), ['code_id' => 'id']);
+        return $this->hasOne(Vote::className(), ['code_id' => 'id']);
     }
 }

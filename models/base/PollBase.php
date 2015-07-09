@@ -86,6 +86,7 @@ class PollBase extends \app\models\base\BaseModel
     public function beforeDelete()
     {
         if(parent::beforeDelete()) {
+            Code::deleteAll();
             foreach ($this->codes as $code) {
                 if ($code->delete() === false) {
                     return false;
@@ -96,11 +97,12 @@ class PollBase extends \app\models\base\BaseModel
                     return false;
                 }
             }
-            foreach ($this->options as $option) {
-                if ($option->delete() === false) {
-                    return false;
-                }
-            }
+            Option::deleteAll('poll_id = :poll_id', [':poll_id' => $this->id]);
+            //foreach ($this->options as $option) {
+                //if ($option->delete() === false) {
+                    //return false;
+                //}
+            //}
             return true;
         }
         return false;

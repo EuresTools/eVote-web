@@ -107,3 +107,8 @@ a.desc:after {
 .page-header h1 {
     margin:0;
 }
+
+.token-invalid {
+    color: red;
+    text-decoration: line-through;
+}

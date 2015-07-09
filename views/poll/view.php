@@ -74,8 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ])?>
     <?php
-    $members = $model->getMembers()->all();
-    if (count($members) >= 0) {
+    if ($memberDataProvider->getCount() >= 0) {
         echo Html::tag('h2', 'Members');
         echo Html::a('Edit Members', ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
         echo GridView::widget([
@@ -85,6 +84,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 //return $model->name;
             'columns' => [
                 'name',
+                [
+                    'attribute' => 'code',
+                    'label' => 'Voting Code',
+                    'format' => 'raw',
+                    'value' => function($data) {
+                        $codes = $data->codes;
+                        // Display the invalid tokens before the valid ones.
+                        usort($codes, function($a, $b) {
+                            return $a->is_valid > $b->is_valid;
+                        });
+                        $str = Html::beginTag('ul', ['class' => 'list-unstyled']);
+                        foreach($codes as $code) {
+                            if($code->is_valid) {
+                                $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-valid']));
+                            } else {
+                                $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-invalid']));
+                            }
+                        }
+                        $str .= Html::endTag('ul');
+                        return $str;
+
+                    }
+                ],
+
             ],
         ]);
     }

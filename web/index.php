@@ -11,4 +11,7 @@ require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
 
 $config = require(__DIR__ . '/../config/web.php');
 
+ini_set('memory_limit', '1024M');
+set_time_limit(60);
+
 (new yii\web\Application($config))->run();

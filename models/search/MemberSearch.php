@@ -37,6 +37,8 @@ class MemberSearch extends Member
     public function search($params)
     {
         $query = Member::find();
+        //$query->with('codes.vote');
+        $query->joinWith(['codes.vote']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -51,7 +53,7 @@ class MemberSearch extends Member
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'poll_id' => $this->poll_id,
+            Member::tableName().'.poll_id' => $this->poll_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,

@@ -11,7 +11,7 @@ class Code extends \app\models\base\CodeBase
      */
     public static function representingColumn()
     {
-        return null;
+        return ['token'];
     }
 
     /**
@@ -30,5 +30,18 @@ class Code extends \app\models\base\CodeBase
     {
         return array_merge(parent::rules(), [
         ]);
+    }
+
+    public static function generateCode($poll_id, $member_id) {
+        $code = new Code();
+        $code->member_id = $member_id;
+        $code->poll_id = $poll_id;
+        $length = 10;
+        $code->token = substr(str_shuffle(MD5(microtime())), 0, $length);//Yii::$app->getSecurity()->generateRandomString($length);
+        // Better safe than sorry, avoid collisions.
+        while(!$code->validate(['token'])) {
+            $code->token = substr(str_shuffle(MD5(microtime())), 0, $length);
+        }
+        return $code;
     }
 }

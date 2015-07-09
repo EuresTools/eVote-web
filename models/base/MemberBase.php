@@ -71,6 +71,27 @@ class MemberBase extends \app\models\base\BaseModel
         ];
     }
 
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        if($insert) {
+            Code::generateCode($this->poll_id, $this->id)->save();
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if(parent::beforeDelete()) {
+            Contact::deleteAll('member_id = :member_id', [':member_id' => $this->id]);
+            //foreach ($this->contacts as $contact) {
+                //if ($contact->delete() === false) {
+                    //return false;
+                //}
+            //}
+            return true;
+        }
+        return false;
+    }
+
     /**
     * @return \yii\db\ActiveQuery
     */
