@@ -59,11 +59,18 @@ class UserBase extends \app\models\base\BaseModel
     public function rules()
     {
         return [
-            [['username', 'password_hash'], 'required', 'on' => ['login', 'register']],
+            [['username', 'password_hash'], 'required'],
             [['is_admin', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
             [['username', 'password_hash', 'auth_key'], 'string', 'max' => 255],
             [['username'], 'unique']
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['username', 'is_admin'],
+            'login' => ['username', 'password_hash'],
+            'register' => ['username', 'password_hash'],
         ];
     }
 

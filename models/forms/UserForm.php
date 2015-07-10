@@ -19,6 +19,14 @@ class UserForm extends User
         ]);
     }
 
+    public function scenarios() {
+        return [
+            'default' => ['username', 'new_password', 'is_admin', 'organizer_id'],
+            'create' => ['username', 'new_password', 'is_admin', 'organizer_id'],
+            'update' => ['username', 'new_password', 'is_admin', 'organizer_id'],
+        ];
+    }
+
     public function beforeSave($insert)
     {
         if (!empty($this->new_password)) {

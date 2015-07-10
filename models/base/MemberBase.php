@@ -49,8 +49,13 @@ class MemberBase extends \app\models\base\BaseModel
         return [
             [['name', 'poll_id'], 'required'],
             [['poll_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
             [['name', 'group'], 'string', 'max' => 255]
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['name', 'group', '!poll_id'],
         ];
     }
 

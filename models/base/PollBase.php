@@ -57,8 +57,14 @@ class PollBase extends \app\models\base\BaseModel
             [['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'], 'required'],
             [['question'], 'string'],
             [['select_min', 'select_max', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
-            [['start_time', 'end_time', 'created_at', 'updated_at'], 'safe'],
+            [['start_time', 'end_time'], 'safe'],
             [['title'], 'string', 'max' => 255]
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time', '!organizer_id'],
         ];
     }
 

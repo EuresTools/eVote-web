@@ -47,8 +47,13 @@ class OptionBase extends \app\models\base\BaseModel
             //poll_id removed from 'required'],
             [['text'], 'required'],
             [['poll_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
             [['text'], 'string', 'max' => 255]
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['text', '!poll_id'],
         ];
     }
 

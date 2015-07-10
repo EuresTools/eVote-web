@@ -46,8 +46,13 @@ class ContactBase extends \app\models\base\BaseModel
             [['email', 'member_id'], 'required'],
             [['email'], 'email'],
             [['member_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
             [['name', 'email'], 'string', 'max' => 255]
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['email', '!member_id'],
         ];
     }
 

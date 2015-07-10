@@ -50,9 +50,14 @@ class CodeBase extends \app\models\base\BaseModel
         return [
             [['token', 'poll_id', 'member_id'], 'required'],
             [['poll_id', 'member_id', 'is_valid', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
             [['token'], 'string', 'max' => 255],
             [['token'], 'unique']
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['token', '!poll_id', '!member_id'],
         ];
     }
 

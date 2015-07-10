@@ -43,10 +43,15 @@ class OrganizerBase extends \app\models\base\BaseModel
     {
         return [
             [['name'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
             [['created_by', 'updated_by'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique']
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['name'],
         ];
     }
 

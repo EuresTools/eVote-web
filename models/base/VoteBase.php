@@ -45,8 +45,13 @@ class VoteBase extends \app\models\base\BaseModel
         return [
             [['code_id'], 'required'],
             [['code_id', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
             [['code_id'], 'unique']
+        ];
+    }
+
+    public function scenarios() {
+        return [
+            'default' => ['!code_id'],
         ];
     }
 
