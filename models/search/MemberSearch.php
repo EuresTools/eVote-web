@@ -21,23 +21,22 @@ class MemberSearch extends Member
         ];
     }
 
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+    // public function scenarios()
+    // {
+    //     // bypass scenarios() implementation in the parent class
+    //     return Model::scenarios();
+    // }
 
     public function behaviors()
     {
         return [
-           //RememberFiltersBehavior::className(),
+           RememberFiltersBehavior::className(),
         ];
     }
 
     public function search($params)
     {
         $query = Member::find();
-        print_pre($this->poll_id);
         $query->poll_id($this->poll_id);
         //$query->with('codes.vote');
         $query->joinWith(['codes.vote']);
@@ -52,13 +51,10 @@ class MemberSearch extends Member
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-        //$this->validate();
-        print_pre($params);
-        print_pre($this->getScenario());
 
         $query->andFilterWhere([
             'id' => $this->id,
-            Member::tableName().'.poll_id' => $this->poll_id,
+            //Member::tableName().'.poll_id' => $this->poll_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,

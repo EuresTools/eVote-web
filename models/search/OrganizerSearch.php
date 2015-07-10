@@ -21,11 +21,11 @@ class OrganizerSearch extends Organizer
         ];
     }
 
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
+    // public function scenarios()
+    // {
+    //     // bypass scenarios() implementation in the parent class
+    //     return Model::scenarios();
+    // }
 
     public function behaviors()
     {
