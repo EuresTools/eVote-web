@@ -2,52 +2,49 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
-
 ?>
-<div class="panel panel-default">
-        <div class="panel-heading"><h4><i class="glyphicon glyphicon-envelope"></i> Options</h4></div>
-        <div class="panel-body">
-             <?php DynamicFormWidget::begin([
-                'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
-                'widgetBody' => '.container-items', // required: css class selector
-                'widgetItem' => '.item', // required: css class
-                'limit' => 4, // the maximum times, an element can be cloned (default 999)
-                'min' => 1, // 0 or 1 (default 1)
-                'insertButton' => '.add-item', // css class
-                'deleteButton' => '.remove-item', // css class
-                'model' => $modelOptions[0],
-                'formId' => $form->id,
-                'formFields' => [
-                    'text',
-                ],
-            ]); ?>
 
-            <div class="container-items"><!-- widgetContainer -->
-<?php foreach ($modelOptions as $i => $modelOption): ?>
-                <div class="item panel panel-default"><!-- widgetBody -->
-                    <div class="panel-heading">
-                        <h3 class="panel-title pull-left">Option</h3>
-                        <div class="pull-right">
-                            <button type="button" class="add-item btn btn-success btn-xs"><i class="glyphicon glyphicon-plus"></i></button>
-                            <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="panel-body">
+    <?php DynamicFormWidget::begin([
+        'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+        'widgetBody' => '.container-items', // required: css class selector
+        'widgetItem' => '.item', // required: css class
+        'min' => 2, // 0 or 1 (default 1)
+        'insertButton' => '.add-item', // css class
+        'deleteButton' => '.remove-item', // css class
+        'model' => $modelOptions[0],
+        'formId' => $form->id,
+        'formFields' => [
+            'text',
+        ],
+    ]); ?>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>
+                <i class="glyphicon glyphicon-list"></i> Options
+                <button type="button" class="add-item btn btn-success btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add</button>
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="container-items"><!-- widgetBody -->
+            <?php foreach ($modelOptions as $i => $option): ?>
+                <div class="item"><!-- widgetItem -->
+                    <div class="clearfix"></div>
                         <?php
                             // necessary for update action.
-    if (! $modelOption->isNewRecord) {
-                                echo Html::activeHiddenInput($modelOption, "[{$i}]id");
-    }
+                            if (! $option->isNewRecord) {
+                                echo Html::activeHiddenInput($option, "[{$i}]id");
+                            }
                         ?>
-                        <?= $form->field($modelOption, "[{$i}]text")->textInput(['maxlength' => true]) ?>
-                    </div>
+                        <?= $form->field($option, "[{$i}]text", ['options' => ['class' => 'form-group kv-fieldset-inline']])->textInput(['maxlength' => true]) ?>
+                        <div class="pull-right">
+                            <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+                        </div>
                 </div>
-    <?php
-endforeach;
-    ?>
+            <?php endforeach; ?>
             </div>
-            <?php DynamicFormWidget::end(); ?>
         </div>
-    </div>
+    </div><!-- .panel -->
+    <?php DynamicFormWidget::end(); ?>
 
+</div>
