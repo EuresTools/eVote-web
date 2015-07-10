@@ -57,7 +57,7 @@ class PollController extends BaseController
         $memberSearchModel = new MemberSearch();
         // Only display the members for this poll.
         $params = Yii::$app->request->queryParams;
-        $params[$memberSearchModel->formName()]['poll_id'] = $id;
+        $memberSearchModel->setAttribute('poll_id', $id);
         $memberDataProvider = $memberSearchModel->search($params);
         return $this->render('view', [
             'model' => $this->findModel($id),
