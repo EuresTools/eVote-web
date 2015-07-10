@@ -11,7 +11,7 @@ class Member extends \app\models\base\MemberBase
      */
     public static function representingColumn()
     {
-        return name;
+        return 'name';
     }
 
     /**
