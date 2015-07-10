@@ -28,6 +28,24 @@ class CodeQuery extends ActiveQuery
         return $this;
     }
 
+
+    public function unused() {
+        $this->andWhere(['code_status' => Code::CODE_STATUS_UNUSED]);
+        return $this;
+    }
+
+    public function used() {
+        $this->andWhere(['code_status' => Code::CODE_STATUS_USED]);
+        return $this;
+    }
+
+    public function invalid() {
+        $this->andWhere(['code_status' => Code::CODE_STATUS_INVALID]);
+        return $this;
+    }
+
+        CODE_STATUS_INVALID
+
     public function poll_searchOptions($poll_searchOptions = [])
     {
         if (is_array($poll_searchOptions) && sizeof($poll_searchOptions)) {
