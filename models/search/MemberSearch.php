@@ -30,13 +30,15 @@ class MemberSearch extends Member
     public function behaviors()
     {
         return [
-           RememberFiltersBehavior::className(),
+           //RememberFiltersBehavior::className(),
         ];
     }
 
     public function search($params)
     {
         $query = Member::find();
+        print_pre($this->poll_id);
+        $query->poll_id($this->poll_id);
         //$query->with('codes.vote');
         $query->joinWith(['codes.vote']);
 
@@ -50,6 +52,9 @@ class MemberSearch extends Member
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
+        //$this->validate();
+        print_pre($params);
+        print_pre($this->getScenario());
 
         $query->andFilterWhere([
             'id' => $this->id,

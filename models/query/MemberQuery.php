@@ -3,6 +3,7 @@
 namespace app\models\query;
 
 use yii\db\ActiveQuery;
+use app\models\Member;
 
 /**
 * This is the query class for class  "Member".
@@ -33,7 +34,7 @@ class MemberQuery extends ActiveQuery
     public function poll_id($poll_id = null)
     {
         if ($poll_id) {
-            $this->andWhere(['poll_id' => $poll_id]);
+            $this->andWhere([Member::tableName().'.poll_id' => $poll_id]);
         }
         return $this;
     }

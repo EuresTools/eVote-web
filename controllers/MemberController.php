@@ -45,7 +45,6 @@ class MemberController extends PollDependedController
         $searchModel = new MemberSearch();
         $this->setPollSearchOptions($searchModel);
         $params = Yii::$app->request->queryParams;
-        $params[$searchModel->formName()]['poll_id'] = $this->getPollId();
 
         $dataProvider = $searchModel->search($params);
 
