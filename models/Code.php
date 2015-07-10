@@ -6,6 +6,12 @@ use \app\models\query\CodeQuery;
 
 class Code extends \app\models\base\CodeBase
 {
+
+    const CODE_STATUS_INVALID = -1;
+    const CODE_STATUS_UNUSED = 1;
+    const CODE_STATUS_USED = 2;
+
+
     /**
      * @return returns representingColumn default null
      */
