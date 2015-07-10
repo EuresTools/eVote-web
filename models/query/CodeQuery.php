@@ -4,6 +4,7 @@
 namespace app\models\query;
 
 use yii\db\ActiveQuery;
+use app\models\Code;
 
 /**
 * This is the query class for class  "Code".
@@ -24,7 +25,7 @@ class CodeQuery extends ActiveQuery
     }
 
     public function valid() {
-        $this->andWhere(['code_status' => true]);
+        $this->andWhere(['in', 'code_status', [Code::CODE_STATUS_UNUSED, Code::CODE_STATUS_USED]]);
         return $this;
     }
 
@@ -43,8 +44,6 @@ class CodeQuery extends ActiveQuery
         $this->andWhere(['code_status' => Code::CODE_STATUS_INVALID]);
         return $this;
     }
-
-        CODE_STATUS_INVALID
 
     public function poll_searchOptions($poll_searchOptions = [])
     {

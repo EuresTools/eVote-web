@@ -116,3 +116,7 @@ a.desc:after {
 .token-used {
     color: green;
 }
+
+.glyphicon-ban-circle {
+    color: red;
+}

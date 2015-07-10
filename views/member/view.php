@@ -3,8 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\components\helpers\PollUrl;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\data\ArrayDataProvider;
+use app\models\Code;
 
 /**
  * @var yii\web\View $this
@@ -55,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?
     $codes = $model->codes;
     usort($codes, function($a, $b) {
-        return $a->is_valid > $b->is_valid;
+        return $a->code_status > $b->code_status;
     });
     echo GridView::widget([
         'dataProvider' => new ArrayDataProvider([
@@ -65,57 +66,55 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'token',
                 'contentOptions' => function($data) {
-                    if(!$data->is_valid) {
+                    if ($data->code_status === Code::CODE_STATUS_INVALID) {
                         return ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated'];
                     }
-                    elseif(!$data->vote) {
+                    else if ($data->code_status === Code::CODE_STATUS_UNUSED) {
                         return ['class' => 'token-valid', 'title' => 'This code has not yet been used'];
                     }
-                    else {
+                    else if ($data->code_status === Code::CODE_STATUS_USED) {
                         return ['class' => 'token-used', 'title' => 'A vote has been submitted using this code'];
                     }
                 },
             ],
-            'is_valid:boolean',
+            [
+                'label' => 'Valid',
+                'attribute' => 'code_status',
+                'format' => 'boolean',
+                'value' => function ($data) {
+                    return $data->isValid();
+                }
+            ],
             [
                 'label' => 'Used',
                 'format' => 'boolean',
                 'value' => function($data) {
-                    return $data->vote !== null;
+                    return $data->isUsed();
                 },
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'contentOptions' => ['style' => 'width:260px;'],
+                'contentOptions' => ['style' => 'width:80px; text-align: center;'],
                 'header'=>'Actions',
-                'template' => '{mybutton} {view} {delete}',
+                'template' => '{mybutton}',
                 'buttons' => [
-
-                    //view button
-                    'view' => function ($url, $model) {
-                        return Html::a('<span class="fa fa-search"></span>View', $url, [
-                                    'title' => Yii::t('app', 'View'),
-                                    'class'=>'btn btn-primary btn-xs',
-                        ]);
-                    },
                     'mybutton' => function ($url, $model) {
-                        return Html::a('<span class="fa fa-search"></span>View', $url, [
-                                    'title' => Yii::t('app', 'My button'),
-                                    'class'=>'btn btn-primary btn-xs',
+                        return Html::a('<i class="glyphicon glyphicon-ban-circle"></i>', $url, [
+                                    'title' => Yii::t('app', 'Invalidate'),
                         ]);
                     },
                 ],
 
-                'urlCreator' => function ($action, $model, $key, $index) {
-                    if ($action === 'view') {
-                        $url ='/jobs/view?id='.$model->jobid;
-                        return $url;
-                    }
-                },
-
+                //'urlCreator' => function ($action, $model, $key, $index) {
+                    //if ($action === 'view') {
+                        ////$url ='/jobs/view?id='.$model->jobid;
+                        ////return $url;
+                    //}
+                //},
             ],
         ],
     ]);
+
     ?>
 
 

@@ -25,11 +25,12 @@ class UserSearch extends User
         ];
     }
 
-    // public function scenarios()
-    // {
-    //     // bypass scenarios() implementation in the parent class
-    //     return Model::scenarios();
-    // }
+     public function scenarios()
+     {
+         // bypass scenarios() implementation in the parent class
+         //return Model::scenarios();
+         return ['default' => ['username', 'is_admin', 'organizer_id']];
+     }
 
     public function behaviors()
     {

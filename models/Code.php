@@ -50,4 +50,12 @@ class Code extends \app\models\base\CodeBase
         }
         return $code;
     }
+
+    public function isValid() {
+        return in_array($this->code_status, [self::CODE_STATUS_UNUSED, self::CODE_STATUS_USED]);
+    }
+
+    public function isUsed() {
+        return $this->code_status === CODE_STATUS_USED;
+    }
 }

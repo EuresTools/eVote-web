@@ -57,7 +57,7 @@ class CodeBase extends \app\models\base\BaseModel
 
     public function scenarios() {
         return [
-            'default' => ['token', '!poll_id', '!member_id'],
+            'default' => ['token', 'code_status', '!poll_id', '!member_id'],
         ];
     }
 
