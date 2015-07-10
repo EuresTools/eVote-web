@@ -22,12 +22,6 @@ use kartik\datecontrol\DateControl;
 
 'name'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Name...', 'maxlength'=>255]],
 
-'poll_id'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Poll ID...']],
-
-'created_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(),'options'=>['type'=>DateControl::FORMAT_DATETIME]],
-
-'updated_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(),'options'=>['type'=>DateControl::FORMAT_DATETIME]],
-
 'group'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Group...', 'maxlength'=>255]],
 
     ]

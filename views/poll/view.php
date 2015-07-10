@@ -44,14 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
 
-    <h2>Poll</h2>
+    <?= Html::tag('h2', 'Poll'); ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => $attributes,
     ]) ?>
 
 
-    <h2>About</h2>
+    <?= Html::tag('h2', 'About') ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -90,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'name',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return Html::a($data->name, PollUrl::toRoute(['member/view', 'id' => $data->id, 'poll_id' => $data->poll_id]));;
+                        return Html::a(Html::encode($data->name), PollUrl::toRoute(['member/view', 'id' => $data->id, 'poll_id' => $data->poll_id]));;
                     }
                 ],
                 [
