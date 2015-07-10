@@ -17,7 +17,7 @@ $columns = [
         'token',
         'poll_id',
         'member_id',
-        'is_valid',
+        'code_status',
         // 'created_at',
         // 'updated_at',
         // 'created_by',

@@ -24,7 +24,7 @@ class CodeQuery extends ActiveQuery
     }
 
     public function valid() {
-        $this->andWhere(['is_valid' => true]);
+        $this->andWhere(['code_status' => true]);
         return $this;
     }
 

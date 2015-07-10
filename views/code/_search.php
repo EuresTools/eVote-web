@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'member_id') ?>
 
-    <?= $form->field($model, 'is_valid') ?>
+    <?= $form->field($model, 'code_status') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

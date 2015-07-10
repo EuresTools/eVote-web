@@ -16,7 +16,7 @@ class CodeSearch extends Code
     public function rules()
     {
         return [
-            [['id', 'poll_id', 'member_id', 'is_valid', 'created_by', 'updated_by'], 'integer'],
+            [['id', 'poll_id', 'member_id', 'code_status', 'created_by', 'updated_by'], 'integer'],
             [['token', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -53,7 +53,7 @@ class CodeSearch extends Code
             'id' => $this->id,
             'poll_id' => $this->poll_id,
             'member_id' => $this->member_id,
-            'is_valid' => $this->is_valid,
+            'code_status' => $this->code_status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,

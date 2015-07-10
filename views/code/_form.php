@@ -12,7 +12,7 @@ use kartik\datecontrol\DateControl;
  */
 ?>
 <div class="code-form">
-<?php 
+<?php
     $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_HORIZONTAL]);
     echo Form::widget([
     'model' => $model,
@@ -26,7 +26,7 @@ use kartik\datecontrol\DateControl;
 
 'member_id'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Member ID...']],
 
-'is_valid'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Is Valid...']],
+'code_status'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Is Valid...']],
 
 'created_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(),'options'=>['type'=>DateControl::FORMAT_DATETIME]],
 
@@ -38,12 +38,12 @@ use kartik\datecontrol\DateControl;
     ?>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-        <?php 
+        <?php
         echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
         ?>
         </div>
     </div>
-<?php 
+<?php
 ActiveForm::end();
 ?>
 </div>

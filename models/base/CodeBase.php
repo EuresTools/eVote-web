@@ -15,7 +15,7 @@ use app\models\Vote;
 * @property string $token
 * @property integer $poll_id
 * @property integer $member_id
-* @property integer $is_valid
+* @property integer $code_status
 * @property string $created_at
 * @property string $updated_at
 * @property integer $created_by
@@ -49,7 +49,7 @@ class CodeBase extends \app\models\base\BaseModel
     {
         return [
             [['token', 'poll_id', 'member_id'], 'required'],
-            [['poll_id', 'member_id', 'is_valid', 'created_by', 'updated_by'], 'integer'],
+            [['poll_id', 'member_id', 'code_status', 'created_by', 'updated_by'], 'integer'],
             [['token'], 'string', 'max' => 255],
             [['token'], 'unique']
         ];
@@ -71,7 +71,7 @@ class CodeBase extends \app\models\base\BaseModel
             'token' => Yii::t('app', 'Token'),
             'poll_id' => Yii::t('app', 'Poll ID'),
             'member_id' => Yii::t('app', 'Member ID'),
-            'is_valid' => Yii::t('app', 'Is Valid'),
+            'code_status' => Yii::t('app', 'Is Valid'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
