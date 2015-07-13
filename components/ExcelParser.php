@@ -10,7 +10,6 @@ use yii\helpers\ArrayHelper;
 class ExcelParser {
 
     public static function parseMembers($filepath) {
-        Yii::trace($filepath, 'Filename');
         $file = file_get_contents($filepath);
         $workbook = PHPExcel_IOFactory::load($filepath);
         $worksheet = self::findSheet($workbook);

@@ -95,7 +95,13 @@ class MemberController extends PollDependedController
             $model->excelFile = UploadedFile::getInstance($model, 'excelFile');
             $file = $model->upload();
             if ($file) {
+                // Handle errors gracefully.
+                set_error_handler(function() {
+                    return false;
+                });
                 $member_dicts = ExcelParser::parseMembers($file->tempName);
+                // Restore the default error handler.
+                restore_error_handler();
                 $errors = [];
                 if (!$member_dicts) {
                     $error= 'The file you selected could not be imported';

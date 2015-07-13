@@ -5,6 +5,8 @@ use yii\widgets\ActiveForm;
 use app\models\Poll;
 use yii\helpers\Url;
 use app\components\helpers\PollUrl;
+use kartik\widgets\AlertBlock;
+use kartik\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Member */
@@ -21,6 +23,24 @@ $this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => $this->context-
 $this->params['breadcrumbs'][] = $this->title;
 
 
+?>
+
+<?php
+foreach(Yii::$app->getSession()->getAllFlashes() as $key => $arr) {
+    foreach($arr as $message) {
+        echo AlertBlock::widget([
+            'useSessionFlash' => false,
+            'type' => AlertBlock::TYPE_ALERT,
+            'delay' => false, // Don't automatically disappear.
+            'alertSettings' => [
+                'warning' => [
+                    'type' => Alert::TYPE_DANGER,
+                    'body' => $message,
+                ],
+            ],
+        ]);
+    }
+}
 ?>
 <div class="member-create">
 
