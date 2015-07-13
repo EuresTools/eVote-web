@@ -39,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             'group',
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
             [
                 'attribute' => 'created_by',
                 'value' => $model->creator,
@@ -51,6 +51,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
+
+
+    <?= Html::tag('h2', 'Contact Persons') ?>
+    <?
+    $contacts = $model->contacts;
+    echo GridView::widget([
+        'dataProvider' => new ArrayDataProvider([
+            'allModels' => $contacts,
+        ]),
+        'columns' => [
+            'name',
+            'email'
+        ],
+    ]);
+    ?>
+
 
     <?= Html::tag('h2', 'Voting Codes') ?>
     <?
@@ -92,6 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->isUsed();
                 },
             ],
+            'sent_at:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'width:80px; text-align: center;'],
