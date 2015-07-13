@@ -103,11 +103,20 @@ class MemberController extends PollDependedController
                 } else {
                     $transaction = Yii::$app->db->beginTransaction();
                     foreach ($member_dicts as $dict) {
-                        $member = new Member();
-                        $this->setPollAttributes($member);
-                        $member->name = $dict['name'];
-                        $member->group = $dict['group'];
-                        if($member->save()) {
+                        $name = $dict['name'];
+                        $member = Member::find()->where(['name' => $name, 'poll_id' => $this->getPollId()])->one();
+                        $success = true;
+                        // If the member already exists, only re-import the contacts.
+                        if($member) {
+                            Contact::deleteAll('member_id = :member_id', [':member_id' => $member->id]);
+                        } else {
+                            $member = new Member();
+                            $this->setPollAttributes($member);
+                            $member->name = $dict['name'];
+                            $member->group = $dict['group'];
+                            $success = $member->save();
+                        }
+                        if($success) {
                             foreach($dict['contacts'] as $contact_dict) {
                                 $contact = new Contact();
                                 $contact->member_id = $member->id;
