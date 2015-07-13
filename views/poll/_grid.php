@@ -18,6 +18,7 @@ $columns = [
         'question:ntext',
         'select_min',
         'select_max',
+        'membersCount',
         // 'start_time',
         // 'end_time',
         // 'organizer_id',

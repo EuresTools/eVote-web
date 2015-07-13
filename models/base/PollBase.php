@@ -131,6 +131,11 @@ class PollBase extends \app\models\base\BaseModel
         return $this->hasMany(Member::className(), ['poll_id' => 'id']);
     }
 
+    public function getMembersCount()
+    {
+        return $this->getMembers()->count();
+    }
+
     /**
     * @return \yii\db\ActiveQuery
     */
