@@ -96,38 +96,48 @@ class MemberController extends PollDependedController
             $file = $model->upload();
             if ($file) {
                 $member_dicts = ExcelParser::parseMembers($file->tempName);
-                $transaction = Yii::$app->db->beginTransaction();
-                foreach ($member_dicts as $dict) {
-                    $member = new Member();
-                    $this->setPollAttributes($member);
-                    $member->name = $dict['name'];
-                    $member->group = $dict['group'];
-                    if($member->save()) {
-                        foreach($dict['contacts'] as $contact_dict) {
-                            $contact = new Contact();
-                            $contact->member_id = $member->id;
-                            $contact->name = $contact_dict['name'];
-                            $contact->email = trim(strtr($contact_dict['email'], ';', ''));
-                            if(!$contact->save()) {
-                                //Yii::trace('Contact failed to save');
-                                //var_dump($contact);
-                                //die();
-                                //$transaction->rollback();
-                                //return $this->render('import', [
-                                    //'model' => $model,
-                                //]);
+                $errors = [];
+                if (!$member_dicts) {
+                    $error= 'The file you selected could not be imported';
+                    $errors[] = $error;
+                } else {
+                    $transaction = Yii::$app->db->beginTransaction();
+                    foreach ($member_dicts as $dict) {
+                        $member = new Member();
+                        $this->setPollAttributes($member);
+                        $member->name = $dict['name'];
+                        $member->group = $dict['group'];
+                        if($member->save()) {
+                            foreach($dict['contacts'] as $contact_dict) {
+                                $contact = new Contact();
+                                $contact->member_id = $member->id;
+                                $contact->name = $contact_dict['name'];
+                                $contact->email = filter_var($contact_dict['email'], FILTER_SANITIZE_EMAIL);
+                                if(!$contact->save()) {
+                                    $row = $contact_dict['row'];
+                                    $name = $contact_dict['name'];
+                                    $email = $contact_dict['email'];
+                                    $error = "Row $row: The contact $name ($email) could not be imported.";
+                                    $errors[] = $error;
+                                }
                             }
+                        } else {
+                            $row = $dict['row'];
+                            $name = $dict['name'];
+                            $error = "Row $row: The member $name could not be imported.";
+                            $errors[] = $error;
                         }
-                    } else {
-                        Yii::trace('Member failed to save');
-                        $transaction->rollback();
-                        return $this->render('import', [
-                            'model' => $model,
-                        ]);
                     }
+                    $transaction->commit();
                 }
-                $transaction->commit();
-                return $this->redirect('index');
+                foreach($errors as $error) {
+                    Yii::$app->getSession()->addFlash('warning', $error);
+                }
+                if($member_dicts) {
+                    return $this->redirect('index');
+                } else {
+                    return $this->render('import', ['model' => $model]);
+                }
             }
         }
         return $this->render('import', [

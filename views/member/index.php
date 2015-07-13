@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\widgets\AlertBlock;
+use kartik\widgets\Alert;
 
 /**
 * @var yii\web\View $this
@@ -14,6 +16,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Polls', 'url' => ['/poll/index']];
 $this->params['breadcrumbs'][] = ['label' => $this->context->getPollDisplay(), 'url' => ['/poll/view', 'id'=>$this->context->getPollId()]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?php
+foreach(Yii::$app->getSession()->getAllFlashes() as $key => $arr) {
+    foreach($arr as $message) {
+        echo AlertBlock::widget([
+            'useSessionFlash' => false,
+            'type' => AlertBlock::TYPE_ALERT,
+            'delay' => false, // Don't automatically disappear.
+            'alertSettings' => [
+                'warning' => [
+                    'type' => Alert::TYPE_DANGER,
+                    'body' => $message,
+                ],
+            ],
+        ]);
+    }
+}
+?>
+
 <div class="member-index">
     <div class="page-header">
         <h1><?= Html::encode($this->title) ?></h1>

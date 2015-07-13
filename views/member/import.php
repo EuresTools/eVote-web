@@ -20,7 +20,6 @@ $this->params['breadcrumbs'][] = ['label' => $this->context->getPollDisplay(), '
 $this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => $this->context->createUrl(['index'])];
 $this->params['breadcrumbs'][] = $this->title;
 
-echo $this->render('_urltests');
 
 ?>
 <div class="member-create">

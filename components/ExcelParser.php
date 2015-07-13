@@ -14,17 +14,8 @@ class ExcelParser {
         $file = file_get_contents($filepath);
         $workbook = PHPExcel_IOFactory::load($filepath);
         $worksheet = self::findSheet($workbook);
-        //$top = self::findTopRow($worksheet);
 
         $topFound = false;
-        //$columns = [
-            //'name' => 9,
-            //'group' => null,
-            //'contact1' => null,
-            //'contact2' => null,
-            //'email1' => null,
-            //'email2' => null,
-        //];
         $prevName = null;
         $currRow = -1;
         $members = [];
@@ -43,6 +34,7 @@ class ExcelParser {
                         $members[] = $member;
                     }
                     $member = [];
+                    $member['row'] = $currRow + 1;
                     $member['name'] = $name;
                     $member['group'] = self::getCellValue($worksheet, $currRow, ArrayHelper::getValue($columns, 'group'));
                     $member['contacts'] = [];
@@ -53,6 +45,7 @@ class ExcelParser {
                         $emailValue = trim(self::getCellValue($worksheet, $currRow, $email_col));
                         if($emailValue !== null && $emailValue !== '') {
                             $contact = [];
+                            $contact['row'] = $currRow + 1;
                             $contact['email'] = $emailValue;
 
                             $nameValue = self::getCellValue($worksheet, $currRow, $contact_col);
@@ -65,6 +58,9 @@ class ExcelParser {
                 }
                 $prevName = $name;
             }
+        }
+        if (!$topFound) {
+            return False;
         }
         return $members;
     }
