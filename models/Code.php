@@ -6,7 +6,7 @@ use \app\models\query\CodeQuery;
 
 class Code extends \app\models\base\CodeBase
 {
-
+    const CODE_STATUS_INVALID_USED = -2;
     const CODE_STATUS_INVALID = -1;
     const CODE_STATUS_UNUSED = 1;
     const CODE_STATUS_USED = 2;
@@ -56,6 +56,6 @@ class Code extends \app\models\base\CodeBase
     }
 
     public function isUsed() {
-        return $this->code_status === CODE_STATUS_USED;
+        return in_array($this->code_status, [self::CODE_STATUS_USED, self::CODE_STATUS_INVALID_USED]);
     }
 }

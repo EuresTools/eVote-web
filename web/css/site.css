@@ -120,3 +120,7 @@ a.desc:after {
 .glyphicon-ban-circle {
     color: red;
 }
+
+.glyphicon-ban-circle.disabled {
+    color: grey;
+}

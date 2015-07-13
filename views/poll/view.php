@@ -106,12 +106,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         });
                         $str = Html::beginTag('ul', ['class' => 'list-unstyled']);
                         foreach($codes as $code) {
-                            if($code->code_status === Code::CODE_STATUS_USED) {
+                            if($code->isValid() && $code->isUsed()) {
                                 $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-used', 'title' => 'A vote has been submitted using this code']));
                             }
-                            elseif($code->code_status == Code::CODE_STATUS_UNUSED) {
+                            elseif($code->isValid()) {
                                 $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-valid', 'title' => 'This code has not yet been used']));
-                            } elseif($code->code_status == Code::CODE_STATUS_INVALID) {
+                            } else {
                                 $str .= Html::tag('li', Html::tag('span', $code, ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated']));
                             }
                         }

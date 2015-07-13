@@ -99,21 +99,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{mybutton}',
                 'buttons' => [
                     'mybutton' => function ($url, $model) {
-                        return Html::a('<i class="glyphicon glyphicon-ban-circle"></i>', $url, [
-                                    'title' => Yii::t('app', 'Invalidate'),
-                        ]);
+                        if ($model->isValid()) {
+                            return Html::a('<i class="glyphicon glyphicon-ban-circle"></i>', $url, [
+                                        'title' => Yii::t('app', 'Invalidate'),
+                            ]);
+                        } else {
+                            return Html::tag('span', '', ['class' => 'glyphicon glyphicon-ban-circle disabled']);
+                        }
                     },
                 ],
-
-                //'urlCreator' => function ($action, $model, $key, $index) {
-                    //if ($action === 'view') {
-                        ////$url ='/jobs/view?id='.$model->jobid;
-                        ////return $url;
-                    //}
-                //},
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    return $this->context->createUrl(['code/invalidate', 'id' => $model->id]);
+                },
             ],
         ],
     ]);
+    echo Html::a(Yii::t('app', 'New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right']);
 
     ?>
 

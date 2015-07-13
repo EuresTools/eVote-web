@@ -8,6 +8,7 @@ use app\models\search\CodeSearch;
 use app\components\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\helpers\PollUrl;
 
 /**
  * CodeController implements the CRUD actions for Code model.
@@ -58,17 +59,32 @@ class CodeController extends BaseController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($poll_id, $member_id)
     {
-        $model = new Code;
+        Code::generateCode($poll_id, $member_id)->save();
+        return $this->redirect(PollUrl::toRoute(['member/view', 'poll_id' => $poll_id, 'id' => $member_id]));
+        //$model = new Code;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //return $this->redirect(['view', 'id' => $model->id]);
+        //} else {
+            //return $this->render('create', [
+                //'model' => $model,
+            //]);
+        //}
+    }
+
+    public function actionInvalidate($id) {
+        $code = $this->findModel($id);
+        if($code->isValid()) {
+            if($code->isUsed()) {
+                $code->code_status = Code::CODE_STATUS_INVALID_USED;
+            } else {
+                $code->code_status = Code::CODE_STATUS_INVALID;
+            }
+            $code->save();
         }
+        return $this->redirect(PollUrl::toRoute(['member/view', 'poll_id' => $code->poll_id, 'id' => $code->member_id]));
     }
 
     /**
