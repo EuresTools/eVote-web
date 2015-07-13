@@ -79,8 +79,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if ($memberDataProvider->getCount() >= 0) {
         echo Html::tag('h2', 'Members');
+        echo Html::beginTag('p');
         echo Html::a('Edit Members', ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
+        echo '&nbsp;';
         echo Html::a('Send Email', ["poll/$model->id/members/email"], ['class' => 'btn btn-warning']);
+        echo Html::endTag('p');
         echo GridView::widget([
             'dataProvider' => $memberDataProvider,
             'filterModel' => $memberSearchModel,
