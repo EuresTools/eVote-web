@@ -58,4 +58,10 @@ class Code extends \app\models\base\CodeBase
     public function isUsed() {
         return in_array($this->code_status, [self::CODE_STATUS_USED, self::CODE_STATUS_INVALID_USED]);
     }
+
+    public static function findCodeByToken($token, $type = null)
+    {
+        return static::findOne(['token' => $token]);
+    }
+
 }

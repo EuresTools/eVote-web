@@ -27,7 +27,7 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     //'controller' => ['v1/poll', 'v1/comment', 'v2/post']
-                    'controller' => ['v1/poll'],
+                    'controller' => ['v1/poll', 'v2/poll'],
                     // 'tokens' => [
                     //     //'{id}' => '<id:\\w+>'
                     // ]
@@ -47,7 +47,8 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
-            'enableSession' => false,
+            'enableSession' => false, // disable session for api interface
+            'loginUrl'=>null, // Set the loginUrl property to be null to show a HTTP 403 error instead of redirecting to the login page.
         ],
         'errorHandler' => [
             //'errorAction' => 'rest/error', // if we need a error page?
@@ -83,6 +84,15 @@ $config = [
         'v1' => [
             'class' => 'app\modules\rest\versions\v1\RestModule',
         ],
+        // just for testing
+        /*
+        'ext_v1' => [
+            'class' => 'app\modules\ext_rest\versions\v1\RestModule',
+        ],
+        'ext_v2' => [
+            'class' => 'app\modules\ext_rest\versions\v2\RestModule',
+        ],
+        */
     ],
 ];
 

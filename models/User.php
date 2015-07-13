@@ -51,7 +51,7 @@ class User extends \app\models\base\UserBase implements \yii\web\IdentityInterfa
 
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        // Intentionally empty.
+        return static::findOne(['access_token' => $token]);
     }
 
     public function getId()
