@@ -26,20 +26,28 @@ use wbraganca\dynamicform\DynamicFormWidget;
             </h4>
         </div>
         <div class="panel-body">
-            <div class="container-items"><!-- widgetBody -->
+            <div class="container-items container-fluid"><!-- widgetBody -->
             <?php foreach ($modelOptions as $i => $option): ?>
                 <div class="item"><!-- widgetItem -->
-                    <div class="clearfix"></div>
-                        <?php
-                            // necessary for update action.
-                            if (! $option->isNewRecord) {
-                                echo Html::activeHiddenInput($option, "[{$i}]id");
-                            }
-                        ?>
-                        <?= $form->field($option, "[{$i}]text", ['options' => ['class' => 'form-group kv-fieldset-inline']])->textInput(['maxlength' => true]) ?>
-                        <div class="pull-right">
-                            <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
-                        </div>
+                    <?php
+                        // necessary for update action.
+                        if (! $option->isNewRecord) {
+                            echo Html::activeHiddenInput($option, "[{$i}]id");
+                        }
+                    ?>
+                    <?php
+                        echo $form->field($option, "[{$i}]text", [
+                                'addon' => [
+                                    'append' => [
+                                        'content' => Html::button('<i class="glyphicon glyphicon-minus"></i>', ['class'=>'remove-item btn btn-danger']),
+                                        'asButton' => true,
+                                    ],
+                                ],
+                                'options' => [
+                                    'class' =>'form-group kv-fieldset-inline'
+                                ],
+                        ])->textInput(['maxlength' => true]);
+                    ?>
                 </div>
             <?php endforeach; ?>
             </div>
