@@ -3,7 +3,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 ?>
-
     <?php DynamicFormWidget::begin([
         'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
         'widgetBody' => '.container-items', // required: css class selector
@@ -43,6 +42,12 @@ use wbraganca\dynamicform\DynamicFormWidget;
                                         'asButton' => true,
                                     ],
                                 ],
+                                'inputOptions'=> [
+                                    'placeholder'=> Yii::t('app', 'Please fill with an option text'),
+                                ],
+                                // 'labelOptions'=> [
+                                //     'label' => 'Option',
+                                // ],
                                 'options' => [
                                     'class' =>'form-group kv-fieldset-inline'
                                 ],

@@ -64,7 +64,7 @@ class OptionBase extends \app\models\base\BaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'text' => Yii::t('app', 'Text'),
+            'text' => Yii::t('app', 'Option'),
             'poll_id' => Yii::t('app', 'Poll ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
