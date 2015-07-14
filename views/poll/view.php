@@ -7,6 +7,7 @@ use yii\data\ArrayDataProvider;
 use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
 use app\models\Code;
+use yii\bootstrap\Modal;
 
 
 /**
@@ -82,7 +83,17 @@ $this->params['breadcrumbs'][] = $this->title;
         echo Html::beginTag('p');
         echo Html::a('Edit Members', ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
         echo '&nbsp;';
-        echo Html::a('Send Email', ["poll/$model->id/members/email"], ['class' => 'btn btn-warning']);
+
+
+        Modal::begin([
+            'header' => Html::tag('h2', 'Send Email'),
+            'toggleButton' => ['label' => 'Send Email', 'class' => 'btn btn-warning'],
+        ]);
+
+        echo $this->render('_email_form', ['model' => $model]);
+
+        Modal::end();
+
         echo Html::endTag('p');
         echo GridView::widget([
             'dataProvider' => $memberDataProvider,
@@ -128,6 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
     }
     ?>
+
     <?php
     //echo $this->render('_options_view', ['model'=>$model]);
     ?>
