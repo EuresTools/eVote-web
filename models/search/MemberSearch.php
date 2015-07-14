@@ -39,8 +39,8 @@ class MemberSearch extends Member
     {
         $query = Member::find();
         $query->poll_id($this->poll_id);
-        //$query->with('codes.vote');
-        $query->joinWith(['codes.vote']);
+        $query->with('codes.vote');
+        //$query->joinWith(['codes.vote']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

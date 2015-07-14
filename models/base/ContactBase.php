@@ -43,7 +43,7 @@ class ContactBase extends \app\models\base\BaseModel
     public function rules()
     {
         return [
-            [['email', 'member_id'], 'required'],
+            [['email'], 'required'],
             [['email'], 'email'],
             [['member_id', 'created_by', 'updated_by'], 'integer'],
             [['name', 'email'], 'string', 'max' => 255]
@@ -52,7 +52,7 @@ class ContactBase extends \app\models\base\BaseModel
 
     public function scenarios() {
         return [
-            'default' => ['email', '!member_id'],
+            'default' => ['name', 'email', '!member_id'],
         ];
     }
 

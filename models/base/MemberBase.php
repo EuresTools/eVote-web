@@ -87,11 +87,11 @@ class MemberBase extends \app\models\base\BaseModel
     {
         if(parent::beforeDelete()) {
             Contact::deleteAll('member_id = :member_id', [':member_id' => $this->id]);
-            //foreach ($this->contacts as $contact) {
-                //if ($contact->delete() === false) {
-                    //return false;
-                //}
-            //}
+            foreach ($this->codes as $code) {
+                if ($code->delete() === false) {
+                    return false;
+                }
+            }
             return true;
         }
         return false;

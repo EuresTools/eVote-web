@@ -13,11 +13,11 @@ use kartik\datecontrol\DateControl;
 ?>
 <div class="member-form">
 <?php 
-    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_HORIZONTAL]);
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]);
     echo Form::widget([
     'model' => $model,
     'form' => $form,
-    'columns' => 1,
+    'columns' => 2,
     'attributes' => [
 
 'name'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Name...', 'maxlength'=>255]],
@@ -27,13 +27,12 @@ use kartik\datecontrol\DateControl;
     ]
     ]);
 
-    ?>
+    echo $this->render('_contact_form', ['model' => $model, 'modelContacts'=> $modelContacts, 'form' => $form]);
+?>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
         <?php 
         echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
         ?>
-        </div>
     </div>
 <?php 
 ActiveForm::end();

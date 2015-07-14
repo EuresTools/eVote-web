@@ -75,8 +75,17 @@ $this->params['breadcrumbs'][] = $this->title;
         return $a->code_status > $b->code_status;
     });
     echo GridView::widget([
+        'id' => 'member_contacts',
+        'pjax' => true,
         'dataProvider' => new ArrayDataProvider([
             'allModels' => $codes,
+            'key' => 'id',
+            'sort' => [
+                'attributes' => [
+                    'token',
+                    'code_status',
+                ],
+            ],
         ]),
         'columns' => [
             [
