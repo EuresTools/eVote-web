@@ -24,16 +24,16 @@ class QueryMemberTokenParamAuth extends AuthMethod
      */
     public function authenticate($user, $request, $response)
     {
-        $accessToken = $request->get($this->tokenParam);
-        if (is_string($accessToken)) {
-            $code = Code::findCodeByToken($accessToken, get_class($this));
+        $codeToken = $request->get($this->tokenParam);
+        if (is_string($codeToken)) {
+            $code = Code::findCodeByToken($codeToken, get_class($this));
             // check is is used maybe?
             if ($code !== null) {
                 //return new User();
                 return true;
             }
         }
-        if ($accessToken !== null) {
+        if ($codeToken !== null) {
             $this->handleFailure($response);
         }
 
