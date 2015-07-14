@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
+
 ?>
     <?php DynamicFormWidget::begin([
         'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
@@ -58,5 +59,18 @@ use wbraganca\dynamicform\DynamicFormWidget;
         </div>
     </div><!-- .panel -->
     <?php DynamicFormWidget::end(); ?>
-
 </div>
+<script type="text/javascript">
+<?php $this->beginBlock('JS_READY') ?>
+$(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
+    if (! confirm("Are you sure you want to delete this item?")) {
+        return false;
+    }
+    return true;
+});
+<?php $this->endBlock();
+?>
+</script>
+<?php
+yii\web\YiiAsset::register($this);
+$this->registerJs($this->blocks['JS_READY'], yii\web\View::POS_READY);
