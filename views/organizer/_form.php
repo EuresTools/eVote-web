@@ -15,12 +15,13 @@ use kartik\datecontrol\DateControl;
 <?php
     $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]);
     echo Form::widget([
-    'model' => $model,
-    'form' => $form,
-    'columns' => 1,
-    'attributes' => [
-'name'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Name...', 'maxlength'=>255]],
-    ]
+        'model' => $model,
+        'form' => $form,
+        'columns' => 1,
+        'attributes' => [
+            'name' => ['type'=> Form::INPUT_TEXT, 'options' => ['placeholder' => 'Enter Name...', 'maxlength' => 255]],
+            'email' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Enter Email...', 'maxlength' => 255]],
+        ],
     ]);
 
     ?>

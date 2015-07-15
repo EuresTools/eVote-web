@@ -11,6 +11,7 @@ use app\models\Poll;
 *
 * @property integer $id
 * @property string $name
+* @property string $email
 * @property string $created_at
 * @property string $updated_at
 * @property integer $created_by
@@ -42,7 +43,8 @@ class OrganizerBase extends \app\models\base\BaseModel
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'email'], 'required'],
+            [['email'], 'email'],
             [['created_by', 'updated_by'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique']
@@ -51,7 +53,7 @@ class OrganizerBase extends \app\models\base\BaseModel
 
     public function scenarios() {
         return [
-            'default' => ['name'],
+            'default' => ['name', 'email'],
         ];
     }
 
