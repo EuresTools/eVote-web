@@ -14,7 +14,6 @@ class EmailForm extends Model
     const EMAIL_TO_ALL = 0;
     const EMAIL_TO_UNUSED = 1;
     const EMAIL_TO_USED = 2;
-    const EMAIL_TO_INVALID = 3;
 
 
     public $subject;

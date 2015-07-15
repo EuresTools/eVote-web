@@ -29,25 +29,25 @@ $config = [
                 [
                     // PollSpecificUrlRule rule for links like /poll/poll_id/controller
                     // 'class' => 'app\components\UrlRules\PollSpecificUrlRule',
-                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote|email)>s',
                     'route' => '<controller>'
                 ],
                 [
                     // PollSpecificUrlRule rule for links like /poll/poll_id/controller/id
                     // 'class' => 'app\components\UrlRules\PollSpecificUrlRule',
-                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s/<id:\d+>',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote|email)>s/<id:\d+>',
                     'route' => '<controller>/view'
                 ],
                 [
                     // PollSpecificUrlRule rule for links like /poll/poll_id/controller/action
                     // 'class' => 'app\components\UrlRules\PollSpecificUrlRule',
-                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s/<action:[-a-zA-Z]*>',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote|email)>s/<action:[-a-zA-Z]*>',
                     'route' => '<controller>/<action>'
                 ],
                 [
                     // PollSpecificUrlRule rule for links like /poll/poll_id/controller/action/id
                     //'class' => 'app\components\UrlRules\PollSpecificUrlRule',
-                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote)>s/<action:[-a-zA-Z]*>/<id:\d+>',
+                    'pattern' =>'poll/<poll_id:\d+>/<controller:(member|code|vote|email)>s/<action:[-a-zA-Z]*>/<id:\d+>',
                     'route' => '<controller>/<action>'
                 ],
 

@@ -61,8 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'allModels' => $contacts,
         ]),
         'columns' => [
+            'email',
             'name',
-            'email'
         ],
     ]);
     ?>
@@ -91,15 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'token',
                 'contentOptions' => function($data) {
-                    if ($data->code_status === Code::CODE_STATUS_INVALID) {
-                        return ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated'];
-                    }
-                    else if ($data->code_status === Code::CODE_STATUS_UNUSED) {
-                        return ['class' => 'token-valid', 'title' => 'This code has not yet been used'];
-                    }
-                    else if ($data->code_status === Code::CODE_STATUS_USED) {
-                        return ['class' => 'token-used', 'title' => 'A vote has been submitted using this code'];
-                    }
+                    return $data->getHTMLOptions();
                 },
             ],
             [

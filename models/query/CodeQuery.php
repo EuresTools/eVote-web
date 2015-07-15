@@ -31,17 +31,17 @@ class CodeQuery extends ActiveQuery
 
 
     public function unused() {
-        $this->andWhere(['code_status' => Code::CODE_STATUS_UNUSED]);
+        $this->andWhere(['in', 'code_status', [Code::CODE_STATUS_UNUSED, Code::CODE_STATUS_INVALID_UNUSED]]);
         return $this;
     }
 
     public function used() {
-        $this->andWhere(['code_status' => Code::CODE_STATUS_USED]);
+        $this->andWhere(['in', 'code_status', [Code::CODE_STATUS_USED, Code::CODE_STATUS_INVALID_USED]]);
         return $this;
     }
 
     public function invalid() {
-        $this->andWhere(['code_status' => Code::CODE_STATUS_INVALID]);
+        $this->andWhere(['in', 'code_status', [Code::CODE_STATUS_INVALID_UNUSED,  Code::CODE_STATUS_INVALID_USED]]);
         return $this;
     }
 

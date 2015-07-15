@@ -81,6 +81,10 @@ class PollDependedController extends BaseController
         return $this->_poll_id;
     }
 
+    public function getPoll() {
+        return $this->_poll_model;
+    }
+
     /*
     public function getPollAlias()
     {

@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Poll;
 use app\models\Option;
+use app\models\Member;
+use app\models\Code;
 use app\models\search\PollSearch;
 use app\models\search\MemberSearch;
 use app\components\controllers\BaseController;
@@ -14,6 +16,7 @@ use yii\web\Response;
 use yii\widgets\ActiveForm;
 use app\components\base\Model;
 use yii\helpers\ArrayHelper;
+use app\models\forms\EmailForm;
 
 /**
  * PollController implements the CRUD actions for Poll model.
@@ -199,6 +202,7 @@ class PollController extends BaseController
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
+
 
     /**
      * Finds the Poll model based on its primary key value.

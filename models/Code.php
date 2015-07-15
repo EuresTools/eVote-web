@@ -7,7 +7,7 @@ use \app\models\query\CodeQuery;
 class Code extends \app\models\base\CodeBase
 {
     const CODE_STATUS_INVALID_USED = -2;
-    const CODE_STATUS_INVALID = -1;
+    const CODE_STATUS_INVALID_UNUSED = -1;
     const CODE_STATUS_UNUSED = 1;
     const CODE_STATUS_USED = 2;
 
@@ -62,6 +62,18 @@ class Code extends \app\models\base\CodeBase
     public static function findCodeByToken($token, $type = null)
     {
         return static::findOne(['token' => $token]);
+    }
+
+    public function getHTMLOptions() {
+        if (!$this->isValid()) {
+            return ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated'];
+        }
+        if (!$this->isUsed()) {
+            return ['class' => 'token-valid', 'title' => 'This voting code has not been used'];
+        }
+        if ($this->isUsed()) {
+            return ['class' => 'token-used', 'title' => 'A vote has been submitted using this voting code'];
+        }
     }
 
 }
