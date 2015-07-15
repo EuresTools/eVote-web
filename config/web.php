@@ -100,7 +100,7 @@ $config = [
             'admin/*', // add or remove allowed actions to this list
             'debug/*',
             'gii/*',
-            'user2/*',
+            '*',
         ]
     ],
     'params' => $params,
