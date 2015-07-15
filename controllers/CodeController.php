@@ -22,6 +22,7 @@ class CodeController extends BaseController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'invalidate' => ['post'],
                 ],
             ],
         ];
@@ -74,10 +75,11 @@ class CodeController extends BaseController
         //}
     }
 
-    public function actionInvalidate($id) {
+    public function actionInvalidate($id)
+    {
         $code = $this->findModel($id);
-        if($code->isValid()) {
-            if($code->isUsed()) {
+        if ($code->isValid()) {
+            if ($code->isUsed()) {
                 $code->code_status = Code::CODE_STATUS_INVALID_USED;
             } else {
                 $code->code_status = Code::CODE_STATUS_INVALID;

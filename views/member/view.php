@@ -122,12 +122,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'width:80px; text-align: center;'],
                 'header'=>'Actions',
-                'template' => '{mybutton}',
+                'template' => '{invalidate}',
                 'buttons' => [
-                    'mybutton' => function ($url, $model) {
+                    'invalidate' => function ($url, $model) {
                         if ($model->isValid()) {
                             return Html::a('<i class="glyphicon glyphicon-ban-circle"></i>', $url, [
-                                        'title' => Yii::t('app', 'Invalidate'),
+                                'title' => Yii::t('app', 'Invalidate'),
+                                'data-pjax'=>'member_contacts',
+                                'data-confirm' => Yii::t('yii', 'Are you sure you want to Invalidate this Code?'),
+                                'data-method' => 'post',
+                                'data-pjax'=>'member_contacts',
                             ]);
                         } else {
                             return Html::tag('span', '', ['class' => 'glyphicon glyphicon-ban-circle disabled']);
@@ -135,14 +139,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
-                    return $this->context->createUrl(['code/invalidate', 'id' => $model->id]);
+                    return $this->context->createUrl(['code/'.$action, 'id' => $key]);
                 },
             ],
         ],
     ]);
     echo Html::a(Yii::t('app', 'New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right']);
-
     ?>
-
-
 </div>
