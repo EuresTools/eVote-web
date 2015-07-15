@@ -22,6 +22,8 @@ class AppAsset extends AssetBundle
         'css/equal-height-columns.css',
     ];
     public $js = [
+        'js/bootbox.min.js',
+        'js/main.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
