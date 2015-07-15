@@ -1,6 +1,6 @@
 # eVote
 ## TODO
-* Add email field to organizer (to add to the `replyTo` field).
+* ~~Add email field to organizer (to add to the `replyTo` field).~~
 * Create email functionality.
 * Create API endpoints and actions.
 * Set up permissions/roles system.
