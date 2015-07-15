@@ -120,10 +120,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         if ($model->isValid()) {
                             return Html::a('<i class="glyphicon glyphicon-ban-circle"></i>', $url, [
                                 'title' => Yii::t('app', 'Invalidate'),
-                                'data-pjax'=>'member_contacts',
                                 'data-confirm' => Yii::t('yii', 'Are you sure you want to Invalidate this Code?'),
                                 'data-method' => 'post',
-                                'data-pjax'=>'member_contacts',
+                                'data-pjax'=>'0',
                             ]);
                         } else {
                             return Html::tag('span', '', ['class' => 'glyphicon glyphicon-ban-circle disabled']);
