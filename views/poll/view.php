@@ -8,6 +8,7 @@ use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
 use app\models\Code;
 use yii\bootstrap\Modal;
+use app\models\forms\EmailForm;
 
 
 /**
@@ -80,9 +81,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if ($memberDataProvider->getCount() >= 0) {
         echo Html::tag('h2', 'Members');
-        echo Html::beginTag('p');
+        //echo Html::beginTag('p');
         echo Html::a('Edit Members', ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
         echo '&nbsp;';
+        //echo Html::endTag('p');
 
 
         Modal::begin([
@@ -90,11 +92,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'toggleButton' => ['label' => 'Send Email', 'class' => 'btn btn-warning'],
         ]);
 
-        echo $this->render('_email_form', ['model' => $model]);
+        $emailForm = new EmailForm();
+        $emailForm->poll = $model;
+        echo $this->render('_email_form', ['model' => $emailForm]);
 
         Modal::end();
 
-        echo Html::endTag('p');
         echo GridView::widget([
             'dataProvider' => $memberDataProvider,
             'filterModel' => $memberSearchModel,
