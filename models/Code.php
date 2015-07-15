@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use \app\models\query\CodeQuery;
 
 class Code extends \app\models\base\CodeBase
@@ -43,10 +44,10 @@ class Code extends \app\models\base\CodeBase
         $code->member_id = $member_id;
         $code->poll_id = $poll_id;
         $length = 10;
-        $code->token = substr(str_shuffle(MD5(microtime())), 0, $length);//Yii::$app->getSecurity()->generateRandomString($length);
+        $code->token = Yii::$app->getSecurity()->generateRandomString($length);
         // Better safe than sorry, avoid collisions.
         while(!$code->validate(['token'])) {
-            $code->token = substr(str_shuffle(MD5(microtime())), 0, $length);
+            $code->token = Yii::$app->getSecurity()->generateRandomString($length);
         }
         return $code;
     }
