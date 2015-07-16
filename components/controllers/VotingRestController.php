@@ -21,11 +21,11 @@ class VotingRestController extends ActiveController
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::className(),
             'authMethods' => [
-                QueryMemberTokenParamAuth::className(), // login with url get parameter ?access_token=tokenvalue
+                QueryMemberTokenParamAuth::className(), // login with url get parameter ?token=tokenvalue
             ],
         ];
 
-        /*
+
         //set response header to application/json only
         $behaviors['contentNegotiator'] = [
                 'class' => ContentNegotiator::className(),
@@ -34,7 +34,7 @@ class VotingRestController extends ActiveController
         //            'application/xml' => Response::FORMAT_XML,
                 ],
         ];
-        */
+
         return $behaviors;
     }
 }
