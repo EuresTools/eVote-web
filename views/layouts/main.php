@@ -18,7 +18,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= $this->title ? Html::encode("eVote | $this->title") : 'eVote | Home' ?></title>
+    <title><?= $this->title ? Html::encode(Yii::$app->name." | $this->title") : (Yii::$app->name.' | Home') ?></title>
     <?php $this->head() ?>
 </head>
 <body>

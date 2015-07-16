@@ -4,7 +4,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 
 NavBar::begin([
-    'brandLabel' => 'eVote',
+    'brandLabel' => Yii::$app->name,
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',

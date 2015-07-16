@@ -10,6 +10,7 @@ $config = [
     'bootstrap' => ['log'],
     'layout'=>'default',
     'defaultRoute' => 'vote/index',
+    'name'=>'eVote',
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager' 'yii\rbac\PhpManager'

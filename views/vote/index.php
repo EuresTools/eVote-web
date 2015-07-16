@@ -6,12 +6,13 @@ use yii\bootstrap\ActiveForm;
 // use kartik\widgets\ActiveForm;
 // use kartik\builder\Form;
 
-$this->title = 'E-Vote Start';
+
+$this->title = 'Voting';
 ?>
 <div class="vote-index">
 
     <div class="jumbotron">
-        <h1>E-Vote</h1>
+        <h1><?= Yii::$app->name ?></h1>
         <p class="lead">Please fill in your code in the form below to start voting!</p>
     </div>
 
@@ -21,7 +22,7 @@ $this->title = 'E-Vote Start';
             <!--
             <h1 class="text-center token-title">Please fill in your code in the form below to start voting</h1>
             -->
-                <div class="account-wall">
+                <div class="login-box">
                     <div class="col-lg-12">
                     <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
 

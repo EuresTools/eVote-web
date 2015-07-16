@@ -13,12 +13,13 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
+class VotingAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/voting.css',
         'css/equal-height-columns.css',
     ];
     public $js = [
