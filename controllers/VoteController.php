@@ -21,6 +21,8 @@ use yii\helpers\ArrayHelper;
 class VoteController extends BaseController
 {
 
+    public $layout = 'voting';
+
     public function behaviors()
     {
         return [

@@ -8,6 +8,7 @@ $config = [
     'id' => 'eVote',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'layout'=>'default',
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager' 'yii\rbac\PhpManager'
