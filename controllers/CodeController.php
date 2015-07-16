@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Code;
+use app\models\Member;
 use app\models\search\CodeSearch;
 use app\components\controllers\BaseController;
 use yii\web\NotFoundHttpException;
@@ -62,17 +63,13 @@ class CodeController extends BaseController
      */
     public function actionCreate($poll_id, $member_id)
     {
-        Code::generateCode($poll_id, $member_id)->save();
+        $member = Member::findOne($member_id);
+        if($member && !$member->hasValidCode()) {
+            Code::generateCode($poll_id, $member_id)->save();
+        } else {
+            Yii::$app->getSession()->setFlash('error', 'This member already has a valid voting code');
+        }
         return $this->redirect(PollUrl::toRoute(['member/view', 'poll_id' => $poll_id, 'id' => $member_id]));
-        //$model = new Code;
-
-        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['view', 'id' => $model->id]);
-        //} else {
-            //return $this->render('create', [
-                //'model' => $model,
-            //]);
-        //}
     }
 
     public function actionInvalidate($id)
@@ -82,7 +79,7 @@ class CodeController extends BaseController
             if ($code->isUsed()) {
                 $code->code_status = Code::CODE_STATUS_INVALID_USED;
             } else {
-                $code->code_status = Code::CODE_STATUS_INVALID;
+                $code->code_status = Code::CODE_STATUS_INVALID_UNUSED;
             }
             $code->save();
         }

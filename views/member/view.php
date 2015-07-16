@@ -6,6 +6,8 @@ use app\components\helpers\PollUrl;
 use kartik\grid\GridView;
 use yii\data\ArrayDataProvider;
 use app\models\Code;
+use kartik\widgets\AlertBlock;
+use kartik\widgets\Alert;
 
 /**
  * @var yii\web\View $this
@@ -19,6 +21,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Members'), 'url' => 
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+
+
 <div class="member-view">
     <div class="page-header">
         <h1><?= Html::encode($this->title) ?></h1>
@@ -67,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
 
+    
 
     <?= Html::tag('h2', 'Voting Codes') ?>
     <?
@@ -135,6 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]);
-    echo Html::a(Yii::t('app', 'New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right']);
+    echo Html::a(Yii::t('app', 'New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right', 'onclick' => "alert('test');"]);
     ?>
 </div>
+

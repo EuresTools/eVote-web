@@ -31,4 +31,13 @@ class Member extends \app\models\base\MemberBase
         return array_merge(parent::rules(), [
         ]);
     }
+
+    public function hasValidCode() {
+        foreach ($this->codes as $code) {
+            if ($code->isValid()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

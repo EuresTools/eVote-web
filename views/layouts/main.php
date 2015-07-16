@@ -4,6 +4,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use kartik\widgets\AlertBlock;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -21,6 +22,14 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+
+<?php
+    echo AlertBlock::widget([
+        'useSessionFlash' => true,
+        'type' => AlertBlock::TYPE_GROWL,
+        'delay' => false, // Don't automatically disappear.
+    ]);
+?>
 
 <?php $this->beginBody() ?>
     <div class="wrap">
