@@ -3,6 +3,7 @@ namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
+use app\models\Code;
 
 class TokenInputForm extends Model
 {
@@ -26,6 +27,12 @@ class TokenInputForm extends Model
             if (!$code) {
                 $this->addError($attribute, 'Incorrect token or token already used.');
             }
+            if ($code->isUsed()) {
+                $this->addError($attribute, 'Token was already used to vote.');
+            }
+            if (!$code->isValid()) {
+                $this->addError($attribute, 'Incorrect token or token already used.');
+            }
         }
     }
 
@@ -34,8 +41,6 @@ class TokenInputForm extends Model
         if ($this->_code === false) {
             $this->_code = Code::findCodeByToken($this->token);
         }
-
         return $this->_code;
     }
-
 }

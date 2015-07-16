@@ -47,10 +47,19 @@ class VoteController extends BaseController
      * Lists all Poll models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($token = null)
     {
         $model = new TokenInputForm();
-        if ($model->load(Yii::$app->request->post())) {
+        if (!empty($token)) {
+            $model->token = Yii::$app->request->get('token');
+            //$model->token = $token;
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            // try {
+            //     findCode($id)
+            // } catch (Exception $e) {
+
+            // }
             echo 'success';
             //return $this->goBack();
         } else {
