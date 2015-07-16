@@ -33,9 +33,16 @@ class PollController extends VotingRestController
         if(!$code || !$code->isValid() || $code->isUsed()) {
             return ['success' => false, 'error' => 'Invalid voting code'];
         }
-        $poll = $code->getPoll()->with(['options' => function($q) {
-            $q->select(['id', 'text']);
-        }])->select(['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'])->asArray()->one();
-        return $poll;
+
+        $poll = $code->getPoll()->with(['options', 'organizer'])->one();
+        $options = $poll->getOptions()->all();
+        $organizer = $poll->getOrganizer()->one();
+        $pollFields = ['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'];
+
+        $json = ArrayHelper::merge($poll->toArray($pollFields), ['options' => ArrayHelper::getColumn($options, function($option) {
+            $optionFields = ['id', 'text'];
+            return $option->toArray($optionFields);
+        }), 'organizer' => $organizer->toArray(['name', 'email'])]);
+        return $json;
     }
 }
