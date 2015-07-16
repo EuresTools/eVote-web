@@ -38,3 +38,6 @@ protected/data/*.db
 themes/classic/views/
 composer.lock
 _save/
+
+# Vim
+*.swp

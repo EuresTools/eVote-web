@@ -4,7 +4,9 @@ namespace app\modules\rest\versions\v1\controllers;
 
 use Yii;
 use app\models\Poll;
+use app\models\Code;
 use app\components\controllers\VotingRestController;
+use yii\helpers\ArrayHelper;
 
 class PollController extends VotingRestController
 {
@@ -23,7 +25,17 @@ class PollController extends VotingRestController
         ];
         //return $items;
         return $test;
+    }
 
-
+    public function actionGet() {
+        $token = Yii::$app->request->get('token'); // Better way to get this?
+        $code = Code::findCodeByToken($token);
+        if(!$code || !$code->isValid() || $code->isUsed()) {
+            return ['success' => false, 'error' => 'Invalid voting code'];
+        }
+        $poll = $code->getPoll()->with(['options' => function($q) {
+            $q->select(['id', 'text']);
+        }])->select(['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'])->asArray()->one();
+        return $poll;
     }
 }
