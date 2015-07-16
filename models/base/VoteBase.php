@@ -5,6 +5,7 @@ namespace app\models\base;
 use Yii;
 use app\models\User;
 use app\models\Code;
+use app\models\Option;
 use app\models\VoteOption;
 
 /**
@@ -97,8 +98,12 @@ class VoteBase extends \app\models\base\BaseModel
     /**
     * @return \yii\db\ActiveQuery
     */
-    public function getVoteOptions()
-    {
-        return $this->hasMany(VoteOption::className(), ['vote_id' => 'id']);
+    //public function getVoteOptions()
+    //{
+        //return $this->hasMany(VoteOption::className(), ['vote_id' => 'id']);
+    //}
+
+    public function getOptions() {
+        return $this->hasMany(Option::className(), ['id' => 'option_id'])->viaTable('vote_option', ['vote_id' => 'id']);
     }
 }

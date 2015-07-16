@@ -30,8 +30,11 @@ class PollController extends VotingRestController
     public function actionGet() {
         $token = Yii::$app->request->get('token'); // Better way to get this?
         $code = Code::findCodeByToken($token);
-        if(!$code || !$code->isValid() || $code->isUsed()) {
-            return ['success' => false, 'error' => 'Invalid voting code'];
+        if(!$code || !$code->isValid()) {
+            return ['success' => false, 'error' => ['message' => 'Invalid voting code']];
+        }
+        else if ($code->isUsed()) {
+            return ['success' => false, 'error' => ['message' => 'This voting code has already been used']];
         }
 
         $poll = $code->getPoll()->with(['options', 'organizer'])->one();
@@ -43,6 +46,6 @@ class PollController extends VotingRestController
             $optionFields = ['id', 'text'];
             return $option->toArray($optionFields);
         }), 'organizer' => $organizer->toArray(['name', 'email'])]);
-        return $json;
+        return ['success' => true, 'data' => $json];
     }
 }
