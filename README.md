@@ -1,8 +1,11 @@
 # eVote
 ## TODO
 * ~~Add email field to organizer (to add to the `replyTo` field).~~
-* Create email functionality.
-* Create API endpoints and actions.
+* ~~Create email functionality.~~
+* Create email template stuff.
+* ~~Create API endpoints and actions.~~
+* Make sure datetime is handled correctly (timezone madness).
+* Restrict access to voting based on poll start and end times.
 * Set up permissions/roles system.
 * Create voting page.
 * Create views that display current poll status/results.
