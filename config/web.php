@@ -9,6 +9,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'layout'=>'default',
+    'defaultRoute' => 'vote/index',
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager' 'yii\rbac\PhpManager'
@@ -18,7 +19,7 @@ $config = [
             'showScriptName' => false,
             // 'enableStrictParsing' => true,
             'rules' => [
-                '/' => 'site/index',
+                //'/' => 'site/index', // must be removed otherwise the defaultRoute wouldn't work
 
                 /*
                 'poll/<poll_id:\d+>/members' => 'member/index',
