@@ -58,6 +58,11 @@ class VoteController extends VotingRestController
                 return ['success' => false, 'error' => ['message' => 'Something went wrong']];
             }
         }
+        $code->code_status = Code::CODE_STATUS_USED;
+        if (!$code->save()) {
+            $transaction->rollBack();
+            return ['success' => false, 'error' => ['message' => 'Something went wrong']];
+        }
         $transaction->commit();
         return ['success' => true, 'data' => $data];
     }
