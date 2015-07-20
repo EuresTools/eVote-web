@@ -20,6 +20,7 @@ class VotingAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/voting.css',
+        'css/guests.css',
         'css/equal-height-columns.css',
     ];
     public $js = [

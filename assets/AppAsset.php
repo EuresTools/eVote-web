@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/voting.css',
         'css/equal-height-columns.css',
     ];
     public $js = [
