@@ -3,11 +3,15 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use app\assets\AppAsset;
 use app\assets\VotingAsset;
 use kartik\widgets\AlertBlock;
 
-VotingAsset::register($this);
-
+if (Yii::$app->user->isGuest) {
+    VotingAsset::register($this);
+} else {
+    AppAsset::register($this);
+}
 $this->beginContent('@app/views/layouts/main.php'); ?>
 <div class="wrap">
     <?php
