@@ -39,37 +39,48 @@ class Code extends \app\models\base\CodeBase
         ]);
     }
 
-    public static function generateCode($poll_id, $member_id) {
+    public static function generateCode($poll_id, $member_id)
+    {
         $code = new Code();
         $code->member_id = $member_id;
         $code->poll_id = $poll_id;
         $length = 10;
         $code->token = Yii::$app->getSecurity()->generateRandomString($length);
         // Better safe than sorry, avoid collisions.
-        while(!$code->validate(['token'])) {
+        while (!$code->validate(['token'])) {
             $code->token = Yii::$app->getSecurity()->generateRandomString($length);
         }
         return $code;
     }
 
-    public function isValid() {
+    public function isValid()
+    {
         return in_array($this->code_status, [self::CODE_STATUS_UNUSED, self::CODE_STATUS_USED]);
     }
 
-    public function isUsed() {
+    public function isUsed()
+    {
         return in_array($this->code_status, [self::CODE_STATUS_USED, self::CODE_STATUS_INVALID_USED]);
     }
 
-    public function isNotUsed() {
+    public function isNotUsed()
+    {
         return in_array($this->code_status, [self::CODE_STATUS_UNUSED, self::CODE_STATUS_INVALID_UNUSED]);
     }
+
+    public function isInValid()
+    {
+        return in_array($this->code_status, [self::CODE_STATUS_INVALID_USED, self::CODE_STATUS_INVALID_UNUSED]);
+    }
+
 
     public static function findCodeByToken($token, $type = null)
     {
         return static::findOne(['token' => $token]);
     }
 
-    public function getHTMLOptions() {
+    public function getHTMLOptions()
+    {
         if (!$this->isValid()) {
             return ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated'];
         }
@@ -81,4 +92,21 @@ class Code extends \app\models\base\CodeBase
         }
     }
 
+    /*
+    check code if code can be used for submission
+    returns false for already used and disabled codes.
+    sets the error message on the attribute token
+     */
+    public function checkCode()
+    {
+        if ($this->isInValid()) {
+            $this->addError('token', 'Invalid voting code');
+            return false;
+        }
+        if ($this->isUsed()) {
+            $this->addError('token', 'This voting code has already been used');
+            return false;
+        }
+        return true;
+    }
 }

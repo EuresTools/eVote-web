@@ -24,32 +24,13 @@ $this->title = 'Voting';
             -->
                 <div class="login-box">
                     <div class="col-lg-12">
-                    <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
-
+                    <center style="margin: 15px 0;">
+                        <span aria-hidden="true" class="glyphicon glyphicon-lock " style="font-size: 50px; color:lightgrey;"></span>
+                    </center>
                     </div>
-
-                        <!--
-                        <span class="glyphicon glyphicon-log-in"></span>
-                        -->
                     <?php
-                        /*
-                        $form = ActiveForm::begin([
-                            'id' => 'token-input-form',
-                            'type'=>ActiveForm::TYPE_VERTICAL
-                        ]);
-
-
-                        echo Form::widget([
-                        'model' => $model,
-                        'form' => $form,
-                        'columns' => 1,
-                        'attributes' => [
-                    'token'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=> Yii::t('app', 'Please enter your token'), 'maxlength'=>255]],
-                            ]
-                        ]);
-
-                        */
-
+                    // glyphicon-tag or  glyphicon-lock  or glyphicon-log-in ?
+                    //<img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
                     $form = ActiveForm::begin([
                         'id' => 'token-input-form',
                         'options' => ['class' => 'form-vertical'],
