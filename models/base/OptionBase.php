@@ -115,4 +115,18 @@ class OptionBase extends \app\models\base\BaseModel
     {
         return $this->getVotes()->count();
     }
+
+    public function getValidVotes()
+    {
+        return $this->getVotes()->joinwith([
+            'code' => function ($query) {
+                $query->valid()->used();
+            }
+        ]);
+    }
+
+    public function getValidVotesCount()
+    {
+        return $this->getValidVotes()->count();
+    }
 }
