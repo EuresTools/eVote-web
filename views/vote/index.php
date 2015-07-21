@@ -1,19 +1,17 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
-
 
 // use kartik\widgets\ActiveForm;
 // use kartik\builder\Form;
-
-
 $this->title = 'Voting';
 ?>
 <div class="vote-index">
 
     <div class="jumbotron">
         <h1><?= Yii::$app->name ?></h1>
-        <p class="lead">Please fill in your code in the form below to start voting!</p>
+        <p class="lead">Please fill in your token in the form below to start voting!</p>
     </div>
 
     <div class="body-content">
@@ -54,10 +52,12 @@ $this->title = 'Voting';
                             <?= Html::submitButton('Submit', ['class' => 'btn btn-lg btn-block btn-success', 'name' => 'token-input-button']) ?>
                         </div>
                     </div>
-                    <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                    <a href="<?=Url::to('site/contact')?>" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
                     <?php ActiveForm::end(); ?>
                 </div> <!--account-wall end -->
-                <a href="#" class="text-center login-account">Login with an account?</a>
+                <? if (Yii::$app->user->isGuest): ?>
+                <a href="<?=Url::to('site/login')?>" class="text-center login-account">Login with an account?</a>
+                <? endif;?>
             </div>
         </div>
     </div>
