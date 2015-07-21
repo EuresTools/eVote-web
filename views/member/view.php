@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
 
-    
+
 
     <?= Html::tag('h2', 'Voting Codes') ?>
     <?
@@ -140,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]);
-    echo Html::a(Yii::t('app', 'New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right', 'onclick' => "alert('test');"]);
+    echo Html::a(Yii::t('app', 'New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right', 'data-confirm'=>'Are you sure you want to create a new code?']);
     ?>
 </div>
 
