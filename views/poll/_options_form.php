@@ -64,7 +64,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 <script type="text/javascript">
 <?php $this->beginBlock('JS_READY') ?>
 $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
-    if (! yii.confirm("Are you sure you want to delete this item?")) {
+    if (! confirm("Are you sure you want to delete this item?")) {
         return false;
     }
     return true;
