@@ -14,10 +14,10 @@ if (count($options) > 0) {
         'columns' => [
             [
                 'attribute' => 'text',
-                'format' => 'raw',
-                'value' => function ($data) {
-                    return Html::a(Html::encode($data->text), ['option/view', 'id' => $data->id]);
-                }
+                // 'format' => 'raw',
+                // 'value' => function ($data) {
+                //     return Html::a(Html::encode($data->text), ['option/view', 'id' => $data->id]);
+                // }
             ],
             /*
             [
@@ -25,13 +25,8 @@ if (count($options) > 0) {
                 'format' => 'raw',
                 'value' => function ($data) {
                     $votes = $data->votes;
-                    // Display the invalid tokens before the valid ones.
-                    // usort($codes, function ($a, $b) {
-                    //     return $a->code_status > $b->code_status;
-                    // });
                     $str = Html::beginTag('ul', ['class' => 'list-unstyled']);
                     foreach ($votes as $vote) {
-                        //$options = $vote->getHTMLOptions();
                         $options = [];
                         $str .= Html::tag('li', Html::tag('span', $vote, $options));
                     }
