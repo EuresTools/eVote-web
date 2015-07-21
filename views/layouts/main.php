@@ -15,7 +15,26 @@ AppAsset::register($this);
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <meta name="Vanish" content="app-id=992815164, affiliate-data=myAffiliateData, app-argument=evote://">
+    <?php
+    if ($this->context->id==='vote' && Yii::$app->params['itunes-app-id']) {
+            $token = Yii::$app->request->get('token');
+            $itunes_content= "app-id=".Yii::$app->params['itunes-app-id'];
+            $itunes_content.= " app-argument=".Yii::t('app', Yii::$app->params['itunes-app-argument'], ['token' => $token]);
+            $this->registerMetaTag(['name' => 'apple-itunes-app', 'content' => $itunes_content]);
+
+        /*
+        if (Yii::$app->request->get('token')) {
+            // add meta link with token
+            $this->registerMetaTag(['name' => 'apple-itunes-app', 'content' => 'This is my cool website made with Yii!']);
+        } else {
+            // add meta link without token
+            $this->registerMetaTag(['name' => 'apple-itunes-app', 'content' => 'This is my cool website made with Yii!']);
+
+            <meta name="apple-itunes-app" content="app-id=992815164,  app-argument=evote://">
+        }
+        */
+    }
+    ?>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
