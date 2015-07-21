@@ -106,7 +106,13 @@ class OptionBase extends \app\models\base\BaseModel
         //return $this->hasMany(VoteOption::className(), ['option_id' => 'id']);
     //}
 
-    public function getVotes() {
+    public function getVotes()
+    {
         return $this->hasMany(Vote::className(), ['id' => 'vote_id'])->viaTable('vote_option', ['option_id' => 'id']);
+    }
+
+    public function getVotesCount()
+    {
+        return $this->getVotes()->count();
     }
 }
