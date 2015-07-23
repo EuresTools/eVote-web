@@ -64,6 +64,12 @@ class VoteController extends VotingRestController
             return ['success' => false, 'error' => ['message' => 'Something went wrong']];
         }
         $transaction->commit();
+
+        // Log the vote in the vote log file.
+        $arrayString = implode(", ", $optionIDs);
+        $arrayString = "[$arrayString]";
+        Yii::info("$code->token $arrayString", 'vote');
+
         return ['success' => true, 'data' => $data];
     }
 }

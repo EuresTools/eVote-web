@@ -68,6 +68,14 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['vote'],
+                    'exportInterval' => 1,
+                    'logFile' => '@app/runtime/logs/votes/votes.log',
+                    'logVars' => [],
+                ],
 
             ],
         ],
