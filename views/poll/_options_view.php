@@ -49,7 +49,22 @@ if (count($options) > 0) {
                     return $str;
                 }
             ],
-            'validVotesCount'
+            [
+                'attribute' => 'validVotesCount',
+                'header' => 'Votes to this option',
+            ],
+            [
+                'attribute' => 'poll.usedCodesCount',
+                'header' => 'Total Votes Received',
+            ],
+            [
+                'attribute' => 'poll.unusedCodesCount',
+                'header' => 'Total Votes not Submitted',
+            ],
+            [
+                'attribute' => 'poll.validCodesCount',
+                'header' => 'Total Codes sent',
+            ],
         ],
     ]);
 }

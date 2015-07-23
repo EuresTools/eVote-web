@@ -184,4 +184,36 @@ class PollBase extends \app\models\base\BaseModel
     {
         return $this->getUsedCodes()->count();
     }
+
+    /*
+    returns only valid codes
+     */
+    public function getValidCodes()
+    {
+        return $this->getCodes()->valid();
+    }
+
+    /*
+    returns count of valid codes
+    */
+    public function getValidCodesCount()
+    {
+        return $this->getValidCodes()->count();
+    }
+
+    /*
+    returns only unused codes (only valid ones)
+     */
+    public function getUnusedCodes()
+    {
+        return $this->getCodes()->unused()->valid();
+    }
+
+    /*
+    returns count of valid codes (only valid ones)
+    */
+    public function getUnusedCodesCount()
+    {
+        return $this->getUnusedCodes()->count();
+    }
 }
