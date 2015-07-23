@@ -167,4 +167,21 @@ class PollBase extends \app\models\base\BaseModel
     {
         return $this->hasOne(Organizer::className(), ['id' => 'organizer_id']);
     }
+
+    /*
+    returns only used codes (only valid ones)
+     */
+    public function getUsedCodes()
+    {
+        return $this->getCodes()->used()->valid();
+    }
+
+    /*
+    returns count of used codes (only valid ones)
+    we could also say total votes count
+     */
+    public function getUsedCodesCount()
+    {
+        return $this->getUsedCodes()->count();
+    }
 }
