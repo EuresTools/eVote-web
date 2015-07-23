@@ -54,6 +54,19 @@ if (count($options) > 0) {
                 'header' => 'Votes to this option',
             ],
             [
+                'header' => 'Votes to this option in percent',
+                'format' => ['percent', '2'],
+                'value' => function ($data) {
+                    $used_count = $data->poll->getUsedCodesCount();
+                    $votes_count = $data->getValidVotesCount();
+
+                    if ($used_count > 0) {
+                        return 100 / $used_count * $votes_count / 100;
+                    };
+
+                }
+            ],
+            [
                 'attribute' => 'poll.usedCodesCount',
                 'header' => 'Total Votes Received',
             ],
@@ -65,6 +78,20 @@ if (count($options) > 0) {
                 'attribute' => 'poll.validCodesCount',
                 'header' => 'Total Codes sent',
             ],
+
+
+            [
+                'header' => 'Vote Acceptance',
+                'format' => ['percent', '2'],
+                'value' => function ($data) {
+                    $total_count = $data->poll->getValidCodesCount();
+                    $used_count = $data->poll->getUsedCodesCount();
+                    if ($total_count > 0) {
+                        return 100 / $total_count * $used_count / 100;
+                    };
+                }
+            ],
+
         ],
     ]);
 }
