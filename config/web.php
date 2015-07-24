@@ -5,13 +5,46 @@ use kartik\datecontrol\Module;
 $params = require(__DIR__ . '/params.php');
 
 $config = [
+    'sourceLanguage' => 'en',
+    'language' => 'en', //'de',
+    'timeZone'=> 'UTC',
+    //'timeZone'=> 'Europe/Berlin',
+
     'id' => 'eVote',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'name'=>'eVote',
+
     'layout'=>'default',
     'defaultRoute' => 'vote/index',
-    'name'=>'eVote',
+
+    'basePath' => dirname(__DIR__),
+    'bootstrap' => ['log'],
+
     'components' => [
+         'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+                'yii*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'yii' => 'yii.php',
+                    ],
+                ],
+            ],
+        ],
+        'formatter' => [
+            'defaultTimeZone' => 'UTC',
+            'timeZone' => 'Europe/Berlin',
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager' 'yii\rbac\PhpManager'
         ],
@@ -110,12 +143,37 @@ $config = [
     'modules' => [
         'datecontrol' => [
             'class' => 'kartik\datecontrol\Module',
+            'displaySettings' => [
+                // Module::FORMAT_DATE => 'd MMM, yyyy',
+                // Module::FORMAT_TIME => 'HH:mm a',
+                // Module::FORMAT_DATETIME => 'd MMMM, yyyy HH:mm', // 'dd-MM-yyyy HH:mm:ss a',
+            ],
+            'saveSettings' => [
+                Module::FORMAT_DATE => 'php:U', // saves as unix timestamp
+                Module::FORMAT_TIME => 'php:H:i:s',
+                Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
+            ],
+
+            // set your display timezone
+            'displayTimezone' => 'Europe/Berlin',
+
+            // set your timezone for date saved to db
+            'saveTimezone' => 'UTC', // save as UTC
+
+            'autoWidgetSettings' => [
+                Module::FORMAT_DATE => ['pluginOptions'=>['autoclose'=>true]], // example
+                Module::FORMAT_DATETIME =>  ['pluginOptions'=>['autoclose'=>true]],  // setup if needed
+                Module::FORMAT_TIME => ['pluginOptions'=>['autoclose'=>true]], // setup if needed
+            ],
+
+            /*
             'widgetSettings' => [
                 'class' => 'yii\jui\DateTimePicker',
                 'displaySettings' => [
                     Module::FORMAT_DATETIME => 'd M, yyyy HH:mm',
                 ],
             ],
+            */
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
@@ -164,7 +222,6 @@ if (YII_ENV_DEV) {
         'levels' => ['trace','info'],
         'categories' => ['firebug'],
     ];
-
 }
 
 return $config;

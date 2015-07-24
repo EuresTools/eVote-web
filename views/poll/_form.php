@@ -24,7 +24,6 @@ use kartik\datecontrol\DateControl;
         ]
     ]);
 
-
     echo Form::widget([
         'model' => $model,
         'form' => $form,
@@ -37,8 +36,8 @@ use kartik\datecontrol\DateControl;
                 'widgetClass'=>DateControl::classname(),
                 'options' => [
                     'type'=>DateControl::FORMAT_DATETIME,
-                    'displayFormat' => 'd MMM, yyyy HH:mm',
-                    'saveFormat' => 'php:Y-m-d H:i:s',
+                    // 'displayFormat' => 'd MMM, yyyy HH:mm',
+                    // 'saveFormat' => 'php:Y-m-d H:i:s',
                 ],
             ],
             'end_time' => [
@@ -46,8 +45,8 @@ use kartik\datecontrol\DateControl;
                 'widgetClass' => DateControl::classname(),
                 'options' => [
                     'type'=>DateControl::FORMAT_DATETIME,
-                    'displayFormat' => 'd MMM, yyyy HH:mm',
-                    'saveFormat' => 'php:Y-m-d H:i:s',
+                    // 'displayFormat' => 'd MMM, yyyy HH:mm',
+                    // 'saveFormat' => 'php:Y-m-d H:i:s',
                 ],
             ],
         ],

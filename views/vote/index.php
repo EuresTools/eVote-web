@@ -11,7 +11,7 @@ $this->title = 'Voting';
 
     <div class="jumbotron">
         <h1><?= Yii::$app->name ?></h1>
-        <p class="lead">Please fill in your token in the form below to start voting!</p>
+        <p class="lead"><?=Yii::t('app','Please fill in your token in the form below to start voting!')?></p>
     </div>
 
     <div class="body-content">
