@@ -1,5 +1,4 @@
 <?php
-
 use kartik\datecontrol\Module;
 
 $params = require(__DIR__ . '/params.php');
@@ -17,7 +16,7 @@ $config = [
     'defaultRoute' => 'vote/index',
 
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','languageSwitcher'],
 
     'components' => [
          'i18n' => [
@@ -31,15 +30,18 @@ $config = [
                         'app/error' => 'error.php',
                     ],
                 ],
-                'yii*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages',
-                    'sourceLanguage' => 'en',
-                    'fileMap' => [
-                        'yii' => 'yii.php',
-                    ],
-                ],
+                // 'yii*' => [
+                //     'class' => 'yii\i18n\PhpMessageSource',
+                //     'basePath' => '@app/messages',
+                //     'sourceLanguage' => 'en',
+                //     'fileMap' => [
+                //         'yii' => 'yii.php',
+                //     ],
+                // ],
             ],
+        ],
+        'languageSwitcher' => [
+            'class' => 'app\components\languageSwitcher',
         ],
         'formatter' => [
             'defaultTimeZone' => 'UTC',
