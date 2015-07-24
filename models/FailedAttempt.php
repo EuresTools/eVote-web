@@ -25,7 +25,7 @@ class FailedAttempt extends ActiveRecord {
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'time',
                 'updatedAtAttribute' => 'time',
-                'value' => new Expression('NOW()'),
+                'value' => new Expression('UTC_TIMESTAMP()'),
             ],
         ];
     }
