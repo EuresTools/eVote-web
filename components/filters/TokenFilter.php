@@ -43,7 +43,7 @@ class TokenFilter extends ActionFilter {
         }
         else if ($code->isUsed()) {
             // The code has already been used.
-            $this->handleUsed();
+            $this->handleUsed($response);
             return false;
         }
         return true;
