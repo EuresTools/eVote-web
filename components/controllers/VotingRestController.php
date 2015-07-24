@@ -9,6 +9,7 @@ use yii\filters\ContentNegotiator;
 use yii\filters\auth\CompositeAuth;
 use yii\rest\ActiveController;
 use app\components\filters\TokenFilter;
+use app\components\filters\OpenPollFilter;
 //use app\components\filters\auth\QueryMemberTokenParamAuth;
 
 class VotingRestController extends ActiveController
@@ -38,6 +39,10 @@ class VotingRestController extends ActiveController
 
         $behaviors['tokenFilter'] = [
             'class' => TokenFilter::className(),
+        ];
+
+        $behaviors['openPollFilter'] = [
+            'class' => OpenPollFilter::className(),
         ];
 
         return $behaviors;
