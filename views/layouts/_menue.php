@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use app\components\languageSwitcher;
 
 NavBar::begin([
     'brandLabel' => Yii::$app->name,
@@ -27,8 +28,18 @@ if (Yii::$app->user->isGuest) {
         'linkOptions' => ['data-method' => 'post']];
 }
 
+echo languageSwitcher::Widget([
+    'options' => ['class' => 'navbar-nav navbar-left'],
+]);
+
+
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => $items,
 ]);
+
+
 NavBar::end();
+
+
+//echo ;
