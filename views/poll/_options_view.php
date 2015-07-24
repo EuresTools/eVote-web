@@ -67,6 +67,19 @@ if (count($options) > 0) {
                 }
             ],
             [
+                'header' => 'Votes to this option percentage to totally sent',
+                'format' => ['percent', '2'],
+                'value' => function ($data) {
+                    $total_count = $data->poll->getValidCodesCount();
+                    $votes_count = $data->getValidVotesCount();
+
+                    if ($total_count > 0) {
+                        return 100 / $total_count * $votes_count / 100;
+                    };
+
+                }
+            ],
+            [
                 'attribute' => 'poll.usedCodesCount',
                 'header' => 'Total Votes Received',
             ],
@@ -78,8 +91,6 @@ if (count($options) > 0) {
                 'attribute' => 'poll.validCodesCount',
                 'header' => 'Total Codes sent',
             ],
-
-
             [
                 'header' => 'Vote Acceptance',
                 'format' => ['percent', '2'],
@@ -91,7 +102,6 @@ if (count($options) > 0) {
                     };
                 }
             ],
-
         ],
     ]);
 }

@@ -8,7 +8,6 @@ use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
 use app\models\Code;
 
-
 /**
  * @var yii\web\View $this
  * @var app\models\Poll $model

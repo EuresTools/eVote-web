@@ -72,9 +72,12 @@ a.desc:after {
     content: "\e156";
 }
 
+/* removed*/
+/*
 .grid-view th {
     white-space: nowrap;
 }
+*/
 
 .hint-block {
     display: block;
