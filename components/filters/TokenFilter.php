@@ -63,12 +63,12 @@ class TokenFilter extends ActionFilter {
 
     private function handleNoToken($response) {
         $response->data = ['success' => false, 'error' => ['message' => 'No voting code provided.']];
-        $response->statusCode = 401;
+        //$response->statusCode = 401;
     }
 
     private function handleInvalid($request, $response) {
         $response->data = ['success' => false, 'error' => ['message' => 'Invalid voting code.']];
-        $response->statusCode = 403;
+        //$response->statusCode = 403;
 
         // Log the failed attempt in the database.
         $token = $request->get($this->tokenParam);
@@ -85,11 +85,11 @@ class TokenFilter extends ActionFilter {
 
     private function handleUsed($response) {
         $response->data = ['success' => false, 'error' => ['message' => 'This voting code has already been used.']];
-        $response->statusCode = 403;
+        //$response->statusCode = 403;
     }
 
     private function handleBlocked($response) {
         $response->data = ['success' => false, 'error' => ['message' => 'You have submitted too many invalid voting codes. Your IP address has been temporarily blocked.']];
-        $response->statusCode = 403;
+        //$response->statusCode = 403;
     }
 }
