@@ -5,7 +5,7 @@ namespace app\modules\rest\versions\v1\controllers;
 use Yii;
 use app\models\Poll;
 use app\models\Code;
-use app\components\controllers\VotingRestController;
+use app\modules\rest\controllers\VotingRestController;
 use yii\helpers\ArrayHelper;
 
 class PollController extends VotingRestController

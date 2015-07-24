@@ -6,7 +6,7 @@ use Yii;
 use app\models\Poll;
 use app\models\Code;
 use app\models\Vote;
-use app\components\controllers\VotingRestController;
+use app\modules\rest\controllers\VotingRestController;
 use yii\helpers\ArrayHelper;
 
 class VoteController extends VotingRestController
