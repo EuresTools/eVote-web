@@ -78,7 +78,6 @@ class MemberController extends PollDependedController
         $this->setPollAttributes($model);
         $modelContacts = [new Contact()];
 
-
         if ($model->load(Yii::$app->request->post())) {
             Model::loadMultiple($modelContacts, Yii::$app->request->post());
             // ajax validation
@@ -105,7 +104,7 @@ class MemberController extends PollDependedController
                             }
                         }
                     }
-                    if($flag) {
+                    if ($flag) {
                         $transaction->commit();
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
