@@ -31,8 +31,10 @@ $columns = [
         // 'updated_by',
 ];
 
+Pjax::begin();
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => $columns
 ]);
+Pjax::end();

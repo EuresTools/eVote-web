@@ -31,16 +31,42 @@ class EmailController extends PollDependedController {
             $poll = $this->getPoll();
             $organizer = $poll->organizer;
 
+            // Count successful and failed emails.
+            $success = 0;
+            $failure = 0;
+
             foreach($members as $member) {
-                Yii::$app->mailer->compose()
+                $subject = $this->resolveTags($email->subject, $member);
+                $message = $this->resolveTags($email->message, $member);
+                $mail = Yii::$app->mailer->compose()
                     ->setFrom([$organizer->email => $organizer->name])
                     ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
                     ->setReplyTo([$organizer->email => $organizer->name])
-                    ->setSubject($email->subject)
-                    ->setTextBody($email->message)
-                    ->send();
+                    ->setSubject($subject)
+                    ->setTextBody($message);
+
+                if ($mail->send()) {
+                    $success++;
+                } else {
+                    $failure++;
+                }
             }
         }
+        if ($success > 0) {
+            $emailString = $success === 1 ? 'email' : 'emails';
+            Yii::$app->getSession()->addFlash('success', "Successfully sent $success $emailString!");
+        }
+        if ($failure > 0) {
+            $emailString = $failure === 1 ? 'email' : 'emails';
+            Yii::$app->getSession()->addFlash('error', "Failed to send $failure $emailString.");
+        }
         return $this->redirect(['poll/view', 'id' => $poll->id]);
+    }
+
+    private function resolveTags($string, $member) {
+        $string = str_replace('<member-name>', $member->name, $string);
+        $string = str_replace('<member-group>', $member->group, $string);
+        $string = str_replace('<voting-code>', $member->getValidUnusedCode(), $string);
+        return $string;
     }
 }
