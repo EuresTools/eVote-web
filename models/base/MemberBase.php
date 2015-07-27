@@ -53,7 +53,8 @@ class MemberBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['name', 'group', '!poll_id'],
         ];

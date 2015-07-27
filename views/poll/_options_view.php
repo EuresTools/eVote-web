@@ -2,6 +2,7 @@
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+use app\models\Option;
 
 //$options = $model->getOptions()->with(['votes'])->all();
 $options = $model->getOptions()->all();
@@ -9,7 +10,7 @@ $dataProvider = new ArrayDataProvider([
     'allModels' => $options,
 ]);
 if (count($options) > 0) {
-    echo Html::tag('h2', 'Options');
+    echo Html::tag('h2', Option::label(2));
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -51,10 +52,10 @@ if (count($options) > 0) {
             ],
             [
                 'attribute' => 'validVotesCount',
-                'header' => 'Votes to this option',
+                'header' => Yii::t('app', 'Votes to this option'),
             ],
             [
-                'header' => 'Votes to this option in percent',
+                'header' => Yii::t('app', 'Votes to this option in percent'),
                 'format' => ['percent', '2'],
                 'value' => function ($data) {
                     $used_count = $data->poll->getUsedCodesCount();
@@ -67,7 +68,7 @@ if (count($options) > 0) {
                 }
             ],
             [
-                'header' => 'Votes to this option percentage to totally sent',
+                'header' => Yii::t('app', 'Votes to this option percentage to totally sent'),
                 'format' => ['percent', '2'],
                 'value' => function ($data) {
                     $total_count = $data->poll->getValidCodesCount();
@@ -81,18 +82,18 @@ if (count($options) > 0) {
             ],
             [
                 'attribute' => 'poll.usedCodesCount',
-                'header' => 'Total Votes Received',
+                'header' => Yii::t('app', 'Total Votes Received'),
             ],
             [
                 'attribute' => 'poll.unusedCodesCount',
-                'header' => 'Total Votes not Submitted',
+                'header' => Yii::t('app', 'Total Votes not Submitted'),
             ],
             [
                 'attribute' => 'poll.validCodesCount',
-                'header' => 'Total Codes sent',
+                'header' => Yii::t('app', 'Total Codes sent'),
             ],
             [
-                'header' => 'Vote Acceptance',
+                'header' => Yii::t('app', 'Vote Acceptance'),
                 'format' => ['percent', '2'],
                 'value' => function ($data) {
                     $total_count = $data->poll->getValidCodesCount();

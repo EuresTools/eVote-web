@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
+use app\models\Option;
 
 ?>
     <?php DynamicFormWidget::begin([
@@ -21,8 +22,8 @@ use wbraganca\dynamicform\DynamicFormWidget;
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4>
-                <i class="glyphicon glyphicon-list"></i> Options
-                <button type="button" class="add-item btn btn-success btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add</button>
+                <i class="glyphicon glyphicon-list"></i> <?= Option::label(2)?>
+                <button type="button" data-action="add-item" class="add-item btn btn-success btn-sm pull-right"><i class="glyphicon glyphicon-plus"></i> Add</button>
             </h4>
         </div>
         <div class="panel-body">
@@ -39,7 +40,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
                         echo $form->field($option, "[{$i}]text", [
                                 'addon' => [
                                     'append' => [
-                                        'content' => Html::button('<i class="glyphicon glyphicon-minus"></i>', ['class'=>'remove-item btn btn-danger']),
+                                        'content' => Html::a('<i class="glyphicon glyphicon-minus"></i>', '#', ['class'=>'remove-item btn btn-danger','data-action'=>'remove-item']),
                                         'asButton' => true,
                                     ],
                                 ],
@@ -63,12 +64,27 @@ use wbraganca\dynamicform\DynamicFormWidget;
 </div>
 <script type="text/javascript">
 <?php $this->beginBlock('JS_READY') ?>
+
 $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
     if (! confirm("Are you sure you want to delete this item?")) {
         return false;
     }
     return true;
 });
+
+
+/*
+$(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
+    var ok, cancel;
+    yii.confirm("Are you sure you want to delete this item?", ok, cancel);
+    if (ok) {
+        return true;
+    }
+    console.log('cancel');
+    return false;
+});
+*/
+
 <?php $this->endBlock();
 ?>
 </script>

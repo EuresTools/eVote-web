@@ -7,6 +7,7 @@ use yii\data\ArrayDataProvider;
 use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
 use app\models\Code;
+use app\models\Poll;
 
 /**
  * @var yii\web\View $this
@@ -14,7 +15,7 @@ use app\models\Code;
  */
 
 $this->title = $model->__toString();
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Polls'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Poll::label(2), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="poll-view">
@@ -44,14 +45,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
 
-    <?= Html::tag('h2', 'Poll'); ?>
+    <?= Html::tag('h2', Poll::label(1)); ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => $attributes,
     ]) ?>
 
 
-    <?= Html::tag('h2', 'About') ?>
+    <?= Html::tag('h2', Yii::t('app', 'About')) ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
