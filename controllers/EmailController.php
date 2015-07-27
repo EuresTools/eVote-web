@@ -35,18 +35,22 @@ class EmailController extends PollDependedController {
             $success = 0;
             $failure = 0;
 
-            foreach($members as $member) {
-                $subject = $this->resolveTags($email->subject, $member);
-                $message = $this->resolveTags($email->message, $member);
-                $mail = Yii::$app->mailer->compose()
-                    ->setFrom([$organizer->email => $organizer->name])
-                    ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
-                    ->setReplyTo([$organizer->email => $organizer->name])
-                    ->setSubject($subject)
-                    ->setTextBody($message);
+            foreach ($members as $member) {
+                if ($member->contacts) {
+                    $subject = $this->resolveTags($email->subject, $member);
+                    $message = $this->resolveTags($email->message, $member);
+                    $mail = Yii::$app->mailer->compose()
+                        ->setFrom([$organizer->email => $organizer->name])
+                        ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
+                        ->setReplyTo([$organizer->email => $organizer->name])
+                        ->setSubject($subject)
+                        ->setTextBody($message);
 
-                if ($mail->send()) {
-                    $success++;
+                    if ($mail->send()) {
+                        $success++;
+                    } else {
+                        $failure++;
+                    }
                 } else {
                     $failure++;
                 }
