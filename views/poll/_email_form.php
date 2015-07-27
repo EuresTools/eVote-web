@@ -8,6 +8,7 @@ use app\components\helpers\PollUrl;
 
 ?>
 
+<?= Html::tag('p', Html::encode('You can use the tags <member-name>, <member-group> and <voting-code> to customize your message for each member.')); ?>
 <div class="email-form">
 <?php
     $sendOptions = [

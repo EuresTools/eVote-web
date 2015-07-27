@@ -40,4 +40,8 @@ class Member extends \app\models\base\MemberBase
         }
         return false;
     }
+
+    public function getValidUnusedCode() {
+        return $this->getCodes()->valid()->unused()->one();
+    }
 }

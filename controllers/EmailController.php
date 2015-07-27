@@ -32,15 +32,24 @@ class EmailController extends PollDependedController {
             $organizer = $poll->organizer;
 
             foreach($members as $member) {
+                $subject = $this->resolveTags($email->subject, $member);
+                $message = $this->resolveTags($email->message, $member);
                 Yii::$app->mailer->compose()
                     ->setFrom([$organizer->email => $organizer->name])
                     ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
                     ->setReplyTo([$organizer->email => $organizer->name])
-                    ->setSubject($email->subject)
-                    ->setTextBody($email->message)
+                    ->setSubject($subject)
+                    ->setTextBody($message)
                     ->send();
             }
         }
         return $this->redirect(['poll/view', 'id' => $poll->id]);
+    }
+
+    private function resolveTags($string, $member) {
+        $string = str_replace('<member-name>', $member->name, $string);
+        $string = str_replace('<member-group>', $member->group, $string);
+        $string = str_replace('<voting-code>', $member->getValidUnusedCode(), $string);
+        return $string;
     }
 }
