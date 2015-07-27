@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 use yii\data\ArrayDataProvider;
 use yii\bootstrap\Modal;
 use app\models\forms\EmailForm;
@@ -26,6 +27,7 @@ if ($memberDataProvider->getCount() >= 0) {
 
     Modal::end();
 
+    Pjax::begin();
     echo GridView::widget([
         'dataProvider' => $memberDataProvider,
         'filterModel' => $memberSearchModel,
@@ -61,4 +63,5 @@ if ($memberDataProvider->getCount() >= 0) {
 
         ],
    ]);
+    Pjax::end();
 }

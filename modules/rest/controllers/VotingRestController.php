@@ -4,9 +4,7 @@ namespace app\modules\rest\controllers;
 
 use Yii;
 use yii\web\Response;
-use yii\helpers\ArrayHelper;
 use yii\filters\ContentNegotiator;
-use yii\filters\auth\CompositeAuth;
 use yii\rest\Controller;
 use app\components\filters\TokenFilter;
 use app\components\filters\OpenPollFilter;
