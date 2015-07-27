@@ -37,25 +37,14 @@ class languageSwitcher extends Nav
 
         parent::init();
 
-        $cookies = Yii::$app->response->cookies;
+        $cookies = Yii::$app->request->cookies;
+
         $languageNew = Yii::$app->request->get('language');
         if ($languageNew) {
             $this->setNewLanguage($languageNew);
-
-            /*
-            if (isset($this->languages[$languageNew])) {
-
-                $this->setNewLanguage($languageNew);
-
-                $cookies->add(new \yii\web\Cookie([
-                    'name' => 'language',
-                    'value' => $languageNew
-                ]));
-            }*/
         } elseif ($cookies->has('language')) {
             $this->setNewLanguage($cookies->getValue('language'));
         }
-
     }
 
     protected function setNewLanguage($languageNew)
@@ -77,8 +66,6 @@ class languageSwitcher extends Nav
     public function run()
     {
         $languages = $this->languages;
-
-
         //print_pre(Yii::$app->language,'default language');
 
         $current = $languages[Yii::$app->language];
