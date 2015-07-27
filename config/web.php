@@ -35,7 +35,7 @@ $config = [
                         'app/error' => 'error.php',
                     ],
                     // only for development
-                    'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
+                    //'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
                 ],
                 // 'yii*' => [
                 //     'class' => 'yii\i18n\PhpMessageSource',
