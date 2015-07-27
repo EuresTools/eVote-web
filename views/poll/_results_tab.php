@@ -9,6 +9,23 @@ $options = $model->getOptions()->all();
 $dataProvider = new ArrayDataProvider([
     'allModels' => $options,
 ]);
+
+?>
+
+<?php
+
+if ($model->isOver()) {
+    echo Html::tag('h2', 'Status: Finished', ['class' => 'status status-finished']);
+} else if ($model->isOpen()) {
+    echo Html::tag('h2', 'Status: Open', ['class' => 'status status-open']);
+} else {
+    echo Html::tag('h2', 'Status: Not Started', ['class' => 'status status-closed']);
+}
+
+?>
+
+<?php
+
 if (count($options) > 0) {
     echo Html::tag('h2', Option::label(2));
     echo GridView::widget([

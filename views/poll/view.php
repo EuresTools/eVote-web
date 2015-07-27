@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         [
             'label' => '<i class="glyphicon glyphicon-signal"></i> Results',
-            'content' => $this->render('_options_tab', ['model' => $model]),
+            'content' => $this->render('_results_tab', ['model' => $model]),
         ],
     ];
 
@@ -52,7 +52,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'encodeLabels' => false
     ]);
 
-
-    //echo $this->render('_options_view', ['model'=>$model]);
     ?>
 </div>

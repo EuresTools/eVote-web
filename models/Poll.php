@@ -49,4 +49,17 @@ class Poll extends \app\models\base\PollBase
             ],
          ]);
     }
+
+    public function isOver() {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $endTime = new \DateTime($this->end_time, new \DateTimeZone('UTC'));
+        return $now >= $endTime;
+    }
+
+    public function isOpen() {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $startTime = new \DateTime($this->start_time, new \DateTimeZone('UTC'));
+        $endTime = new \DateTime($this->end_time, new \DateTimeZone('UTC'));
+        return $now >= $startTime && $now < $endTime;
+    }
 }
