@@ -23,5 +23,5 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         'model' => $model,
         'modelOptions' => $modelOptions,
     ]) ?>
-
+    <?= $this->render('//system/leaving_prompt') ?>
 </div>

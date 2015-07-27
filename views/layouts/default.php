@@ -11,7 +11,7 @@ $this->beginContent('@app/views/layouts/main.php'); ?>
     <?php
     echo $this->render('@app/views/layouts/_menue');
     ?>
-    <div class="container">
+    <div class="container" id="content">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
