@@ -50,16 +50,12 @@ class languageSwitcher extends Nav
     protected function setNewLanguage($languageNew)
     {
         if (isset($this->languages[$languageNew])) {
-            if ($languageNew != Yii::$app->sourceLanguage) {
-                Yii::$app->language = $languageNew;
-                $cookies = Yii::$app->response->cookies;
-                $cookies->add(new \yii\web\Cookie([
-                    'name' => 'language',
-                    'value' => $languageNew
-                ]));
-            } else {
-                Yii::$app->language = Yii::$app->sourceLanguage;
-            }
+            Yii::$app->language = $languageNew;
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'language',
+                'value' => $languageNew
+            ]));
         }
     }
 
