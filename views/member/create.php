@@ -24,5 +24,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'modelContacts' => $modelContacts,
     ]) ?>
-
+    <?= $this->render('//system/leaving_prompt') ?>
 </div>
