@@ -8,12 +8,10 @@ use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
 
 if ($memberDataProvider->getCount() >= 0) {
-    echo Html::tag('h2', 'Members');
-    //echo Html::beginTag('p');
+    echo Html::tag('h2', Yii::t('app', 'Members'));
+    echo Html::beginTag('p');
     echo Html::a(Yii::t('app', 'Edit Members'), ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
     echo '&nbsp;';
-    //echo Html::endTag('p');
-
 
     Modal::begin([
         'header' => Html::tag('h2', Yii::t('app', 'Send Email')),
@@ -25,6 +23,7 @@ if ($memberDataProvider->getCount() >= 0) {
     echo $this->render('_email_form', ['model' => $emailForm, 'poll' => $model]);
 
     Modal::end();
+    echo Html::endTag('p');
 
     echo GridView::widget([
         'dataProvider' => $memberDataProvider,
@@ -39,6 +38,7 @@ if ($memberDataProvider->getCount() >= 0) {
                     return Html::a(Html::encode($data->name), PollUrl::toRoute(['member/view', 'id' => $data->id, 'poll_id' => $data->poll_id]));
                 }
             ],
+            'ContactsCount',
             [
                 'attribute' => 'code',
                 'label' => Yii::t('app', 'Voting Code'),

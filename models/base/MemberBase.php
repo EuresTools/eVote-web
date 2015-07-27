@@ -113,6 +113,12 @@ class MemberBase extends \app\models\base\BaseModel
         return $this->hasMany(Contact::className(), ['member_id' => 'id']);
     }
 
+
+    public function getContactsCount()
+    {
+        return $this->getContacts()->count();
+    }
+
     /**
     * @return \yii\db\ActiveQuery
     */
