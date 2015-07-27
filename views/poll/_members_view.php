@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
+use app\components\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\bootstrap\Modal;
 use app\models\forms\EmailForm;
@@ -11,14 +10,14 @@ use app\components\helpers\PollUrl;
 if ($memberDataProvider->getCount() >= 0) {
     echo Html::tag('h2', 'Members');
     //echo Html::beginTag('p');
-    echo Html::a('Edit Members', ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
+    echo Html::a(Yii::t('app', 'Edit Members'), ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
     echo '&nbsp;';
     //echo Html::endTag('p');
 
 
     Modal::begin([
-        'header' => Html::tag('h2', 'Send Email'),
-        'toggleButton' => ['label' => 'Send Email', 'class' => 'btn btn-warning'],
+        'header' => Html::tag('h2', Yii::t('app', 'Send Email')),
+        'toggleButton' => ['label' => Yii::t('app', 'Send Email'), 'class' => 'btn btn-warning'],
     ]);
 
     $emailForm = new EmailForm();
@@ -27,7 +26,6 @@ if ($memberDataProvider->getCount() >= 0) {
 
     Modal::end();
 
-    Pjax::begin();
     echo GridView::widget([
         'dataProvider' => $memberDataProvider,
         'filterModel' => $memberSearchModel,
@@ -43,7 +41,7 @@ if ($memberDataProvider->getCount() >= 0) {
             ],
             [
                 'attribute' => 'code',
-                'label' => 'Voting Code',
+                'label' => Yii::t('app', 'Voting Code'),
                 'format' => 'raw',
                 'value' => function ($data) {
                     $codes = $data->codes;
@@ -63,5 +61,4 @@ if ($memberDataProvider->getCount() >= 0) {
 
         ],
    ]);
-    Pjax::end();
 }
