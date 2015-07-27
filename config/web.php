@@ -4,8 +4,12 @@ use kartik\datecontrol\Module;
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'sourceLanguage' => 'en',
-    'language' => 'en', //'de',
+    'sourceLanguage' => 'en-GB',
+    'language' => 'en-GB',
+
+    // 'sourceLanguage' => 'en-US',
+    // 'language' => 'en-US', //'de',
+
     'timeZone'=> 'UTC',
     //'timeZone'=> 'Europe/Berlin',
 
@@ -16,10 +20,11 @@ $config = [
     'defaultRoute' => 'vote/index',
 
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log','languageSwitcher'],
+    'bootstrap' => ['log', 'languageSwitcher'],
 
     'components' => [
          'i18n' => [
+            'class' => 'app\components\I18N',
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',

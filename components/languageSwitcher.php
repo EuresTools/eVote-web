@@ -22,10 +22,11 @@ class languageSwitcher extends Nav
     public $type;
 
     public $languages = [
-        'en' => 'English',
-        'de' => 'German',
+        'en-GB' => 'English',
+        //'en-US'=>'American English',
+        'de-DE' => 'German',
         'fr' => 'French',
-        //'th' => 'Thai',
+//        'th' => 'Thai',
     ];
 
     public function init()
@@ -39,22 +40,47 @@ class languageSwitcher extends Nav
         $cookies = Yii::$app->response->cookies;
         $languageNew = Yii::$app->request->get('language');
         if ($languageNew) {
+            $this->setNewLanguage($languageNew);
+
+            /*
             if (isset($this->languages[$languageNew])) {
-                Yii::$app->language = $languageNew;
+
+                $this->setNewLanguage($languageNew);
+
                 $cookies->add(new \yii\web\Cookie([
                     'name' => 'language',
                     'value' => $languageNew
                 ]));
-            }
+            }*/
         } elseif ($cookies->has('language')) {
-            Yii::$app->language = $cookies->getValue('language');
+            $this->setNewLanguage($cookies->getValue('language'));
         }
 
+    }
+
+    protected function setNewLanguage($languageNew)
+    {
+        if (isset($this->languages[$languageNew])) {
+            if ($languageNew != Yii::$app->sourceLanguage) {
+                Yii::$app->language = $languageNew;
+                $cookies = Yii::$app->response->cookies;
+                $cookies->add(new \yii\web\Cookie([
+                    'name' => 'language',
+                    'value' => $languageNew
+                ]));
+            } else {
+                Yii::$app->language = Yii::$app->sourceLanguage;
+            }
+        }
     }
 
     public function run()
     {
         $languages = $this->languages;
+
+
+        //print_pre(Yii::$app->language,'default language');
+
         $current = $languages[Yii::$app->language];
         unset($languages[Yii::$app->language]);
 

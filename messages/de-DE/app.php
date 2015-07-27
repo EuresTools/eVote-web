@@ -17,7 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Are you sure you want to delete this item?' => '',
+    'Are you sure you want to delete this item?' => 'Sind sie sicher dass sie den Eintrag löschen wollen',
     'Auth Key' => '',
     'Code ID' => '',
     'Codes' => '',
@@ -43,10 +43,10 @@ return [
     'Organizers' => '',
     'Password Hash' => '',
     'Please enter your token' => '',
-    'Please fill in your token in the form below to start voting!' => '',
-    'Please fill with an option text' => '',
-    'Please select a maximum of {count} options' => '',
-    'Please select at least {count} options' => '',
+    'Please fill in your token in the form below to start voting!' => 'Bitte geben sie ihren Code in das unten stehende Feld ein um mit der Wahl zu beginnen!',
+    'Please fill with an option text' => 'Bitte geben sie den Optionstext ein',
+    'Please select a maximum of {count} options' => 'Bitte wählen sie maximal {count} Optionen aus',
+    'Please select at least {count} options' => 'Bitte wählen sie minumum {count} Optionen aus',
     'Poll ID' => '',
     'Polls' => '',
     'Question' => '',
