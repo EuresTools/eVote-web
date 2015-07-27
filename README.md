@@ -11,5 +11,5 @@
 * Create views that display current poll status/results.
 * ~~Add logging mechanism.~~
 * ~~Implement IP blocking mechanism.~~
-* Ajaxify a lot of tables.
+* ~~Ajaxify a lot of tables.~~
 * Make a lot of columns sortable.

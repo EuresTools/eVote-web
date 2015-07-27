@@ -12,9 +12,9 @@ use app\components\helpers\PollUrl;
 <div class="email-form">
 <?php
     $sendOptions = [
-        EmailForm::EMAIL_TO_ALL => 'All Members',
         EmailForm::EMAIL_TO_UNUSED => 'Members who haven\'t voted',
         EmailForm::EMAIL_TO_USED => 'Members who have already voted',
+        EmailForm::EMAIL_TO_ALL => 'All Members',
     ];
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL, 'action' => PollUrl::toRoute(['email/send', 'poll_id' => $poll->id])]);
     echo Form::widget([

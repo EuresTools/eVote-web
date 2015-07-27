@@ -7,7 +7,7 @@ class m150713_113925_alter_table_user_add_access_token_column extends Migration
 {
     public function up()
     {
-        $this->addColumn('user', 'access_token', Schema::TYPE_STRING . ' NOT NULL AFTER auth_key');
+        $this->addColumn('user', 'access_token', Schema::TYPE_STRING . ' AFTER auth_key');
     }
 
     public function down()
