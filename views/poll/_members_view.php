@@ -3,12 +3,13 @@ use yii\helpers\Html;
 use app\components\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\bootstrap\Modal;
+use app\models\Member;
 use app\models\forms\EmailForm;
 use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
 
 if ($memberDataProvider->getCount() >= 0) {
-    echo Html::tag('h2', Yii::t('app', 'Members'));
+    echo Html::tag('h2', Member::label(2));
     echo Html::beginTag('p');
     echo Html::a(Yii::t('app', 'Edit Members'), ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
     echo '&nbsp;';
@@ -28,8 +29,6 @@ if ($memberDataProvider->getCount() >= 0) {
     echo GridView::widget([
         'dataProvider' => $memberDataProvider,
         'filterModel' => $memberSearchModel,
-        //'itemView' => function($model, $key, $index, $widget) {
-            //return $model->name;
         'columns' => [
             [
                 'attribute' => 'name',
@@ -60,5 +59,5 @@ if ($memberDataProvider->getCount() >= 0) {
             ],
 
         ],
-   ]);
+    ]);
 }

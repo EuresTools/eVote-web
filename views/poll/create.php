@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Poll;
 
 /**
  * @var yii\web\View $this
@@ -8,9 +9,9 @@ use yii\helpers\Html;
  */
 
 $this->title = Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Poll',
+    'modelClass' => Poll::label(1),
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Polls'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Poll::label(2), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="poll-create">
