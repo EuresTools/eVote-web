@@ -31,17 +31,34 @@ class EmailController extends PollDependedController {
             $poll = $this->getPoll();
             $organizer = $poll->organizer;
 
+            // Count successful and failed emails.
+            $success = 0;
+            $failure = 0;
+
             foreach($members as $member) {
                 $subject = $this->resolveTags($email->subject, $member);
                 $message = $this->resolveTags($email->message, $member);
-                Yii::$app->mailer->compose()
+                $mail = Yii::$app->mailer->compose()
                     ->setFrom([$organizer->email => $organizer->name])
                     ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
                     ->setReplyTo([$organizer->email => $organizer->name])
                     ->setSubject($subject)
-                    ->setTextBody($message)
-                    ->send();
+                    ->setTextBody($message);
+
+                if ($mail->send()) {
+                    $success++;
+                } else {
+                    $failure++;
+                }
             }
+        }
+        if ($success > 0) {
+            $emailString = $success === 1 ? 'email' : 'emails';
+            Yii::$app->getSession()->addFlash('success', "Successfully sent $success $emailString!");
+        }
+        if ($failure > 0) {
+            $emailString = $failure === 1 ? 'email' : 'emails';
+            Yii::$app->getSession()->addFlash('error', "Failed to send $failure $emailString.");
         }
         return $this->redirect(['poll/view', 'id' => $poll->id]);
     }
