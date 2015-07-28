@@ -38,6 +38,7 @@ protected/data/*.db
 themes/classic/views/
 composer.lock
 _save/
+components/mygii
 
 # Vim
 *.swp
