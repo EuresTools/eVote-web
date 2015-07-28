@@ -162,7 +162,7 @@ class MemberController extends PollDependedController
                             foreach($dict['contacts'] as $contact_dict) {
                                 $contact = new Contact();
                                 $contact->member_id = $member->id;
-                                $contact->name = $contact_dict['name'];
+                                $contact->name = isset($contact_dict['name']) ? $contact_dict['name'] : null;
                                 $contact->email = filter_var($contact_dict['email'], FILTER_SANITIZE_EMAIL);
                                 if(!$contact->save()) {
                                     $row = $contact_dict['row'];
