@@ -73,6 +73,7 @@ echo GridView::widget([
         'text',
         [
             'attribute' => 'validVotesCount',
+            'headerOptions'=> ['class'=>'sort-numerical'],
             'label' => 'Votes',
         ],
     ],
