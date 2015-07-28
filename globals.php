@@ -1,6 +1,5 @@
 <?php
 
-
 function print_pre($var, $header = null, $debug = true, $return = false, $depth = 3, $highlight = null)
 {
     if ($header) {
@@ -10,7 +9,6 @@ function print_pre($var, $header = null, $debug = true, $return = false, $depth 
     print_r($var);
     echo '</pre>';
 }
-
 
 function print_model(&$model_or_array, $description = "", $debug = true, $return = false)
 {
@@ -27,4 +25,19 @@ function print_model(&$model_or_array, $description = "", $debug = true, $return
         }
         return print_pre($array, '(Model[s]) '.$description, $debug, $return);
     }
+}
+
+// returns true if "ALL" needles are present in the haystack
+// good for checking if all options are given in the available options list
+function in_array_all($needles, $haystack)
+{
+    return !array_diff($needles, $haystack);
+}
+
+
+// returns true if ANY of the needles exist in the haystack
+// so at least one needle must be given in the haystack
+function in_array_any($needles, $haystack)
+{
+    return !!array_intersect($needles, $haystack);
 }
