@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'label' => '<i class="glyphicon glyphicon-info-sign"></i> About',
             'content' => $this->render('_about_tab', ['model' => $model]),
-            'active' => true,
+            //'active' => true,
         ],
         [
             'label' => '<i class="glyphicon glyphicon-user"></i> Members',
@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'label' => '<i class="glyphicon glyphicon-signal"></i> Results',
             'content' => $this->render('_results_tab', ['model' => $model]),
+            'active' => true,
         ],
     ];
 

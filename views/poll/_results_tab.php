@@ -2,8 +2,10 @@
 use app\components\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use app\models\Option;
 use yii\widgets\DetailView;
+use miloschuman\highcharts\Highcharts;
 
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
@@ -79,7 +81,69 @@ echo GridView::widget([
 ?>
 
 <?php
+// Bar chart.
 
+echo Highcharts::widget([
+    'options' => [
+        'title' => ['text' => $model->title],
+        'chart' => [
+            //'type' => 'pie',
+            'type' => 'column',
+        ],
+        'plotOptions' => [
+            'column' => [
+                'colorByPoint' => true,
+            ],
+        ],
+        'colors' => [
+            '#0044CC',
+            '#0088CC',
+            '#51A351',
+            '#F89406',
+            '#BD362F',
+        ],
+        'credits' => [
+            'enabled' => false,
+        ],
+        'xAxis' => [
+            'categories' => ArrayHelper::getColumn($options, 'text'),
+        ],
+        'yAxis' => [
+            'title' => ['text' => 'Votes'],
+            'allowDecimals' => false,
+        ],
+        'series' => [
+            [
+                'name' => 'Votes',
+                'data' => ArrayHelper::getColumn($options, function ($option) {
+                    return intval($option->getValidVotesCount());
+                }),
+                'showInLegend' => false,
+            ],
+        ],
+    ],
+]);
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
 //if (count($options) > 0) {
     //echo Html::tag('h2', Option::label(2));
     //echo GridView::widget([
