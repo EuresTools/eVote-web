@@ -86,7 +86,7 @@ echo GridView::widget([
 
 echo Highcharts::widget([
     'options' => [
-        'title' => ['text' => $model->title],
+        'title' => ['text' => $model->question],
         'chart' => [
             //'type' => 'pie',
             'type' => 'column',
