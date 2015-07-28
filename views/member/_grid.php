@@ -33,8 +33,8 @@ $columns = [
 
 
 echo GridView::widget([
+    'id' => 'members-grid',
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
-    'columns' => $columns
+    'columns' => $columns,
 ]);
-
