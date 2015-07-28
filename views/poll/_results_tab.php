@@ -35,6 +35,56 @@ if ($model->isOver()) {
 
 ?>
 
+
+<?php
+// Column chart.
+
+if ($model->hasStarted()) {
+
+    echo Highcharts::widget([
+        'options' => [
+            'title' => ['text' => $model->question],
+            'chart' => [
+                //'type' => 'pie',
+                'type' => 'column',
+            ],
+            'plotOptions' => [
+                'column' => [
+                    'colorByPoint' => true,
+                ],
+            ],
+            'colors' => [
+                '#0044CC',
+                '#0088CC',
+                '#51A351',
+                '#F89406',
+                '#BD362F',
+            ],
+            'credits' => [
+                'enabled' => false,
+            ],
+            'xAxis' => [
+                'categories' => ArrayHelper::getColumn($options, 'text'),
+            ],
+            'yAxis' => [
+                'title' => ['text' => 'Votes'],
+                'allowDecimals' => false,
+            ],
+            'series' => [
+                [
+                    'name' => 'Votes',
+                    'data' => ArrayHelper::getColumn($options, function ($option) {
+                        return intval($option->getValidVotesCount());
+                    }),
+                    'showInLegend' => false,
+                ],
+            ],
+        ],
+    ]);
+}
+
+?>
+
 <?php
 // Overview table.
 
@@ -81,53 +131,41 @@ echo GridView::widget([
 
 ?>
 
-<?php
-// Bar chart.
 
-echo Highcharts::widget([
-    'options' => [
-        'title' => ['text' => $model->question],
-        'chart' => [
+
+<?php
+// Pie chart.
+
+//echo Highcharts::widget([
+    //'options' => [
+        //'title' => ['text' => $model->question],
+        //'chart' => [
             //'type' => 'pie',
-            'type' => 'column',
-        ],
-        'plotOptions' => [
-            'column' => [
-                'colorByPoint' => true,
-            ],
-        ],
-        'colors' => [
-            '#0044CC',
-            '#0088CC',
-            '#51A351',
-            '#F89406',
-            '#BD362F',
-        ],
-        'credits' => [
-            'enabled' => false,
-        ],
-        'xAxis' => [
-            'categories' => ArrayHelper::getColumn($options, 'text'),
-        ],
-        'yAxis' => [
-            'title' => ['text' => 'Votes'],
-            'allowDecimals' => false,
-        ],
-        'series' => [
-            [
-                'name' => 'Votes',
-                'data' => ArrayHelper::getColumn($options, function ($option) {
-                    return intval($option->getValidVotesCount());
-                }),
-                'showInLegend' => false,
-            ],
-        ],
-    ],
-]);
+            ////'type' => 'column',
+        //],
+        ////'colors' => [
+            ////'#0044CC',
+            ////'#0088CC',
+            ////'#51A351',
+            ////'#F89406',
+            ////'#BD362F',
+        ////],
+        //'credits' => [
+            //'enabled' => false,
+        //],
+        //'series' => [
+            //[
+                //'name' => 'Votes',
+                //'data' => ArrayHelper::getColumn($options, function ($option) {
+                    //return intval($option->getValidVotesCount());
+                //}),
+                //'showInLegend' => false,
+            //],
+        //],
+    //],
+//]);
 
 ?>
-
-
 
 
 

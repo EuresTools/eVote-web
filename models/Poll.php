@@ -56,6 +56,12 @@ class Poll extends \app\models\base\PollBase
         return $now >= $endTime;
     }
 
+    public function hasStarted() {
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $startTime = new \DateTime($this->start_time, new \DateTimeZone('UTC'));
+        return $now >= $startTime;
+    }
+
     public function isOpen() {
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $startTime = new \DateTime($this->start_time, new \DateTimeZone('UTC'));
