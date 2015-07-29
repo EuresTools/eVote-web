@@ -201,7 +201,6 @@ class MemberController extends PollDependedController
 
     public function actionImport()
     {
-        return $this->redirect(['poll/view', 'id' => $this->getPollId(), 'tab' => 'members']);
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
@@ -334,6 +333,14 @@ class MemberController extends PollDependedController
     {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    public function actionClear() {
+        $poll = $this->getPoll();
+        foreach ($poll->members as $member) {
+            $member->delete();
+        }
+        return $this->redirect(['poll/view', 'id' => $poll->id, 'tab' => 'members']);
     }
 
 

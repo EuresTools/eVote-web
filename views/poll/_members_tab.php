@@ -23,6 +23,15 @@ if ($memberDataProvider->getCount() >= 0) {
 ?>
 
 <?php
+    echo Html::a(Yii::t('app', 'Delete All Members'), [PollUrl::toRoute(['member/clear', 'poll_id' => $model->id])], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => Yii::t('app', 'Are you sure you want to delete all members?'),
+        ],
+    ]);
+?>
+
+<?php
 // Email modal.
     echo $this->render('_email_modal', ['model' => $model]);
 ?>
