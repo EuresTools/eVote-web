@@ -18,6 +18,7 @@ use kartik\tabs\TabsX;
 $this->title = $model->__toString();
 $this->params['breadcrumbs'][] = ['label' => Poll::label(2), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="poll-view">
@@ -30,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'label' => '<i class="glyphicon glyphicon-info-sign"></i> About',
             'content' => $this->render('_about_tab', ['model' => $model]),
-            //'active' => true,
+            'active' => !isset($tab) || $tab === 'about',
         ],
         [
             'label' => '<i class="glyphicon glyphicon-user"></i> Members',
@@ -39,11 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'memberDataProvider' => $memberDataProvider,
                 'memberSearchModel' => $memberSearchModel,
             ]),
+            'active' => isset($tab) && $tab === 'members',
         ],
         [
             'label' => '<i class="glyphicon glyphicon-signal"></i> Results',
             'content' => $this->render('_results_tab', ['model' => $model]),
-            'active' => true,
+            'active' => isset($tab) && $tab === 'results',
         ],
     ];
 

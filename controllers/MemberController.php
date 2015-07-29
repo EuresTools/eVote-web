@@ -17,6 +17,7 @@ use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
 use app\components\ExcelParser;
 use app\components\base\Model;
+use app\components\helpers\PollUrl;
 
 /**
  * MemberController implements the CRUD actions for Member model.
@@ -123,8 +124,84 @@ class MemberController extends PollDependedController
     /* Parses an Excel file and creates multiple instances of the Member model.
         * If creation is successful, the browser will be redirected to the
         * 'index' page. */
+    //public function actionImport()
+    //{
+        //$model = new UploadForm();
+
+        //if (Yii::$app->request->isPost) {
+            //$model->excelFile = UploadedFile::getInstance($model, 'excelFile');
+            //$file = $model->upload();
+            //if ($file) {
+                //// Handle errors gracefully.
+                //set_error_handler(function() {
+                    //return false;
+                //});
+                //$member_dicts = ExcelParser::parseMembers($file->tempName);
+                //// Restore the default error handler.
+                //restore_error_handler();
+                //$errors = [];
+                //if (!$member_dicts) {
+                    //$error= 'The file you selected could not be imported';
+                    //$errors[] = $error;
+                //} else {
+                    //$transaction = Yii::$app->db->beginTransaction();
+                    //foreach ($member_dicts as $dict) {
+                        //$name = $dict['name'];
+                        //$member = Member::find()->where(['name' => $name, 'poll_id' => $this->getPollId()])->one();
+                        //$success = true;
+                        //// If the member already exists, only re-import the contacts.
+                        //if($member) {
+                            //Contact::deleteAll('member_id = :member_id', [':member_id' => $member->id]);
+                        //} else {
+                            //$member = new Member();
+                            //$this->setPollAttributes($member);
+                            //$member->name = $dict['name'];
+                            //$member->group = $dict['group'];
+                            //$success = $member->save();
+                        //}
+                        //if($success) {
+                            //foreach($dict['contacts'] as $contact_dict) {
+                                //$contact = new Contact();
+                                //$contact->member_id = $member->id;
+                                //$contact->name = isset($contact_dict['name']) ? $contact_dict['name'] : null;
+                                //$contact->email = filter_var($contact_dict['email'], FILTER_SANITIZE_EMAIL);
+                                //if(!$contact->save()) {
+                                    //$row = $contact_dict['row'];
+                                    //$name = $contact_dict['name'];
+                                    //$email = $contact_dict['email'];
+                                    //$error = "Row $row: The contact $name ($email) could not be imported.";
+                                    //$errors[] = $error;
+                                //}
+                            //}
+                        //} else {
+                            //$row = $dict['row'];
+                            //$name = $dict['name'];
+                            //$error = "Row $row: The member $name could not be imported.";
+                            //$errors[] = $error;
+                        //}
+                    //}
+                    //$transaction->commit();
+                //}
+                //foreach($errors as $error) {
+                    //Yii::$app->getSession()->addFlash('warning', $error);
+                //}
+                //if($member_dicts) {
+                    //return $this->redirect('index');
+                //} else {
+                    //return $this->render('import', ['model' => $model]);
+                //}
+            //}
+        //}
+        //return $this->render('import', [
+            //'model' => $model,
+        //]);
+
+    //}
+
+
     public function actionImport()
     {
+        return $this->redirect(['poll/view', 'id' => $this->getPollId(), 'tab' => 'members']);
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
@@ -144,21 +221,17 @@ class MemberController extends PollDependedController
                     $errors[] = $error;
                 } else {
                     $transaction = Yii::$app->db->beginTransaction();
+                    $poll = $this->getPoll();
+                    // Delete all existing members.
+                    foreach($poll->members as $member) {
+                        $member->delete();
+                    }
                     foreach ($member_dicts as $dict) {
-                        $name = $dict['name'];
-                        $member = Member::find()->where(['name' => $name, 'poll_id' => $this->getPollId()])->one();
-                        $success = true;
-                        // If the member already exists, only re-import the contacts.
-                        if($member) {
-                            Contact::deleteAll('member_id = :member_id', [':member_id' => $member->id]);
-                        } else {
-                            $member = new Member();
-                            $this->setPollAttributes($member);
-                            $member->name = $dict['name'];
-                            $member->group = $dict['group'];
-                            $success = $member->save();
-                        }
-                        if($success) {
+                        $member = new Member();
+                        $this->setPollAttributes($member);
+                        $member->name = $dict['name'];
+                        $member->group = $dict['group'];
+                        if ($member->save()) {
                             foreach($dict['contacts'] as $contact_dict) {
                                 $contact = new Contact();
                                 $contact->member_id = $member->id;
@@ -172,11 +245,13 @@ class MemberController extends PollDependedController
                                     $errors[] = $error;
                                 }
                             }
-                        } else {
-                            $row = $dict['row'];
-                            $name = $dict['name'];
-                            $error = "Row $row: The member $name could not be imported.";
-                            $errors[] = $error;
+                            if (empty($member->contacts)) {
+                                $member->delete();
+                                $row = $dict['row'];
+                                $name = $dict['name'];
+                                $error = "Row $row: The member named $name could not be imported.";
+                                $errors[] = $error;
+                            }
                         }
                     }
                     $transaction->commit();
@@ -184,17 +259,9 @@ class MemberController extends PollDependedController
                 foreach($errors as $error) {
                     Yii::$app->getSession()->addFlash('warning', $error);
                 }
-                if($member_dicts) {
-                    return $this->redirect('index');
-                } else {
-                    return $this->render('import', ['model' => $model]);
-                }
             }
         }
-        return $this->render('import', [
-            'model' => $model,
-        ]);
-
+        return $this->redirect(['poll/view', 'id' => $this->getPollId(), 'tab' => 'members']);
     }
 
     /**

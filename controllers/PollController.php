@@ -55,7 +55,7 @@ class PollController extends BaseController
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id, $tab = null)
     {
         $memberSearchModel = new MemberSearch();
         // Only display the members for this poll.
@@ -65,7 +65,8 @@ class PollController extends BaseController
         return $this->render('view', [
             'model' => $this->findModel($id),
             'memberSearchModel' => $memberSearchModel,
-            'memberDataProvider' => $memberDataProvider
+            'memberDataProvider' => $memberDataProvider,
+            'tab' => isset($tab) ? $tab : null,
         ]);
     }
 
