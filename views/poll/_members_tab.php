@@ -7,29 +7,41 @@ use app\models\Member;
 use app\models\forms\EmailForm;
 use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
+use yii\widgets\ActiveForm;
 
 if ($memberDataProvider->getCount() >= 0) {
     echo Html::tag('h2', Member::label(2));
-    echo Html::beginTag('p');
-    echo Html::a(Yii::t('app', 'Edit Members'), ["poll/$model->id/members"], ['class' => 'btn btn-primary']);
+    echo Html::beginTag('span');
+
+    echo Html::a(Yii::t('app', 'Add Member'), [PollUrl::toRoute(['member/create', 'poll_id' => $model->id])], ['class' => 'btn btn-success']);
     echo '&nbsp;';
+?>
 
-    Modal::begin([
-        'header' => Html::tag('h2', Yii::t('app', 'Send Email')),
-        'toggleButton' => ['label' => Yii::t('app', 'Send Email'), 'class' => 'btn btn-warning'],
-    ]);
+<?php
+// Import modal.
+    echo $this->render('_import_modal', ['poll' => $model]);
+?>
 
-    $emailForm = new EmailForm();
-    $emailForm->poll = $model;
-    echo $this->render('_email_form', ['model' => $emailForm, 'poll' => $model]);
+<?php
+// Email modal.
+    echo $this->render('_email_modal', ['model' => $model]);
+?>
 
-    Modal::end();
-    echo Html::endTag('p');
+
+<?php
+    echo Html::endTag('span');
 
     echo GridView::widget([
         'dataProvider' => $memberDataProvider,
         'filterModel' => $memberSearchModel,
         'columns' => [
+            [
+                'class' => 'app\components\grid\ActionColumn',
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    //return Yii::$app->controller->createUrl([$action, 'id'=>$key]);
+                    return PollUrl::toRoute(["member/$action", 'id' => $key, 'poll_id' => $model->poll_id]);
+                }
+            ],
             [
                 'attribute' => 'name',
                 'format' => 'raw',
@@ -37,6 +49,7 @@ if ($memberDataProvider->getCount() >= 0) {
                     return Html::a(Html::encode($data->name), PollUrl::toRoute(['member/view', 'id' => $data->id, 'poll_id' => $data->poll_id]));
                 }
             ],
+            'group',
             'ContactsCount',
             [
                 'attribute' => 'code',
