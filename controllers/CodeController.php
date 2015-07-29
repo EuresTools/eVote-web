@@ -64,11 +64,16 @@ class CodeController extends BaseController
     public function actionCreate($poll_id, $member_id)
     {
         $member = Member::findOne($member_id);
-        if($member && !$member->hasValidCode()) {
+        if($member) {
+            if ($member->hasValidCode()) {
+                $code = $member->getValidCode();
+                $code->invalidate();
+                $code->save();
+            }
             Code::generateCode($poll_id, $member_id)->save();
-        } else {
-            Yii::$app->getSession()->setFlash('error', 'This member already has a valid voting code');
-        }
+        }// else {
+            //Yii::$app->getSession()->setFlash('error', 'This member already has a valid voting code');
+        //}
         return $this->redirect(PollUrl::toRoute(['member/view', 'poll_id' => $poll_id, 'id' => $member_id]));
     }
 

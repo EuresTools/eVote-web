@@ -109,4 +109,15 @@ class Code extends \app\models\base\CodeBase
         }
         return true;
     }
+
+
+    public function invalidate() {
+        if ($this->isValid()) {
+            if ($this->isUsed()) {
+                $this->code_status = self::CODE_STATUS_INVALID_USED;
+            } else {
+                $this->code_status = self::CODE_STATUS_INVALID_UNUSED;
+            }
+        }
+    }
 }

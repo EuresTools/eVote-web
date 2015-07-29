@@ -123,14 +123,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'invalidate' => function ($url, $model) {
                         if ($model->isValid()) {
-                            return Html::a('<i class="glyphicon glyphicon-ban-circle"></i>', $url, [
-                                'title' => Yii::t('app', 'Invalidate'),
+                            return Html::a('Invalidate', $url, [
+                                //'title' => Yii::t('app', 'Invalidate'),
+                                'class' => 'btn btn-danger',
                                 'data-confirm' => Yii::t('yii', 'Are you sure you want to Invalidate this Code?'),
                                 'data-method' => 'post',
                                 'data-pjax'=>'0',
                             ]);
                         } else {
-                            return Html::tag('span', '', ['class' => 'glyphicon glyphicon-ban-circle disabled']);
+                            //return Html::tag('span', '', ['class' => 'glyphicon glyphicon-ban-circle disabled']);
                         }
                     },
                 ],
@@ -140,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]);
-    echo Html::a(Yii::t('app', 'New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right', 'data-confirm'=>'Are you sure you want to create a new code?']);
+    echo Html::a(Yii::t('app', 'Create New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right', 'data-confirm'=>'Creating a new code will invalidate any existing codes for this member. Are you sure you want to create a new code?']);
     ?>
 </div>
 
