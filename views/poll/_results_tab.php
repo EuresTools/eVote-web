@@ -96,11 +96,15 @@ echo DetailView::widget([
     'model' => $model,
     'attributes' => [
         [
+            'label' => Yii::t('app', 'Total Number of Voters'),
+            'value' => $total,
+        ],
+        [
             'label' => Yii::t('app', 'Votes Submitted'),
             'value' => $used,
         ],
         [
-            'label' => Yii::t('app', 'Unused Voting Codes'),
+            'label' => Yii::t('app', 'Votes Not Yet Submitted'),
             'value' => $unused,
         ],
         [
