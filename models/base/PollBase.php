@@ -92,7 +92,6 @@ class PollBase extends \app\models\base\BaseModel
     public function beforeDelete()
     {
         if(parent::beforeDelete()) {
-            Code::deleteAll();
             foreach ($this->codes as $code) {
                 if ($code->delete() === false) {
                     return false;

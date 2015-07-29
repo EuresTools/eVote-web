@@ -74,6 +74,20 @@ class OptionBase extends \app\models\base\BaseModel
         ];
     }
 
+    public function beforeDelete()
+    {
+        if(parent::beforeDelete()) {
+            // Delete all votes associated with the option.
+            foreach ($this->votes as $vote) {
+                if ($vote->delete() === false) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
     * @return \yii\db\ActiveQuery
     */

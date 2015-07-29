@@ -79,6 +79,21 @@ class CodeBase extends \app\models\base\BaseModel
         ];
     }
 
+    public function beforeDelete()
+    {
+        if(parent::beforeDelete()) {
+            // Delete the vote associated with the code.
+            if ($this->vote) {
+                if ($this->vote->delete() === false) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
     /**
     * @return \yii\db\ActiveQuery
     */
