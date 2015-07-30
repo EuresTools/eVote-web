@@ -4,6 +4,7 @@ use app\components\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\bootstrap\Modal;
 use app\models\Member;
+use app\models\Code;
 use app\models\forms\EmailForm;
 use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
@@ -40,6 +41,12 @@ if ($memberDataProvider->getCount() >= 0) {
 <?php
     echo Html::endTag('span');
 
+    $demoCodes = Html::beginTag('ul', ['class' => 'list-unstyled']);
+    $demoCodes .= Html::tag('li', Html::tag('span', 'Invalid Code', Code::getInvalidHTMLOptions()));
+    $demoCodes .= Html::tag('li', Html::tag('span', 'Unused Code', Code::getUnusedHTMLOptions()));
+    $demoCodes .= Html::tag('li', Html::tag('span', 'Used Code', Code::getUsedHTMLOptions()));
+    $demoCodes .= Html::endTag('ul');
+
     echo GridView::widget([
         'dataProvider' => $memberDataProvider,
         'filterModel' => $memberSearchModel,
@@ -64,6 +71,7 @@ if ($memberDataProvider->getCount() >= 0) {
                 'attribute' => 'code',
                 'label' => Yii::t('app', 'Voting Code'),
                 'format' => 'raw',
+                'filter' => $demoCodes,
                 'value' => function ($data) {
                     $codes = $data->codes;
                     // Display the invalid tokens before the valid ones.

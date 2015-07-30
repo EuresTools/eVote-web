@@ -82,15 +82,28 @@ class Code extends \app\models\base\CodeBase
     public function getHTMLOptions()
     {
         if (!$this->isValid()) {
-            return ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated'];
+            return self::getInvalidHTMLOptions();
         }
         if (!$this->isUsed()) {
-            return ['class' => 'token-valid', 'title' => 'This voting code has not been used'];
+            return self::getUnusedHTMLOptions();
         }
         if ($this->isUsed()) {
-            return ['class' => 'token-used', 'title' => 'A vote has been submitted using this voting code'];
+            return self::getUsedHTMLOptions();
         }
     }
+
+    public static function getInvalidHTMLOptions() {
+        return ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated'];
+    }
+
+    public static function getUnusedHTMLOptions() {
+        return ['class' => 'token-valid', 'title' => 'This voting code has not been used'];
+    }
+
+    public static function getUsedHTMLOptions() {
+        return ['class' => 'token-used', 'title' => 'A vote has been submitted using this voting code'];
+    }
+
 
     /*
     check code if code can be used for submission
