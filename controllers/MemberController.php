@@ -240,7 +240,7 @@ class MemberController extends PollDependedController
                                     $row = $contact_dict['row'];
                                     $name = $contact_dict['name'];
                                     $email = $contact_dict['email'];
-                                    $error = "Row $row: The contact $name ($email) could not be imported.";
+                                    $error = "Row $row: The contact with name '$name' and email '$email' could not be imported.";
                                     $errors[] = $error;
                                 }
                             }
@@ -248,7 +248,7 @@ class MemberController extends PollDependedController
                                 $member->delete();
                                 $row = $dict['row'];
                                 $name = $dict['name'];
-                                $error = "Row $row: The member named $name could not be imported.";
+                                $error = "Row $row: The member with name '$name' could not be imported.";
                                 $errors[] = $error;
                             }
                         }
@@ -256,7 +256,7 @@ class MemberController extends PollDependedController
                     $transaction->commit();
                 }
                 foreach($errors as $error) {
-                    Yii::$app->getSession()->addFlash('warning', $error);
+                    Yii::$app->getSession()->addFlash('import', $error);
                 }
             }
         }
