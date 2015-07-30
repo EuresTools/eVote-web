@@ -11,7 +11,10 @@ $model = new UploadForm();
 
 Modal::begin([
     'header' => Html::tag('h2', Yii::t('app', 'Import From Excel')),
-    'toggleButton' => ['label' => Yii::t('app', 'Import From Excel'), 'class' => 'btn btn-primary'],
+        'toggleButton' => [
+            'label' => Yii::t('app', 'Import From Excel'),
+            'class' => 'btn btn-primary',
+        ],
 ]);
 ?>
 <div class="member-excel-form">
@@ -36,6 +39,7 @@ Modal::begin([
     <div class="form-group">
         <?= Html::submitButton('Import', [
             'class' => 'btn btn-success',
+            'data' => ['confirm' => 'This will delete all existing contacts. Are you sure you want to import?'],
         ]) ?>
     </div>
 

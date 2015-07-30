@@ -90,7 +90,7 @@ echo GridView::widget([
             }
         ],
         'group',
-        'ContactsCount',
+        //'ContactsCount', // Is this column needed? Members should not be able to have 0 contacts.
         [
             'attribute' => 'code',
             'label' => Yii::t('app', 'Voting Code'),
