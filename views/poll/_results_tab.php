@@ -10,6 +10,9 @@ use miloschuman\highcharts\Highcharts;
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
 $options = $model->getOptions()->all();
+usort($options, function ($a, $b) {
+    return $a->getValidVotesCount() < $b->getValidVotesCount();
+});
 $dataProvider = new ArrayDataProvider([
     'allModels' => $options,
     'sort' => [
@@ -118,16 +121,16 @@ echo DetailView::widget([
 ?>
 
 <?php
-// Standings.
+// Votes.
 
-echo Html::tag('h2', Yii::t('app', 'Standings'));
+echo Html::tag('h2', Yii::t('app', 'Votes'));
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
         'text',
         [
             'attribute' => 'validVotesCount',
-            'headerOptions'=> ['class'=>'sort-numerical'],
+            'headerOptions'=> ['class' => 'sort-numerical'],
             'label' => 'Votes',
         ],
     ],
