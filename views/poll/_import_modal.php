@@ -23,7 +23,15 @@ Modal::begin([
 
     <? //$form->field($model, 'excelFile')->fileInput() ?>
 
-    <?= $form->field($model, 'excelFile')->widget(FileInput::classname(), [])?>
+<?
+    echo $form->field($model, 'excelFile')->widget(FileInput::classname(), [
+        'pluginOptions' => [
+            'showPreview' => false,
+            'showRemove' => false,
+            'showUpload' => false,
+        ],
+    ]);
+?>
 
     <div class="form-group">
         <?= Html::submitButton('Import', [
