@@ -17,6 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Disable any popup blockers in your browser to ensure proper download.' => '',
-    'Export' => 'Exportieren',
+    'Row {row}: The contact with name "{name}" and email "{email}" could not be imported.' => 'Zeile {row}: Der Kontakt mit dem Namen "{name}" und Email "{email}" konnte nicht importiert werden.',
+    'Row {row}: The member with name "{name}" could not be imported.' => 'Zeile {row}: Das Mitglied mit dem Namen "{name}" konnte nicht importiert werden.',
+    'The requested page does not exist.' => 'Die gewünschte Seite ist nicht vorhanden.',
+    'The selected file could not be imported.' => 'Die gewählte Datei kann nicht importiert werden.',
 ];

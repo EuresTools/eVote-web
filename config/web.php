@@ -32,7 +32,7 @@ $config = [
                     'sourceLanguage' => 'en',
                     'fileMap' => [
                         'app' => 'app.php',
-                        'app/error' => 'error.php',
+                        'app/error' => 'app/error.php',
                     ],
                     // only for development
                     //'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation']
