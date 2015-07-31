@@ -12,9 +12,10 @@ use yii\widgets\ActiveForm;
 use kartik\widgets\AlertBlock;
 use kartik\widgets\Alert;
 
-foreach(Yii::$app->getSession()->getAllFlashes() as $key => $arr) {
-    if($key === 'import') {
-        foreach($arr as $message) {
+// display all "import" flash messages
+foreach (Yii::$app->getSession()->getAllFlashes() as $key => $arr) {
+    if ($key === 'import') {
+        foreach ($arr as $message) {
             echo AlertBlock::widget([
                 'useSessionFlash' => false,
                 'type' => AlertBlock::TYPE_ALERT,
@@ -36,16 +37,8 @@ echo Html::beginTag('span');
 echo Html::a(Yii::t('app', 'Add Member'), [PollUrl::toRoute(['member/create', 'poll_id' => $model->id])], ['class' => 'btn btn-success']);
 echo '&nbsp;';
 
-?>
-
-<?php
-
 // Import modal.
 echo $this->render('_import_modal', ['poll' => $model]);
-
-?>
-
-<?php
 
 echo Html::a(Yii::t('app', 'Delete All Members'), [PollUrl::toRoute(['member/clear', 'poll_id' => $model->id])], [
     'class' => 'btn btn-danger',
@@ -54,15 +47,9 @@ echo Html::a(Yii::t('app', 'Delete All Members'), [PollUrl::toRoute(['member/cle
     ],
 ]);
 
-?>
-
-<?php
 // Email modal.
 echo $this->render('_email_modal', ['model' => $model]);
-?>
 
-
-<?php
 echo Html::endTag('span');
 
 $demoCodes = Html::beginTag('ul', ['class' => 'list-unstyled']);
