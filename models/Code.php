@@ -92,16 +92,19 @@ class Code extends \app\models\base\CodeBase
         }
     }
 
-    public static function getInvalidHTMLOptions() {
-        return ['class' => 'token-invalid', 'title' => 'This voting code has been invalidated'];
+    public static function getInvalidHTMLOptions()
+    {
+        return ['class' => 'token-invalid', 'title' => Yii::t('app', 'This voting code has been invalidated')];
     }
 
-    public static function getUnusedHTMLOptions() {
-        return ['class' => 'token-valid', 'title' => 'This voting code has not been used'];
+    public static function getUnusedHTMLOptions()
+    {
+        return ['class' => 'token-valid', 'title' => Yii::t('app', 'This voting code has not been used')];
     }
 
-    public static function getUsedHTMLOptions() {
-        return ['class' => 'token-used', 'title' => 'A vote has been submitted using this voting code'];
+    public static function getUsedHTMLOptions()
+    {
+        return ['class' => 'token-used', 'title' => Yii::t('app', 'A vote has been submitted using this voting code')];
     }
 
 
@@ -113,18 +116,19 @@ class Code extends \app\models\base\CodeBase
     public function checkCode()
     {
         if ($this->isInValid()) {
-            $this->addError('token', 'Invalid voting code');
+            $this->addError('token', Yii::t('app/error', 'Invalid voting code'));
             return false;
         }
         if ($this->isUsed()) {
-            $this->addError('token', 'This voting code has already been used');
+            $this->addError('token', Yii::t('app/error', 'This voting code has already been used'));
             return false;
         }
         return true;
     }
 
 
-    public function invalidate() {
+    public function invalidate()
+    {
         if ($this->isValid()) {
             if ($this->isUsed()) {
                 $this->code_status = self::CODE_STATUS_INVALID_USED;
