@@ -13,10 +13,6 @@ $model = new UploadForm();
 Modal::begin([
     'id' => !empty($target)? $target : 'importModal',
     'header' => Html::tag('h4', Yii::t('app', 'Import From Excel'), ['class'=>'modal-title']),
-    // 'toggleButton' => [
-    //     'label' => Yii::t('app', 'Import From Excel'),
-    //     'class' => 'btn btn-primary',
-    // ],
 ]);
 ?>
 <div class="member-excel-form">
