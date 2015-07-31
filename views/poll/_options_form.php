@@ -28,37 +28,35 @@ use app\models\Option;
         </div>
         <div class="panel-body">
             <div class="container-items container-fluid"><!-- widgetBody -->
-            <?php foreach ($modelOptions as $i => $option): ?>
-                <div class="item"><!-- widgetItem -->
-                    <?php
-                        // necessary for update action.
-                        if (! $option->isNewRecord) {
-                            echo Html::activeHiddenInput($option, "[{$i}]id");
-                        }
-                    ?>
-                    <?php
-                        echo $form->field($option, "[{$i}]text", [
-                                'addon' => [
-                                    'append' => [
-                                        'content' => Html::a('<i class="glyphicon glyphicon-minus"></i>', '#', ['class'=>'remove-item btn btn-danger','data-action'=>'remove-item']),
-                                        'asButton' => true,
-                                    ],
-                                ],
-                                'inputOptions'=> [
-                                    'placeholder'=> Yii::t('app', 'Please fill with an option text'),
-                                ],
-                                // 'labelOptions'=> [
-                                //     'label' => 'Option',
-                                // ],
-                                'options' => [
-                                    'class' =>'form-group kv-fieldset-inline'
-                                ],
-                        ])->textInput(['maxlength' => true]);
-                    ?>
-                </div>
-            <?php endforeach; ?>
-            </div>
-        </div>
+<?php
+foreach ($modelOptions as $i => $option) {
+    echo Html::beginTag('div', ['class'=>'item']);
+    if (!$option->isNewRecord) {
+        echo Html::activeHiddenInput($option, "[{$i}]id");
+    }
+
+    echo $form->field($option, "[{$i}]text", [
+        'addon' => [
+            'append' => [
+                'content' => Html::a('<i class="glyphicon glyphicon-minus"></i>', '#', ['class'=>'remove-item btn btn-danger', 'data-action'=>'remove-item']),
+                'asButton' => true,
+            ],
+        ],
+        'inputOptions'=> [
+            'placeholder'=> Yii::t('app', 'Please fill with an option text'),
+        ],
+        // 'labelOptions'=> [
+        //     'label' => 'Option',
+        // ],
+        'options' => [
+            'class' =>'form-group kv-fieldset-inline'
+        ],
+    ])->textInput(['maxlength' => true]);
+    echo Html::endTag('div', ['class'=>'item']);
+}
+?>
+            </div><!-- .container-items -->
+        </div><!-- .panel-body -->
     </div><!-- .panel -->
     <?php DynamicFormWidget::end(); ?>
 </div>
