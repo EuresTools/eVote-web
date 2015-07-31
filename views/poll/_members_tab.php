@@ -32,25 +32,30 @@ foreach (Yii::$app->getSession()->getAllFlashes() as $key => $arr) {
 }
 
 echo Html::tag('h2', Member::label(2));
-echo Html::beginTag('span');
+echo Html::beginTag('p');
 
-echo Html::a(Yii::t('app', 'Add Member'), [PollUrl::toRoute(['member/create', 'poll_id' => $model->id])], ['class' => 'btn btn-success']);
-echo '&nbsp;';
+    echo Html::a(Yii::t('app', 'Add Member'), [PollUrl::toRoute(['member/create', 'poll_id' => $model->id])], ['class' => 'btn btn-success']);
+    echo '&nbsp;';
+    echo Html::button(Yii::t('app', 'Import From Excel'), ['class' => 'btn btn-primary', 'data' => ['toggle' => 'modal', 'target' => '#importModal']]);
+    echo '&nbsp;';
 
-// Import modal.
-echo $this->render('_import_modal', ['poll' => $model]);
+    echo Html::a(Yii::t('app', 'Delete All Members'), [PollUrl::toRoute(['member/clear', 'poll_id' => $model->id])], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => Yii::t('app', 'Are you sure you want to delete all members?'),
+        ],
+    ]);
+    echo '&nbsp;';
 
-echo Html::a(Yii::t('app', 'Delete All Members'), [PollUrl::toRoute(['member/clear', 'poll_id' => $model->id])], [
-    'class' => 'btn btn-danger',
-    'data' => [
-        'confirm' => Yii::t('app', 'Are you sure you want to delete all members?'),
-    ],
-]);
+    echo Html::button(Yii::t('app', 'Send Email'), ['class' => 'btn btn-warning pull-right', 'data' => ['toggle' => 'modal', 'target' => '#emailModal']]);
 
-// Email modal.
-echo $this->render('_email_modal', ['model' => $model]);
+echo Html::endTag('p');
 
-echo Html::endTag('span');
+// render Import modal window
+echo $this->render('_import_modal', ['poll' => $model, 'target'=>'importModal']);
+// render Email modal window
+echo $this->render('_email_modal', ['model' => $model, 'target'=>'emailModal']);
+
 
 $demoCodes = Html::beginTag('ul', ['class' => 'list-unstyled']);
 $demoCodes .= Html::tag('li', Html::tag('span', 'Invalid Code', Code::getInvalidHTMLOptions()));
@@ -98,6 +103,5 @@ echo GridView::widget([
                 return $str;
             }
         ],
-
     ],
 ]);

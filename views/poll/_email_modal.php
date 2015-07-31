@@ -5,8 +5,9 @@ use yii\bootstrap\Modal;
 use app\models\forms\EmailForm;
 
 Modal::begin([
-    'header' => Html::tag('h2', Yii::t('app', 'Send Email')),
-    'toggleButton' => ['label' => Yii::t('app', 'Send Email'), 'class' => 'btn btn-warning pull-right'],
+    'id' => !empty($target)? $target : 'emailModal',
+    'header' => Html::tag('h4', Yii::t('app', 'Send Email'), ['class'=>'modal-title']),
+    //'toggleButton' => ['label' => Yii::t('app', 'Send Email'), 'class' => 'btn btn-warning pull-right'],
 ]);
 $emailForm = new EmailForm();
 $emailForm->poll = $model;
