@@ -59,18 +59,14 @@ foreach ($modelOptions as $i => $option) {
         </div><!-- .panel-body -->
     </div><!-- .panel -->
     <?php DynamicFormWidget::end(); ?>
-</div>
 <script type="text/javascript">
 <?php $this->beginBlock('JS_READY') ?>
-
 $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
     if (! confirm("Are you sure you want to delete this item?")) {
         return false;
     }
     return true;
 });
-
-
 /*
 $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
     var ok, cancel;
@@ -82,7 +78,6 @@ $(".dynamicform_wrapper").on("beforeDelete", function(e, item) {
     return false;
 });
 */
-
 <?php $this->endBlock();
 ?>
 </script>
