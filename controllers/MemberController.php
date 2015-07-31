@@ -32,6 +32,7 @@ class MemberController extends PollDependedController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'import' => ['post'],
                 ],
             ],
         ];
@@ -203,10 +204,11 @@ class MemberController extends PollDependedController
     {
         $model = new UploadForm();
 
-        if (Yii::$app->request->isPost) {
-            $model->excelFile = UploadedFile::getInstance($model, 'excelFile');
-            $file = $model->upload();
-            if ($file) {
+        $model->excelFile = UploadedFile::getInstance($model, 'excelFile');
+        $file = $model->upload();
+
+        if ($file) {
+            try {
                 // Handle errors gracefully.
                 set_error_handler(function () {
                     return false;
@@ -222,9 +224,12 @@ class MemberController extends PollDependedController
                     $transaction = Yii::$app->db->beginTransaction();
                     $poll = $this->getPoll();
                     // Delete all existing members.
-                    foreach ($poll->members as $member) {
-                        $member->delete();
-                    }
+                    // foreach ($poll->members as $member) {
+                    //     $member->delete();
+                    // }
+                    // using new function to speed up the delete
+                    $poll->deleteMemberData();
+
                     foreach ($member_dicts as $dict) {
                         $member = new Member();
                         $this->setPollAttributes($member);
@@ -258,7 +263,12 @@ class MemberController extends PollDependedController
                 foreach ($errors as $error) {
                     Yii::$app->getSession()->addFlash('import', $error);
                 }
+            } catch (Exception $e) {
+                throw new Exception("Error Processing Request ". $e->getMessage(), 1);
             }
+        } else {
+            // todo : print error message in popup possible? e.g. on failed file upload?
+            Yii::$app->getSession()->addFlash('import', $model->getErrors('excelFile')[0]);
         }
         return $this->redirect(['poll/view', 'id' => $this->getPollId(), 'tab' => 'members']);
     }
