@@ -18,6 +18,7 @@ use yii\helpers\ArrayHelper;
 use app\components\ExcelParser;
 use app\components\base\Model;
 use app\components\helpers\PollUrl;
+use app\components\filters\ReturnUrlFilter;
 
 /**
  * MemberController implements the CRUD actions for Member model.
@@ -35,6 +36,14 @@ class MemberController extends PollDependedController
                     'import' => ['post'],
                 ],
             ],
+            'returnUrl'=> [
+                'class' => ReturnUrlFilter::className(),
+                'only' => [
+                    'update',
+                    'create',
+                    'delete',
+                ]
+            ]
         ];
     }
 
@@ -320,7 +329,8 @@ class MemberController extends PollDependedController
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $model->id]);
+                        //return $this->redirect(['view', 'id' => $model->id]);
+                        return $this->redirect($this->getReturnUrl(array('view','id'=>$model->id)));
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
