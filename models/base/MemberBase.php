@@ -77,16 +77,17 @@ class MemberBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function afterSave($insert, $changedAttributes) {
+    public function afterSave($insert, $changedAttributes)
+    {
         parent::afterSave($insert, $changedAttributes);
-        if($insert) {
+        if ($insert) {
             Code::generateCode($this->poll_id, $this->id)->save();
         }
     }
 
     public function beforeDelete()
     {
-        if(parent::beforeDelete()) {
+        if (parent::beforeDelete()) {
             Contact::deleteAll('member_id = :member_id', [':member_id' => $this->id]);
             foreach ($this->codes as $code) {
                 if ($code->delete() === false) {

@@ -50,7 +50,8 @@ class VoteBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['!code_id'],
         ];
@@ -103,7 +104,8 @@ class VoteBase extends \app\models\base\BaseModel
         //return $this->hasMany(VoteOption::className(), ['vote_id' => 'id']);
     //}
 
-    public function getOptions() {
+    public function getOptions()
+    {
         return $this->hasMany(Option::className(), ['id' => 'option_id'])->viaTable('vote_option', ['vote_id' => 'id']);
     }
 }

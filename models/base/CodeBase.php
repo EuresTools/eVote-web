@@ -55,7 +55,8 @@ class CodeBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['token', 'code_status', '!poll_id', '!member_id'],
         ];
@@ -81,7 +82,7 @@ class CodeBase extends \app\models\base\BaseModel
 
     public function beforeDelete()
     {
-        if(parent::beforeDelete()) {
+        if (parent::beforeDelete()) {
             // Delete the vote associated with the code.
             if ($this->vote) {
                 if ($this->vote->delete() === false) {

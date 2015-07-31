@@ -32,7 +32,8 @@ class Member extends \app\models\base\MemberBase
         ]);
     }
 
-    public function hasValidCode() {
+    public function hasValidCode()
+    {
         foreach ($this->codes as $code) {
             if ($code->isValid()) {
                 return true;
@@ -41,11 +42,13 @@ class Member extends \app\models\base\MemberBase
         return false;
     }
 
-    public function getValidCode() {
+    public function getValidCode()
+    {
         return $this->getCodes()->valid()->one();
     }
 
-    public function getValidUnusedCode() {
+    public function getValidUnusedCode()
+    {
         return $this->getCodes()->valid()->unused()->one();
     }
 }
