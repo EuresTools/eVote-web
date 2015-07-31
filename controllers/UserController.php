@@ -96,7 +96,7 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         if (($model = UserForm::findOne($id)) === null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app/error', 'The requested page does not exist.'));
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -132,9 +132,7 @@ class UserController extends Controller
         if (($model = User::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app/error', 'The requested page does not exist.'));
         }
     }
-
-
 }

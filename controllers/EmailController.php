@@ -9,21 +9,20 @@ use app\components\controllers\PollDependedController;
 use yii\helpers\ArrayHelper;
 use app\models\forms\EmailForm;
 
+class EmailController extends PollDependedController
+{
 
-class EmailController extends PollDependedController {
-
-    public function actionSend() {
+    public function actionSend()
+    {
         $email = new EmailForm();
         if ($email->load(Yii::$app->request->post())) {
             $members = null;
             if ($email->sendMode == EmailForm::EMAIL_TO_ALL) {
                 $members = Member::find()->where($this->getPollSearchOptions())->with('codes')->with('contacts')->all();
-            }
-            else if ($email->sendMode == EmailForm::EMAIL_TO_UNUSED) {
+            } elseif ($email->sendMode == EmailForm::EMAIL_TO_UNUSED) {
                 $codes = Code::find()->where($this->getPollSearchOptions())->valid()->unused()->with('member.contacts')->all();
                 $members = ArrayHelper::getColumn($codes, 'member');
-            }
-            else if ($email->sendMode == EmailForm::EMAIL_TO_USED) {
+            } elseif ($email->sendMode == EmailForm::EMAIL_TO_USED) {
                 $codes = Code::find()->where($this->getPollSearchOptions())->valid()->used()->with('member.contacts')->all();
                 $members = ArrayHelper::getColumn($codes, 'member');
             }
@@ -57,17 +56,16 @@ class EmailController extends PollDependedController {
             }
         }
         if ($success > 0) {
-            $emailString = $success === 1 ? 'email' : 'emails';
-            Yii::$app->getSession()->addFlash('success', "Successfully sent $success $emailString!");
+            Yii::$app->getSession()->addFlash('success', Yii::t('app', 'Successfully sent {n, plural, =0{no Email} =1{one Email} other{# Emails}}!', ['n' => $success]));
         }
         if ($failure > 0) {
-            $emailString = $failure === 1 ? 'email' : 'emails';
-            Yii::$app->getSession()->addFlash('error', "Failed to send $failure $emailString.");
+            Yii::$app->getSession()->addFlash('error', Yii::t('app', 'Failed to send {n, plural, =0{no Email} =1{one Email} other{# Emails}}!', ['n' =>$failure]));
         }
         return $this->redirect(['poll/view', 'id' => $poll->id]);
     }
 
-    private function resolveTags($string, $member) {
+    private function resolveTags($string, $member)
+    {
         $string = str_replace('<member-name>', $member->name, $string);
         $string = str_replace('<member-group>', $member->group, $string);
         $string = str_replace('<voting-code>', $member->getValidUnusedCode(), $string);

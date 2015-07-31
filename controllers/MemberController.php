@@ -208,7 +208,7 @@ class MemberController extends PollDependedController
             $file = $model->upload();
             if ($file) {
                 // Handle errors gracefully.
-                set_error_handler(function() {
+                set_error_handler(function () {
                     return false;
                 });
                 $member_dicts = ExcelParser::parseMembers($file->tempName);
@@ -216,13 +216,13 @@ class MemberController extends PollDependedController
                 restore_error_handler();
                 $errors = [];
                 if (!$member_dicts) {
-                    $error= 'The file you selected could not be imported';
+                    $error =  Yii::t('app/error', 'The selected file could not be imported.');
                     $errors[] = $error;
                 } else {
                     $transaction = Yii::$app->db->beginTransaction();
                     $poll = $this->getPoll();
                     // Delete all existing members.
-                    foreach($poll->members as $member) {
+                    foreach ($poll->members as $member) {
                         $member->delete();
                     }
                     foreach ($member_dicts as $dict) {
@@ -231,16 +231,16 @@ class MemberController extends PollDependedController
                         $member->name = $dict['name'];
                         $member->group = $dict['group'];
                         if ($member->save()) {
-                            foreach($dict['contacts'] as $contact_dict) {
+                            foreach ($dict['contacts'] as $contact_dict) {
                                 $contact = new Contact();
                                 $contact->member_id = $member->id;
                                 $contact->name = isset($contact_dict['name']) ? $contact_dict['name'] : null;
                                 $contact->email = filter_var($contact_dict['email'], FILTER_SANITIZE_EMAIL);
-                                if(!$contact->save()) {
+                                if (!$contact->save()) {
                                     $row = $contact_dict['row'];
                                     $name = $contact_dict['name'];
                                     $email = $contact_dict['email'];
-                                    $error = "Row $row: The contact with name '$name' and email '$email' could not be imported.";
+                                    $error =  Yii::t('app/error', 'Row {row}: The contact with name "{name}" and email "{email}" could not be imported.', ['row'=>$row, 'name'=>$name, 'email'=>$email]);
                                     $errors[] = $error;
                                 }
                             }
@@ -248,14 +248,14 @@ class MemberController extends PollDependedController
                                 $member->delete();
                                 $row = $dict['row'];
                                 $name = $dict['name'];
-                                $error = "Row $row: The member with name '$name' could not be imported.";
+                                $error =  Yii::t('app/error', 'Row {row}: The member with name "{name}" could not be imported.', ['row'=>$row, 'name'=>$name]);
                                 $errors[] = $error;
                             }
                         }
                     }
                     $transaction->commit();
                 }
-                foreach($errors as $error) {
+                foreach ($errors as $error) {
                     Yii::$app->getSession()->addFlash('import', $error);
                 }
             }
@@ -335,7 +335,8 @@ class MemberController extends PollDependedController
         return $this->redirect(['index']);
     }
 
-    public function actionClear() {
+    public function actionClear()
+    {
         $poll = $this->getPoll();
         foreach ($poll->members as $member) {
             $member->delete();
@@ -357,19 +358,20 @@ class MemberController extends PollDependedController
         if (($model = Member::find()->primary_key($id)->poll_searchOptions($this->getPollSearchOptions())->one()) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app/error', 'The requested page does not exist.'));
         }
     }
 
-    public function actionEmail() {
+    public function actionEmail()
+    {
 
         $members = Member::find()->where($this->getPollSearchOptions())->with('codes.vote')->all();
 
-        foreach($members as $member) {
+        foreach ($members as $member) {
             \Yii::$app->mailer->compose('sendVotingCodes', ['member' => $member])
                     ->setFrom([\Yii::$app->params['adminEmail'] => \Yii::$app->name . ' robot'])
                     ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
-                    ->setSubject('Your voting code ' . \Yii::$app->name)
+                    ->setSubject('Your voting code ' . \Yii::$app->name)  // todo: multilanguage subject?
                     ->send();
         }
         return true;

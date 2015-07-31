@@ -64,7 +64,7 @@ class CodeController extends BaseController
     public function actionCreate($poll_id, $member_id)
     {
         $member = Member::findOne($member_id);
-        if($member) {
+        if ($member) {
             if ($member->hasValidCode()) {
                 $code = $member->getValidCode();
                 $code->invalidate();
@@ -135,7 +135,7 @@ class CodeController extends BaseController
         if (($model = Code::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app/error', 'The requested page does not exist.'));
         }
     }
 }
