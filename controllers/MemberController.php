@@ -117,7 +117,8 @@ class MemberController extends PollDependedController
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $model->id]);
+                        //return $this->redirect(['view', 'id' => $model->id]);
+                        return $this->redirect($this->getReturnUrl(['view', 'id'=>$model->id]));
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -330,7 +331,7 @@ class MemberController extends PollDependedController
                     if ($flag) {
                         $transaction->commit();
                         //return $this->redirect(['view', 'id' => $model->id]);
-                        return $this->redirect($this->getReturnUrl(array('view','id'=>$model->id)));
+                        return $this->redirect($this->getReturnUrl(['view', 'id'=>$model->id]));
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -352,7 +353,8 @@ class MemberController extends PollDependedController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+        //return $this->redirect(['index']);
+        return $this->redirect($this->getReturnUrl(['index']));
     }
 
     public function actionClear()
