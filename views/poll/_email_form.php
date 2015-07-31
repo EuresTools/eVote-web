@@ -7,14 +7,13 @@ use app\models\forms\EmailForm;
 use app\components\helpers\PollUrl;
 
 ?>
-
-<?= Html::tag('p', Html::encode('You can use the tags <member-name>, <member-group> and <voting-code> to customize your message for each member.')); ?>
+<?= Html::tag('p', Html::encode(Yii::t('app', 'You can use the tags <member-name>, <member-group> and <voting-code> to customize your message for each member.'))); ?>
 <div class="email-form">
 <?php
     $sendOptions = [
-        EmailForm::EMAIL_TO_UNUSED => 'Members who haven\'t voted',
-        EmailForm::EMAIL_TO_USED => 'Members who have already voted',
-        EmailForm::EMAIL_TO_ALL => 'All Members',
+        EmailForm::EMAIL_TO_UNUSED => Yii::t('app', 'Members who haven\'t voted'),
+        EmailForm::EMAIL_TO_USED => Yii::t('app', 'Members who have already voted'),
+        EmailForm::EMAIL_TO_ALL => Yii::t('app', 'All Members'),
     ];
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL, 'action' => PollUrl::toRoute(['email/send', 'poll_id' => $poll->id])]);
     echo Form::widget([
