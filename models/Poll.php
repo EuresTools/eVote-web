@@ -10,6 +10,7 @@ use app\models\Member;
 use app\models\Contact;
 use app\models\Code;
 use app\models\Vote;
+use yii\helpers\ArrayHelper;
 
 class Poll extends \app\models\base\PollBase
 {
