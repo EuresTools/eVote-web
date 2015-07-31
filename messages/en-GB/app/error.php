@@ -17,8 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Invalid voting code' => '',
     'Row {row}: The contact with name "{name}" and email "{email}" could not be imported.' => '',
     'Row {row}: The member with name "{name}" could not be imported.' => '',
     'The requested page does not exist.' => '',
     'The selected file could not be imported.' => '',
+    'This voting code has already been used' => '',
 ];
