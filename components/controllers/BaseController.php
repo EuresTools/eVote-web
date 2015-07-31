@@ -10,15 +10,11 @@ class BaseController extends Controller
 
     public function setReturnUrl($returnUrl = null, $action = null)
     {
-        print_pre('setReturnUrl');
-        //print_pre($this,'$this');
-
         if (!$action) {
             $action = $this->action;
         }
 
         $id = $action->getUniqueId();
-        print_pre($id, 'id');
 
         if ($returnUrl) {
             Yii::$app->session->set($id.'_returnUrl', $returnUrl);
