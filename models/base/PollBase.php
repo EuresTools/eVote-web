@@ -62,7 +62,8 @@ class PollBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time', '!organizer_id'],
         ];
@@ -91,7 +92,7 @@ class PollBase extends \app\models\base\BaseModel
 
     public function beforeDelete()
     {
-        if(parent::beforeDelete()) {
+        if (parent::beforeDelete()) {
             foreach ($this->codes as $code) {
                 if ($code->delete() === false) {
                     return false;
