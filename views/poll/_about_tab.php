@@ -33,7 +33,9 @@ foreach ($model->getOptions()->all() as $index => $option) {
 <?= Html::tag('h2', Poll::label(1)); ?>
 
 <p>
-    <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+<?
+?>
+    <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary' . ($model->isLocked() ? ' disabled' : null)]) ?>
     <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
         'class' => 'btn btn-danger',
         'data' => [

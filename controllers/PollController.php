@@ -11,6 +11,7 @@ use app\models\search\PollSearch;
 use app\models\search\MemberSearch;
 use app\components\controllers\BaseController;
 use yii\web\NotFoundHttpException;
+use yii\web\HttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -139,6 +140,9 @@ class PollController extends BaseController
     {
 
         $model = $this->findModel($id);
+        if ($model->isLocked()) {
+            throw new HttpException(403, Yii::t('app', 'This poll cannot be edited because it has already been accessed by a voter'));
+        }
         $modelOptions = $model->options;
 
         if ($model->load(Yii::$app->request->post())) {
