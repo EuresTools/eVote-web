@@ -19,6 +19,8 @@ $dataProvider = new ArrayDataProvider([
             'text',
             'validVotesCount',
         ],
+        // setting the id of the gridview so on pjax refresh the page doesn`t scroll to the top.
+        'params'=> array_merge($_GET, ['#' => 'results_gridview']),
     ],
 ]);
 
@@ -127,8 +129,13 @@ echo DetailView::widget([
 echo Html::tag('h2', Yii::t('app', 'Votes'));
 echo GridView::widget([
     'pjax' => false,
+    'options' => ['id'=>'results_gridview'],
     'dataProvider' => $dataProvider,
     'columns' => [
+        [
+            'class' => 'yii\grid\SerialColumn',
+            // you may configure additional properties here
+        ],
         'id',
         'text',
         [
