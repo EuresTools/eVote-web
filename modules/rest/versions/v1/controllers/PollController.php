@@ -7,34 +7,22 @@ use app\models\Poll;
 use app\models\Code;
 use app\modules\rest\controllers\VotingRestController;
 use yii\helpers\ArrayHelper;
+use app\components\filters\TokenFilter;
+use yii\base\UserException;
 
 class PollController extends VotingRestController
 {
     public $modelClass = 'app\models\Poll';
 
-
-    public function actionTest()
+    public function actionGet()
     {
-
-
-        $items = Poll::find()->asArray()->all();
-        //\Yii::$app->response->format = 'csv';
-        $test=[
-            'error'=> false,
-            'result'=>$items,
-        ];
-        //return $items;
-        return $test;
-    }
-
-    public function actionGet() {
         $token = Yii::$app->request->get('token'); // Better way to get this?
+
         $code = Code::findCodeByToken($token);
-        if(!$code || !$code->isValid()) {
-            return ['success' => false, 'error' => ['message' => 'Invalid voting code']];
-        }
-        else if ($code->isUsed()) {
-            return ['success' => false, 'error' => ['message' => 'This voting code has already been used']];
+        if (!$code || !$code->isValid()) {
+            throw new UserException(Yii::t('app', 'Invalid voting code'));
+        } elseif ($code->isUsed()) {
+            throw new UserException(Yii::t('app', 'This voting code has already been used'));
         }
 
         $poll = $code->getPoll()->with(['options', 'organizer'])->one();
@@ -42,10 +30,10 @@ class PollController extends VotingRestController
         $organizer = $poll->getOrganizer()->one();
         $pollFields = ['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'];
 
-        $json = ArrayHelper::merge($poll->toArray($pollFields), ['options' => ArrayHelper::getColumn($options, function($option) {
+        $data = ArrayHelper::merge($poll->toArray($pollFields), ['options' => ArrayHelper::getColumn($options, function($option) {
             $optionFields = ['id', 'text'];
             return $option->toArray($optionFields);
         }), 'organizer' => $organizer->toArray(['name', 'email'])]);
-        return ['success' => true, 'data' => $json];
+        return $data;
     }
 }
