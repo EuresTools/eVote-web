@@ -136,7 +136,18 @@ echo GridView::widget([
             'class' => 'yii\grid\SerialColumn',
             // you may configure additional properties here
         ],
-        'id',
+        [
+            'attribute'=>'id',
+            'value' => function ($data, $key, $index, $widget) {
+                //print_pre($data,'data');
+                print_pre($key,'key');
+                print_pre($index,'index');
+                if (!isset($counter)) {
+                    $counter=0;
+                }
+                return $counter++;
+            }
+        ],
         'text',
         [
             'attribute' => 'validVotesCount',
