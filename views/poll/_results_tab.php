@@ -11,13 +11,15 @@ use yii\widgets\Pjax;
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
 $options = $model->getOptions()->all();
+global $optionIDs;
+$optionIDs = ArrayHelper::getColumn($options, 'id');
 $dataProvider = new ArrayDataProvider([
     'allModels' => $options,
     'sort' => [
         'attributes' => [
             'id',
             'text',
-            'validVotesCount',
+            'validVotesCount' => ['default' => SORT_DESC],
         ],
         // setting the id of the gridview so on pjax refresh the page doesn`t scroll to the top.
         'params'=> array_merge($_GET, ['#' => 'results_gridview']),
@@ -133,19 +135,12 @@ echo GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
         [
-            'class' => 'yii\grid\SerialColumn',
-            // you may configure additional properties here
-        ],
-        [
             'attribute'=>'id',
+            'label' => Yii::t('app', 'No.'),
+            'headerOptions'=> ['class' => 'sort-numerical', 'style' => 'width: 30px; white-space: nowrap;'],
             'value' => function ($data, $key, $index, $widget) {
-                //print_pre($data,'data');
-                print_pre($key,'key');
-                print_pre($index,'index');
-                if (!isset($counter)) {
-                    $counter=0;
-                }
-                return $counter++;
+                global $optionIDs;
+                return array_search($data->id, $optionIDs) + 1;
             }
         ],
         'text',
