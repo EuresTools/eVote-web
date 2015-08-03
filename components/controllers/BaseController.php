@@ -27,7 +27,7 @@ class BaseController extends Controller
     public function getReturnUrl($default_action = null, $delete = true)
     {
         $id = $this->action->getUniqueId();
-        $returnUrl= Yii::$app->session->get($id.'_returnUrl');
+        $returnUrl = Yii::$app->session->get($id.'_returnUrl');
 
         if ($delete) {
             $this->setReturnUrl(null);
