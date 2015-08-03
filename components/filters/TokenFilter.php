@@ -45,6 +45,7 @@ class TokenFilter extends ActionFilter {
             $this->handleUsed($response);
             return false;
         }
+        $this->handleSuccess($code);
         return true;
     }
 
@@ -95,5 +96,13 @@ class TokenFilter extends ActionFilter {
     {
         $response->data = ['success' => false, 'error' => ['message' => 'You have submitted too many invalid voting codes. Your IP address has been temporarily blocked.']];
         //$response->statusCode = 403;
+    }
+
+    private function handleSuccess($code) {
+        $poll = $code->getPoll()->one();
+        if(!$poll->isLocked()) {
+            $poll->lock();
+            $poll->save();
+        }
     }
 }

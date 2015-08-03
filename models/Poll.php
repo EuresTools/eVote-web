@@ -77,6 +77,14 @@ class Poll extends \app\models\base\PollBase
         return $now >= $startTime && $now < $endTime;
     }
 
+    public function isLocked() {
+        return $this->locked;
+    }
+
+    public function lock() {
+        $this->locked = true;
+    }
+
     /*
     Deletes all Member Data of the poll including contacts, votes and codes
     */
