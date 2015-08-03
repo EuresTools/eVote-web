@@ -1,5 +1,7 @@
 <?php
 
+
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
@@ -20,7 +22,7 @@ use app\models\Poll;
 <?php
 
 // Populate the attribute array for display.
-$attributes = ['question:ntext'];
+$attributes = ['question:ntext', 'info:ntext'];
 foreach ($model->getOptions()->all() as $index => $option) {
         $no = $index + 1;
         $attributes[] = ['attribute' => "Option $no", 'value' => $option->text];

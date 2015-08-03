@@ -15,6 +15,7 @@ use app\models\Organizer;
 * @property integer $id
 * @property string $title
 * @property string $question
+* @property string $info
 * @property integer $select_min
 * @property integer $select_max
 * @property string $start_time
@@ -55,7 +56,7 @@ class PollBase extends \app\models\base\BaseModel
         return [
             // 'organizer_id' removed from required
             [['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'], 'required'],
-            [['question'], 'string'],
+            [['question', 'info'], 'string'],
             [['select_min', 'select_max', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
             [['start_time', 'end_time'], 'safe'],
             [['title'], 'string', 'max' => 255]
@@ -65,7 +66,7 @@ class PollBase extends \app\models\base\BaseModel
     public function scenarios()
     {
         return [
-            'default' => ['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time', '!organizer_id'],
+            'default' => ['title', 'question', 'info', 'select_min', 'select_max', 'start_time', 'end_time', '!organizer_id'],
         ];
     }
 
@@ -78,6 +79,7 @@ class PollBase extends \app\models\base\BaseModel
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Title'),
             'question' => Yii::t('app', 'Question'),
+            'info' => Yii::t('app', 'Additional Information'),
             'select_min' => Yii::t('app', 'Select Min'),
             'select_max' => Yii::t('app', 'Select Max'),
             'start_time' => Yii::t('app', 'Start Time'),
