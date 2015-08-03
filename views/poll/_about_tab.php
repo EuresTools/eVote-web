@@ -1,7 +1,4 @@
 <?php
-
-
-
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
@@ -10,6 +7,8 @@ use app\models\MemberSearch;
 use app\components\helpers\PollUrl;
 use app\models\Code;
 use app\models\Poll;
+use kartik\widgets\AlertBlock;
+use kartik\widgets\Alert;
 
 /**
  * @var yii\web\View $this
@@ -34,6 +33,20 @@ foreach ($model->getOptions()->all() as $index => $option) {
 
 <p>
 <?
+if ($model->isLocked()){
+    echo AlertBlock::widget([
+        'useSessionFlash' => false,
+        'type' => AlertBlock::TYPE_ALERT,
+        'delay' => false, // Don't automatically disappear.
+        'alertSettings' => [
+            'warning' => [
+                'type' => Alert::TYPE_WARNING,
+                'body' => Yii::t('app', 'This poll cannot be edited because it has already been accessed by a voter'),
+                'closeButton'=> false,
+            ],
+        ],
+    ]);
+}
 ?>
     <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary' . ($model->isLocked() ? ' disabled' : null)]) ?>
     <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
