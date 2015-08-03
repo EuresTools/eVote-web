@@ -6,13 +6,14 @@ use yii\helpers\ArrayHelper;
 use app\models\Option;
 use yii\widgets\DetailView;
 use miloschuman\highcharts\Highcharts;
+use yii\widgets\Pjax;
 
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
 $options = $model->getOptions()->all();
-usort($options, function ($a, $b) {
-    return $a->getValidVotesCount() < $b->getValidVotesCount();
-});
+//usort($options, function ($a, $b) {
+    //return $a->getValidVotesCount() < $b->getValidVotesCount();
+//});
 $dataProvider = new ArrayDataProvider([
     'allModels' => $options,
     'sort' => [
@@ -26,6 +27,7 @@ $dataProvider = new ArrayDataProvider([
 ?>
 
 <?php
+Pjax::begin(['id' => 'options']);
 // Status.
 
 if ($model->isOver()) {
@@ -67,7 +69,8 @@ if ($model->hasStarted()) {
                 'enabled' => false,
             ],
             'xAxis' => [
-                'categories' => ArrayHelper::getColumn($options, 'text'),
+                //'categories' => ArrayHelper::getColumn($options, 'text'),
+                'categories' => ArrayHelper::getColumn($dataProvider->allModels, 'text'),
             ],
             'yAxis' => [
                 'title' => ['text' => 'Votes'],
@@ -76,7 +79,7 @@ if ($model->hasStarted()) {
             'series' => [
                 [
                     'name' => 'Votes',
-                    'data' => ArrayHelper::getColumn($options, function ($option) {
+                    'data' => ArrayHelper::getColumn($dataProvider->allModels, function ($option) {
                         return intval($option->getValidVotesCount());
                     }),
                     'showInLegend' => false,
@@ -125,6 +128,7 @@ echo DetailView::widget([
 
 echo Html::tag('h2', Yii::t('app', 'Votes'));
 echo GridView::widget([
+    'pjax' => false,
     'dataProvider' => $dataProvider,
     'columns' => [
         'text',
@@ -136,6 +140,8 @@ echo GridView::widget([
     ],
 ]);
 
+print_model($dataProvider->allModels);
+Pjax::end();
 ?>
 
 
