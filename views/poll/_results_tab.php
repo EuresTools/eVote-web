@@ -11,19 +11,18 @@ use yii\widgets\Pjax;
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
 $options = $model->getOptions()->all();
-//usort($options, function ($a, $b) {
-    //return $a->getValidVotesCount() < $b->getValidVotesCount();
-//});
 $dataProvider = new ArrayDataProvider([
     'allModels' => $options,
     'sort' => [
         'attributes' => [
+            'id',
             'text',
             'validVotesCount',
         ],
     ],
 ]);
 
+//$dataProvider->prepare($forcePrepare = true);
 ?>
 
 <?php
@@ -70,7 +69,7 @@ if ($model->hasStarted()) {
             ],
             'xAxis' => [
                 //'categories' => ArrayHelper::getColumn($options, 'text'),
-                'categories' => ArrayHelper::getColumn($dataProvider->allModels, 'text'),
+                'categories' => ArrayHelper::getColumn($dataProvider->getModels(), 'text'),
             ],
             'yAxis' => [
                 'title' => ['text' => 'Votes'],
@@ -79,7 +78,7 @@ if ($model->hasStarted()) {
             'series' => [
                 [
                     'name' => 'Votes',
-                    'data' => ArrayHelper::getColumn($dataProvider->allModels, function ($option) {
+                    'data' => ArrayHelper::getColumn($dataProvider->getModels(), function ($option) {
                         return intval($option->getValidVotesCount());
                     }),
                     'showInLegend' => false,
@@ -125,12 +124,12 @@ echo DetailView::widget([
 
 <?php
 // Votes.
-
 echo Html::tag('h2', Yii::t('app', 'Votes'));
 echo GridView::widget([
     'pjax' => false,
     'dataProvider' => $dataProvider,
     'columns' => [
+        'id',
         'text',
         [
             'attribute' => 'validVotesCount',
@@ -139,8 +138,6 @@ echo GridView::widget([
         ],
     ],
 ]);
-
-print_model($dataProvider->allModels);
 Pjax::end();
 ?>
 
