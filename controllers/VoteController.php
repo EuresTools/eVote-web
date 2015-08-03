@@ -11,6 +11,8 @@ use app\models\VoteOption;
 use app\models\forms\TokenInputForm;
 use app\models\forms\VotingForm;
 use app\components\controllers\BaseController;
+use app\components\filters\TokenFilter;
+use app\components\filters\OpenPollFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\HttpException;
 use yii\filters\VerbFilter;
@@ -46,6 +48,12 @@ class VoteController extends BaseController
                     'logout' => ['post'],
                 ],
             ],
+            // 'tokenFilter' => [
+            //     'class' => TokenFilter::className(),
+            // ],
+            // 'openPollFilter' => [
+            //     'class' => openPollFilter::className(),
+            // ],
         ];
     }
 
