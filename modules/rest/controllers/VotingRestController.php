@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Response;
 use yii\filters\ContentNegotiator;
 use yii\rest\Controller;
+use app\components\filters\IPFilter;
 use app\components\filters\TokenFilter;
 use app\components\filters\OpenPollFilter;
 use yii\filters\VerbFilter;
@@ -28,6 +29,9 @@ class VotingRestController extends Controller
         ];
 
 
+        $behaviors['ipFilter'] = [
+            'class' => IPFilter::className(),
+        ];
 
         $behaviors['tokenFilter'] = [
             'class' => TokenFilter::className(),
