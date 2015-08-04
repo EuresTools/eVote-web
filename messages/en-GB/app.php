@@ -83,7 +83,7 @@ return [
     'Token' => '',
     'Token Input' => '',
     'Total Number of Voters' => '',
-    'Update' => 'Edit',
+    'Update' => '',
     'Update your vote' => 'Edit your vote',
     'Update {modelClass}: ' => 'Edit {modelClass}: ',
     'Updated At' => 'Edited At',

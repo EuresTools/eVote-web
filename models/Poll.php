@@ -77,11 +77,13 @@ class Poll extends \app\models\base\PollBase
         return $now >= $startTime && $now < $endTime;
     }
 
-    public function isLocked() {
+    public function isLocked()
+    {
         return $this->locked;
     }
 
-    public function lock() {
+    public function lock()
+    {
         $this->locked = true;
     }
 
@@ -90,38 +92,46 @@ class Poll extends \app\models\base\PollBase
     */
     public function deleteMemberData()
     {
+
         // Delete all existing members.
         // get member ids to delete
         $memberIds=ArrayHelper::getColumn($this->members, 'id');
         if (sizeof($memberIds) > 0) {
             // without members there should be no contact etc.
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                // delete contacts by member_id
+                Contact::deleteAll(['member_id' => $memberIds]);
 
-            // delete contacts by member_id
-            Contact::deleteAll(['member_id' => $memberIds]);
+                /*
+                $codes = app\models\Code::find()
+                    ->select('id')
+                    //->where(['poll_id' => $this->id, 'member_id' => $memberIds]) // member_id not required because i will delete all anyhow?
+                    ->where(['poll_id' => $this->id])
+                    ->asArray()
+                    ->all();
+                $codeIds = ArrayHelper::getColumn($codes, 'id');
+                */
 
-            /*
-            $codes = app\models\Code::find()
-                ->select('id')
-                //->where(['poll_id' => $this->id, 'member_id' => $memberIds]) // member_id not required because i will delete all anyhow?
-                ->where(['poll_id' => $this->id])
-                ->asArray()
-                ->all();
-            $codeIds = ArrayHelper::getColumn($codes, 'id');
-            */
+                // alternative also over the codes relation depends on what is "faster"
+                $codeIds=ArrayHelper::getColumn($this->codes, 'id');
 
-            // alternative also over the codes relation depends on what is "faster"
-            $codeIds=ArrayHelper::getColumn($this->codes, 'id');
+                // delete the votes by the code_id
+                Vote::deleteAll(['code_id'=> $codeIds]);
 
-            // delete the votes by the code_id
-            Vote::deleteAll(['code_id'=> $codeIds]);
+                // delete the Codes by poll_id and member_id
+                //Code::deleteAll(['poll_id'=> $this->id, 'member_id' => $memberIds]);
+                Code::deleteAll(['poll_id'=> $this->id]); // member_id not required because i will delete all anyhow?
 
-            // delete the Codes by poll_id and member_id
-            //Code::deleteAll(['poll_id'=> $this->id, 'member_id' => $memberIds]);
-            Code::deleteAll(['poll_id'=> $this->id]); // member_id not required because i will delete all anyhow?
-
-            // also delete member entries by id
-            Member::deleteAll(['id' => $memberIds]);
-            return true;
+                // also delete member entries by id
+                Member::deleteAll(['id' => $memberIds]);
+                $transaction->commit();
+                return true;
+            } catch (Exception $e) {
+                $transaction->rollBack();
+                return false;
+            }
         }
+        return true;
     }
 }

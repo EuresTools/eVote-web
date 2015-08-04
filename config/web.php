@@ -59,6 +59,7 @@ $config = [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager' 'yii\rbac\PhpManager'
+            'defaultRoles' => ['guest', 'Admin', 'Organizer'],
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -144,11 +145,11 @@ $config = [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'site/*',
-            'admin/*', // add or remove allowed actions to this list
-            'debug/*',
-            'gii/*',
-            '*',
+        //     'site/*',
+        //     'admin/*', // add or remove allowed actions to this list
+        //     'debug/*',
+        //     'gii/*',
+        //     '*',
         ]
     ],
     'params' => $params,

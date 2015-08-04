@@ -12,6 +12,7 @@ use app\components\controllers\PollDependedController;
 use app\models\forms\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\base\UserException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
@@ -360,9 +361,13 @@ class MemberController extends PollDependedController
     public function actionClear()
     {
         $poll = $this->getPoll();
-        foreach ($poll->members as $member) {
-            $member->delete();
+
+        if (!$poll->deleteMemberData()) {
+            throw new UserException(Yii::t('app/error', 'Error when deleting Member Data'));
         }
+        // foreach ($poll->members as $member) {
+        //     $member->delete();
+        // }
         return $this->redirect(['poll/view', 'id' => $poll->id, 'tab' => 'members']);
     }
 
@@ -384,6 +389,7 @@ class MemberController extends PollDependedController
         }
     }
 
+    /*
     public function actionEmail()
     {
 
@@ -398,4 +404,5 @@ class MemberController extends PollDependedController
         }
         return true;
     }
+    */
 }
