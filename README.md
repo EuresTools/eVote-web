@@ -26,3 +26,5 @@
 * dynamic menue depend on the user Rights
 * Owner access rights checking on delete/update actions
 * Owner view rights checking on index/view and other grid listings etc
+
+* add a send Email function to sent only the token for one specific member e.g. when a new token was generated after invalidation
