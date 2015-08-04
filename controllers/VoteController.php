@@ -11,6 +11,7 @@ use app\models\VoteOption;
 use app\models\forms\TokenInputForm;
 use app\models\forms\VotingForm;
 use app\components\controllers\BaseController;
+use app\components\filters\IPFilter;
 use app\components\filters\TokenFilter;
 use app\components\filters\OpenPollFilter;
 use yii\web\NotFoundHttpException;
@@ -48,12 +49,15 @@ class VoteController extends BaseController
                     'logout' => ['post'],
                 ],
             ],
+            'ipFilter' => [
+                'class' => IPFilter::className(),
+            ],
             'tokenFilter' => [
                'class' => TokenFilter::className(),
                'except' => ['index'],
             ],
             'openPollFilter' => [
-               'class' => openPollFilter::className(),
+               'class' => OpenPollFilter::className(),
                'except' => ['index'],
             ],
         ];
@@ -77,6 +81,7 @@ class VoteController extends BaseController
             Yii::$app->session->set('token', $model->token);
             return $this->redirect(['voting']);
         } else {
+            Yii::$app->session->remove('token');
             return $this->render('index', [
                 'model' => $model,
             ]);

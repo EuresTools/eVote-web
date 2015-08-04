@@ -10,10 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\HttpException;
 use yii\base\UserException;
 
-class OpenPollFilter extends ActionFilter
+class OpenPollFilter extends BaseFilter
 {
-
-    public $tokenParam = 'token';
 
     // At this point we assume that the TokenFilter has been applied and that
     // the token is valid.
@@ -22,7 +20,7 @@ class OpenPollFilter extends ActionFilter
         $request = Yii::$app->getRequest();
         $response = Yii::$app->getResponse();
 
-        $token = $request->get($this->tokenParam);
+        $token = $this->getToken();
         // if (!$token) {
         //     throw new HttpException(400, Yii::t('app', 'No Token given.'));
         // }
