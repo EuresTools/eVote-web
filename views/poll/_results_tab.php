@@ -8,6 +8,8 @@ use yii\widgets\DetailView;
 use miloschuman\highcharts\Highcharts;
 use yii\widgets\Pjax;
 
+$this->registerJsFile('@web/js/reflowChart.js', ['depends' => \yii\web\JqueryAsset::className(), 'depends' => miloschuman\highcharts\HighchartsAsset::className()]);
+
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
 $options = $model->getOptions()->all();
@@ -50,6 +52,7 @@ if ($model->isOver()) {
 if ($model->hasStarted()) {
 
     echo Highcharts::widget([
+        'htmlOptions' => ['id' => 'chartcontainer'],
         'options' => [
             'title' => ['text' => $model->question],
             'chart' => [
@@ -153,153 +156,3 @@ echo GridView::widget([
 ]);
 Pjax::end();
 ?>
-
-
-
-<?php
-// Pie chart.
-
-//echo Highcharts::widget([
-    //'options' => [
-        //'title' => ['text' => $model->question],
-        //'chart' => [
-            //'type' => 'pie',
-            ////'type' => 'column',
-        //],
-        ////'colors' => [
-            ////'#0044CC',
-            ////'#0088CC',
-            ////'#51A351',
-            ////'#F89406',
-            ////'#BD362F',
-        ////],
-        //'credits' => [
-            //'enabled' => false,
-        //],
-        //'series' => [
-            //[
-                //'name' => 'Votes',
-                //'data' => ArrayHelper::getColumn($options, function ($option) {
-                    //return intval($option->getValidVotesCount());
-                //}),
-                //'showInLegend' => false,
-            //],
-        //],
-    //],
-//]);
-
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?php
-//if (count($options) > 0) {
-    //echo Html::tag('h2', Option::label(2));
-    //echo GridView::widget([
-        //'dataProvider' => $dataProvider,
-        //'columns' => [
-            //[
-                //'attribute' => 'text',
-                //// 'format' => 'raw',
-                //// 'value' => function ($data) {
-                ////     return Html::a(Html::encode($data->text), ['option/view', 'id' => $data->id]);
-                //// }
-            //],
-            //[
-                //'attribute' => 'votes',
-                //'format' => 'raw',
-                //'value' => function ($data) {
-                    //$votes = $data->votes;
-                    //$str = Html::beginTag('ul', ['class' => 'list-unstyled']);
-                    //foreach ($votes as $vote) {
-                        //$options = [];
-                        //$str .= Html::tag('li', Html::tag('span', $vote, $options));
-                    //}
-                    //$str .= Html::endTag('ul');
-                    //return $str;
-                //}
-            //],
-            //'votesCount',
-            //[
-                //'attribute' => 'validVotes',
-                //'format' => 'raw',
-                //'value' => function ($data) {
-                    //$votes = $data->validVotes;
-                    //$str = Html::beginTag('ul', ['class' => 'list-unstyled']);
-                    //foreach ($votes as $vote) {
-                        //$options = [];
-                        //$str .= Html::tag('li', Html::tag('span', $vote, $options));
-                    //}
-                    //$str .= Html::endTag('ul');
-                    //return $str;
-                //}
-            //],
-            //[
-                //'attribute' => 'validVotesCount',
-                //'header' => Yii::t('app', 'Votes to this option'),
-            //],
-            //[
-                //'header' => Yii::t('app', 'Votes to this option in percent'),
-                //'format' => ['percent', '2'],
-                //'value' => function ($data) {
-                    //$used_count = $data->poll->getUsedCodesCount();
-                    //$votes_count = $data->getValidVotesCount();
-
-                    //if ($used_count > 0) {
-                        //return 100 / $used_count * $votes_count / 100;
-                    //};
-
-                //}
-            //],
-            //[
-                //'header' => Yii::t('app', 'Votes to this option percentage to totally sent'),
-                //'format' => ['percent', '2'],
-                //'value' => function ($data) {
-                    //$total_count = $data->poll->getValidCodesCount();
-                    //$votes_count = $data->getValidVotesCount();
-
-                    //if ($total_count > 0) {
-                        //return 100 / $total_count * $votes_count / 100;
-                    //};
-
-                //}
-            //],
-            //[
-                //'attribute' => 'poll.usedCodesCount',
-                //'header' => Yii::t('app', 'Total Votes Received'),
-            //],
-            //[
-                //'attribute' => 'poll.unusedCodesCount',
-                //'header' => Yii::t('app', 'Total Votes not Submitted'),
-            //],
-            //[
-                //'attribute' => 'poll.validCodesCount',
-                //'header' => Yii::t('app', 'Total Codes sent'),
-            //],
-            //[
-                //'header' => Yii::t('app', 'Vote Acceptance'),
-                //'format' => ['percent', '2'],
-                //'value' => function ($data) {
-                    //$total_count = $data->poll->getValidCodesCount();
-                    //$used_count = $data->poll->getUsedCodesCount();
-                    //if ($total_count > 0) {
-                        //return 100 / $total_count * $used_count / 100;
-                    //};
-                //}
-            //],
-        //],
-    //]);
-//}
