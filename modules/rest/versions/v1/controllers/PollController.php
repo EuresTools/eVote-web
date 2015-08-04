@@ -28,7 +28,7 @@ class PollController extends VotingRestController
         $poll = $code->getPoll()->with(['options', 'organizer'])->one();
         $options = $poll->getOptions()->all();
         $organizer = $poll->getOrganizer()->one();
-        $pollFields = ['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'];
+        $pollFields = ['title', 'question', 'info', 'select_min', 'select_max', 'start_time', 'end_time'];
 
         $data = ArrayHelper::merge($poll->toArray($pollFields), ['options' => ArrayHelper::getColumn($options, function($option) {
             $optionFields = ['id', 'text'];
