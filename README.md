@@ -10,6 +10,6 @@
 * ~~Add logging mechanism.~~
 * ~~Implement IP blocking mechanism.~~
 * ~~Ajaxify a lot of tables.~~
-* Make a lot of columns sortable.
+* ~~Make a lot of columns sortable.~~
+* ~~Locking mechanism to prevent inappropriate changes to a poll after someone has fetched it.~~
 * Set up permissions/roles system.
-* Locking mechanism to prevent inappropriate changes to a poll after someone has fetched it.

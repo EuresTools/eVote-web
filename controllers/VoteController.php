@@ -48,12 +48,14 @@ class VoteController extends BaseController
                     'logout' => ['post'],
                 ],
             ],
-            // 'tokenFilter' => [
-            //     'class' => TokenFilter::className(),
-            // ],
-            // 'openPollFilter' => [
-            //     'class' => openPollFilter::className(),
-            // ],
+            'tokenFilter' => [
+               'class' => TokenFilter::className(),
+               'except' => ['index'],
+            ],
+            'openPollFilter' => [
+               'class' => openPollFilter::className(),
+               'except' => ['index'],
+            ],
         ];
     }
 
