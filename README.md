@@ -22,3 +22,7 @@
 * config interface by organizer to set parameters like after what attempts the poll is freezed
 * auto forward on the poll voting page after xy milliseconds to "page expired page"
 * fix highcharts default rendering width to fullwidth
+
+* dynamic menue depend on the user Rights
+* Owner access rights checking on delete/update actions
+* Owner view rights checking on index/view and other grid listings etc
