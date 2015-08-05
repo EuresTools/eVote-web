@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\AlertBlock;
+use kartik\widgets\Alert;
 
 // use kartik\widgets\ActiveForm;
 // use kartik\builder\Form;
@@ -20,6 +22,23 @@ $this->title = 'Voting';
             <!--
             <h1 class="text-center token-title">Please fill in your code in the form below to start voting</h1>
             -->
+            <?php
+            if (Yii::$app->session->hasFlash('voting-expired')) {
+                echo AlertBlock::widget([
+                    'useSessionFlash' => false,
+                    'type' => AlertBlock::TYPE_ALERT,
+                    'delay' => false, // Don't automatically disappear.
+                    'alertSettings' => [
+                        'warning' => [
+                            'type' => Alert::TYPE_WARNING,
+                            'body' => Yii::$app->session->getFlash('voting-expired'),
+                            'closeButton'=> false,
+                        ],
+                    ],
+                ]);
+                Yii::$app->session->removeFlash('voting-expired');
+            }
+            ?>
                 <div class="login-box clearfix">
                     <div class="col-lg-12">
                     <center style="margin: 15px 0;">

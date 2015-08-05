@@ -38,7 +38,7 @@ class VoteController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','voting'],
+                        'actions' => ['index','voting', 'expire'],
                         'allow' => true,
                     ],
                 ],
@@ -64,12 +64,24 @@ class VoteController extends BaseController
     }
 
 
+    public function actionExpire()
+    {
+        if (Yii::$app->request->get('voting-expired')) {
+             Yii::$app->getSession()->setFlash('voting-expired', Yii::t('app/error', 'The voting page has expired.<br />Please re-enter your voting code.'));
+        }
+        return $this->redirect(['index']);
+    }
+
+
     /**
      * Lists all Poll models.
      * @return mixed
      */
     public function actionIndex($token = null)
     {
+
+
+
         $model = new TokenInputForm();
         if (!empty($token)) {
             $model->token = Yii::$app->request->get('token');

@@ -18,7 +18,8 @@ $this->title = Yii::t('app', 'voting for {pollQuestion}: ', [
 // autoforward after x seconds to the "home" Url
 if (Yii::$app->params['autoforward-after']) {
     $seconds = Yii::$app->params['autoforward-after'];
-    $this->registerMetaTag(['http-equiv' => 'refresh', 'content' => $seconds.'; URL='.Url::home()]);
+    $url=Yii::$app->urlManager->createUrl(['vote/expire', 'voting-expired' => 1]);
+    $this->registerMetaTag(['http-equiv' => 'refresh', 'content' => $seconds.'; URL='.$url]);
 }
 ?>
 <div class="voting">
