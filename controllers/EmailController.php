@@ -69,7 +69,8 @@ class EmailController extends PollDependedController
         return $this->redirect(['member/view', 'id' => $member->id]);
     }
 
-    private function sendEmailToMember($email, $member) {
+    private function sendEmailToMember($email, $member)
+    {
         $poll = $this->getPoll();
         $organizer = $poll->organizer;
         if ($member->contacts) {
