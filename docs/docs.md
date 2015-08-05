@@ -38,3 +38,77 @@ This tab provides information about the current standings of the poll. If the po
 ![Results Tab](images/results.png)
 
 ## API
+
+The web application provides an API that can be used to retrieve a poll and submit a vote.
+
+### Endpoints
+The API provides the following endpoints.
+
+#### GET /v1/poll/get
+This endpoint requires the `token` URL parameter to be set to a valid voting code.
+
+**_Example Request_**:
+
+    curl -X GET "localhost:82/v1/poll/get?token=EhH7KraJ0g"
+
+**_Example Response_**
+
+    {
+      "success": true,
+      "data": {
+        "title": "Icelandic President Election",
+        "question": "Who should be the president of Iceland?",
+        "info": "",
+        "select_min": 1,
+        "select_max": 1,
+        "start_time": "2015-07-17 08:25:00",
+        "end_time": "2015-08-19 10:00:00",
+        "options": [
+          {
+            "id": 27,
+            "text": "Olafur Ragnar Grimsson"
+          },
+          {
+            "id": 28,
+            "text": "Jon Gnarr"
+          },
+          {
+            "id": 29,
+            "text": "Vigdis Hauksdottir"
+          },
+          {
+            "id": 48,
+            "text": "Me"
+          },
+          {
+            "id": 49,
+            "text": "Nobody"
+          }
+        ],
+        "organizer": {
+          "name": "Eurescom",
+          "email": "eurescom@eurescom.eu"
+        }
+      }
+    }
+
+#### POST /v1/vote/submit
+This endpoint requires the `token` URL parameter to be set to a valid voting code. The IDs of the options selected by the voter should be sent as an array in the request body.
+
+**_Example Request_**:
+
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"options": [48]}' \
+    "localhost:82/v1/vote/submit?token=EhH7KraJ0g"
+
+**_Example Response_**
+
+    {
+      "success": true,
+      "data": {
+        "options": [
+          48
+        ]
+      }
+    }
