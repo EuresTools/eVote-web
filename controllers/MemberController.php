@@ -4,11 +4,13 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Member;
+use app\models\Poll;
 use app\models\Contact;
 use app\models\search\MemberSearch;
 use app\components\controllers\BaseController;
 use app\components\controllers\PollDependedController;
-
+use yii\filters\AccessControl;
+use app\components\filters\OrganizationAccessRule;
 use app\models\forms\UploadForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -44,7 +46,29 @@ class MemberController extends PollDependedController
                     'create',
                     'delete',
                 ]
-            ]
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['update', 'view', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(), 'modelClass'=> Member::className()],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['import', 'index' , 'clear'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(), 'modelClass'=> Poll::className(), 'queryParam'=>'poll_id'],
+            ],
         ];
     }
 

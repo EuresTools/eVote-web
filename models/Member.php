@@ -51,4 +51,11 @@ class Member extends \app\models\base\MemberBase
     {
         return $this->getCodes()->valid()->unused()->one();
     }
+
+
+    public function getOrganizerId()
+    {
+        $poll = $this->getPoll()->one();
+        return isset($poll) ? $poll->organizer_id : null;
+    }
 }

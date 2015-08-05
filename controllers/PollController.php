@@ -9,15 +9,17 @@ use app\models\Member;
 use app\models\Code;
 use app\models\search\PollSearch;
 use app\models\search\MemberSearch;
+use app\models\forms\EmailForm;
+use app\components\base\Model;
 use app\components\controllers\BaseController;
+use app\components\filters\OrganizationAccessRule;
 use yii\web\NotFoundHttpException;
 use yii\web\HttpException;
-use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\widgets\ActiveForm;
-use app\components\base\Model;
 use yii\helpers\ArrayHelper;
-use app\models\forms\EmailForm;
 
 /**
  * PollController implements the CRUD actions for Poll model.
@@ -32,6 +34,17 @@ class PollController extends BaseController
                 'actions' => [
                     'delete' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['update', 'view', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(),],
             ],
         ];
     }

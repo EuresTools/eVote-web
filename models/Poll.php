@@ -134,4 +134,10 @@ class Poll extends \app\models\base\PollBase
         }
         return true;
     }
+
+
+    public function getOrganizerId()
+    {
+        return $this->organizer_id;
+    }
 }
