@@ -20,7 +20,7 @@ $this->title = 'Voting';
             <!--
             <h1 class="text-center token-title">Please fill in your code in the form below to start voting</h1>
             -->
-                <div class="login-box">
+                <div class="login-box clearfix">
                     <div class="col-lg-12">
                     <center style="margin: 15px 0;">
                         <span aria-hidden="true" class="glyphicon glyphicon-lock " style="font-size: 50px; color:lightgrey;"></span>
