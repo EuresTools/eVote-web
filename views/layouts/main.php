@@ -6,7 +6,6 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use kartik\widgets\AlertBlock;
 
-
 /* @var $this \yii\web\View */
 /* @var $content string */
 
