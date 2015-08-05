@@ -3,6 +3,7 @@
 namespace app\models\query;
 
 use yii\db\ActiveQuery;
+use app\models\Poll;
 
 /**
 * This is the query class for class  "Poll".
@@ -22,4 +23,11 @@ class PollQuery extends ActiveQuery
         return $this;
     }
 
+    public function organizer_id($organizer_id = null)
+    {
+        if ($organizer_id) {
+            $this->andWhere([Poll::tableName().'.organizer_id' => $organizer_id]);
+        }
+        return $this;
+    }
 }
