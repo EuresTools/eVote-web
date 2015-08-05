@@ -12,6 +12,7 @@ use app\models\forms\EmailForm;
 class EmailController extends PollDependedController
 {
 
+    // Sends an email to multiple members.
     public function actionSend()
     {
         $email = new EmailForm();
@@ -27,29 +28,13 @@ class EmailController extends PollDependedController
                 $members = ArrayHelper::getColumn($codes, 'member');
             }
 
-            $poll = $this->getPoll();
-            $organizer = $poll->organizer;
-
             // Count successful and failed emails.
             $success = 0;
             $failure = 0;
 
             foreach ($members as $member) {
-                if ($member->contacts) {
-                    $subject = $this->resolveTags($email->subject, $member);
-                    $message = $this->resolveTags($email->message, $member);
-                    $mail = Yii::$app->mailer->compose()
-                        ->setFrom([$organizer->email => $organizer->name])
-                        ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
-                        ->setReplyTo([$organizer->email => $organizer->name])
-                        ->setSubject($subject)
-                        ->setTextBody($message);
-
-                    if ($mail->send()) {
-                        $success++;
-                    } else {
-                        $failure++;
-                    }
+                if($this->sendEmailToMember($email, $member)) {
+                    $success++;
                 } else {
                     $failure++;
                 }
@@ -62,6 +47,42 @@ class EmailController extends PollDependedController
             Yii::$app->getSession()->addFlash('error', Yii::t('app', 'Failed to send {n, plural, =0{no Email} =1{one Email} other{# Emails}}!', ['n' =>$failure]));
         }
         return $this->redirect(['poll/view', 'id' => $poll->id]);
+    }
+
+    // Sends an email to a single member.
+    public function actionEmail($member_id) {
+        $member = Member::find()->primary_key($member_id)->poll_searchOptions($this->getPollSearchOptions())->one();
+
+        if ($member === null) {
+            throw new NotFoundHttpException(Yii::t('app/error', 'The requested page does not exist.'));
+        }
+
+        $email = new EmailForm();
+        if ($email->load(Yii::$app->request->post())) {
+            if ($this->sendEmailToMember($email, $member)) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Email sent successfully.'));
+            } else {
+                Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Failed to send email.'));
+            }
+        }
+        return $this->redirect(['member/view', 'id' => $member->id]);
+    }
+
+    private function sendEmailToMember($email, $member) {
+        $poll = $this->getPoll();
+        $organizer = $poll->organizer;
+        if ($member->contacts) {
+            $subject = $this->resolveTags($email->subject, $member);
+            $message = $this->resolveTags($email->message, $member);
+            $mail = Yii::$app->mailer->compose()
+                ->setFrom([$organizer->email => $organizer->name])
+                ->setTo(ArrayHelper::getColumn($member->contacts, 'email'))
+                ->setReplyTo([$organizer->email => $organizer->name])
+                ->setSubject($subject)
+                ->setTextBody($message);
+            return $mail->send();
+        }
+        return false;
     }
 
     private function resolveTags($string, $member)

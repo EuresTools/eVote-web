@@ -27,7 +27,7 @@ class EmailForm extends Model
     public function rules()
     {
         return [
-            [['sendMode', 'subject', 'message'], 'required'],
+            [[/*'sendMode', */'subject', 'message'], 'required'],
         ];
     }
 

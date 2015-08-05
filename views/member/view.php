@@ -36,7 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::button(Yii::t('app', 'Send Email'), ['class' => 'btn btn-warning pull-right', 'data' => ['toggle' => 'modal', 'target' => '#emailModal']]); ?>
     </p>
+
+    <?= $this->render('_email_modal', ['model' => $model, 'target'=>'emailModal']); ?>
 
     <?= DetailView::widget([
         'model' => $model,
