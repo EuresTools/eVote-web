@@ -31,4 +31,10 @@ class Vote extends \app\models\base\VoteBase
         return array_merge(parent::rules(), [
         ]);
     }
+
+    public function getOrganizerId()
+    {
+        $poll = $this->getPoll()->one();
+        return isset($poll) ? $poll->organizer_id : null;
+    }
 }

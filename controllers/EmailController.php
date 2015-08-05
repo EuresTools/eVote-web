@@ -8,9 +8,27 @@ use app\models\Code;
 use app\components\controllers\PollDependedController;
 use yii\helpers\ArrayHelper;
 use app\models\forms\EmailForm;
+use yii\filters\AccessControl;
+use app\components\filters\OrganizationAccessRule;
 
 class EmailController extends PollDependedController
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(),],
+            ],
+        ];
+    }
 
     // Sends an email to multiple members.
     public function actionSendmultiple()

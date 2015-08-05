@@ -60,7 +60,7 @@ class MemberController extends PollDependedController
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['import', 'index' , 'clear'],
+                'only' => ['import', 'index' , 'clear', 'create', 'update', 'view', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,

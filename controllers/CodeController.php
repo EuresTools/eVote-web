@@ -10,11 +10,14 @@ use app\components\controllers\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\helpers\PollUrl;
+use yii\filters\AccessControl;
+use app\components\filters\OrganizationAccessRule;
+use app\components\controllers\PollDependedController;
 
 /**
  * CodeController implements the CRUD actions for Code model.
  */
-class CodeController extends BaseController
+class CodeController extends PollDependedController
 {
     public function behaviors()
     {
@@ -25,6 +28,16 @@ class CodeController extends BaseController
                     'delete' => ['post'],
                     'invalidate' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(), 'modelClass' => Code::className()],
             ],
         ];
     }

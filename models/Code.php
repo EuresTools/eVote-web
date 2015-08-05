@@ -137,4 +137,10 @@ class Code extends \app\models\base\CodeBase
             }
         }
     }
+
+    public function getOrganizerId()
+    {
+        $poll = $this->getPoll()->one();
+        return isset($poll) ? $poll->organizer_id : null;
+    }
 }
