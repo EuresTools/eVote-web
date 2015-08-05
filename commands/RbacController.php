@@ -5,6 +5,7 @@ use Yii;
 use yii\console\Controller;
 use \app\rbac\UserGroupRule;
 use \app\rbac\OwnerRule;
+use \app\rbac\OrganizerRule;
 use \app\models\User;
 
 class RbacController extends Controller
@@ -97,6 +98,10 @@ class RbacController extends Controller
         $userGroupRule = new UserGroupRule();
         $auth->add($userGroupRule);
 
+        $organizerCheckRule = new OrganizerRule();
+        $auth->add($organizerCheckRule);
+
+
         // $ownerRule = new OwnerRule();
         // $auth->add($ownerRule);
 
@@ -145,6 +150,13 @@ class RbacController extends Controller
             }
         }
 
+
+        // create organizer_permission permission entry with organizer rule check
+        $organizer_permissions = $auth->createPermission('organizer_permissions');
+        $organizer_permissions->description = 'default organizer permissions with check for user organizer_id filled for non admins';
+        $organizer_permissions->ruleName = $organizerCheckRule->name;
+        $auth->add($organizer_permissions);
+
         // assignments
         $guest=$auth->getRole('guest');
 
@@ -154,6 +166,7 @@ class RbacController extends Controller
 
 
         $default_permission=$auth->getPermission('default_permission');
+        $organizer_permissions=$auth->getPermission('organizer_permissions');
 
         $datecontrol=$auth->getPermission('/datecontrol/*');
         $gridview=$auth->getPermission('/gridview/*');
@@ -177,25 +190,6 @@ class RbacController extends Controller
         $poll_update=$auth->getPermission('/poll/update');
         $poll_delete=$auth->getPermission('/poll/delete');
         $poll_create=$auth->getPermission('/poll/create');
-
-
-        // // update only owned test start
-        // $updatePoll = $auth->createPermission('updatePoll');
-        // $updatePoll->description = 'Update poll';
-        // $auth->add($updatePoll);
-        // $auth->addChild($updatePoll, $poll_update);
-
-        // // add the "updateOwnPoll" permission and associate the rule with it.
-        // $updatePollOwned = $auth->createPermission('updatePollOwned');
-        // $updatePollOwned->description = 'Update own poll';
-        // $updatePollOwned->ruleName = $ownerRule->name;
-        // $auth->add($updatePollOwned);
-
-        // // "updateOwnPoll" will be used from "updatePoll"
-        // $auth->addChild($updatePollOwned, $updatePoll);
-        // $auth->addChild($updatePollOwned, $poll_update);
-
-        // update only owned test end
 
         // member permissions
         $member_route=$auth->getPermission('/member/*');
@@ -233,33 +227,34 @@ class RbacController extends Controller
         $auth->addChild($default_permission, $gridview);
 
 
-        // Organizer Role
-        $auth->addChild($Organizer, $default_permission);
-
-        // poll actions
-        $auth->addChild($Organizer, $poll_create);
-        $auth->addChild($Organizer, $poll_update);
-        $auth->addChild($Organizer, $poll_delete);
-        $auth->addChild($Organizer, $poll_view);
-        $auth->addChild($Organizer, $poll_index);
+                // poll actions
+        $auth->addChild($organizer_permissions, $poll_create);
+        $auth->addChild($organizer_permissions, $poll_update);
+        $auth->addChild($organizer_permissions, $poll_delete);
+        $auth->addChild($organizer_permissions, $poll_view);
+        $auth->addChild($organizer_permissions, $poll_index);
 
         // member actions
-        $auth->addChild($Organizer, $member_create);
-        $auth->addChild($Organizer, $member_update);
-        $auth->addChild($Organizer, $member_delete);
-        $auth->addChild($Organizer, $member_view);
-        $auth->addChild($Organizer, $member_index);
-        $auth->addChild($Organizer, $member_import);
-        $auth->addChild($Organizer, $member_clear);
-        //$auth->addChild($Organizer, $member_email);
+        $auth->addChild($organizer_permissions, $member_create);
+        $auth->addChild($organizer_permissions, $member_update);
+        $auth->addChild($organizer_permissions, $member_delete);
+        $auth->addChild($organizer_permissions, $member_view);
+        $auth->addChild($organizer_permissions, $member_index);
+        $auth->addChild($organizer_permissions, $member_import);
+        $auth->addChild($organizer_permissions, $member_clear);
+        //$auth->addChild($organizer_permissions, $member_email);
 
         // send member emails
-        $auth->addChild($Organizer, $emails_sendmultiple);
-        $auth->addChild($Organizer, $emails_sendsingle);
+        $auth->addChild($organizer_permissions, $emails_sendmultiple);
+        $auth->addChild($organizer_permissions, $emails_sendsingle);
 
         // code actions
-        $auth->addChild($Organizer, $code_invalidate);
-        $auth->addChild($Organizer, $code_create);
+        $auth->addChild($organizer_permissions, $code_invalidate);
+        $auth->addChild($organizer_permissions, $code_create);
+
+        // Organizer Role
+        $auth->addChild($Organizer, $default_permission);
+        $auth->addChild($Organizer, $organizer_permissions);
 
 
         // admin
