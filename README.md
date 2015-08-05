@@ -12,19 +12,13 @@
 * ~~Ajaxify a lot of tables.~~
 * ~~Make a lot of columns sortable.~~
 * ~~Locking mechanism to prevent inappropriate changes to a poll after someone has fetched it.~~
-* Set up permissions/roles system.
-
-
-* Locking mechanism to prevent inappropriate changes to a poll after someone has fetched it.
-* Owner permission query stuff
-* Membercontroller multilanguage subject?
-* on vote access Freeze the poll, but there should be an option to preview it
-* config interface by organizer to set parameters like after what attempts the poll is freezed
-* auto forward on the poll voting page after xy milliseconds to "page expired page"
-* fix highcharts default rendering width to fullwidth
-
-* dynamic menue depend on the user Rights
-* Owner access rights checking on delete/update actions
-* Owner view rights checking on index/view and other grid listings etc
-
-* add a send Email function to sent only the token for one specific member e.g. when a new token was generated after invalidation
+* ~~Set up permissions/roles system.~~
+* ~~Owner permission query stuff.~~
+* ~~Auto forward on the poll voting page after xy milliseconds to "page expired page".~~
+* ~~Fix highcharts default rendering width to fullwidth.~~
+* ~~Owner access rights checking on delete/update actions.~~
+* ~~Add a send email function to sent only the token for one specific member e.g. when a new token was generated after invalidation.~~
+* On vote access freeze the poll, but there should be an option to preview it.
+* Config interface by organizer to set parameters like after what attempts the poll is freezed.
+* Dynamic menue depend on the user rights.
+* Owner view rights checking on index/view and other grid listings etc.
