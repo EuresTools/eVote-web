@@ -4,6 +4,7 @@ namespace app\commands;
 use Yii;
 use yii\console\Controller;
 use \app\rbac\UserGroupRule;
+use \app\rbac\OwnerRule;
 use \app\models\User;
 
 class RbacController extends Controller
@@ -25,10 +26,16 @@ class RbacController extends Controller
 
     public $permissions = [
         'default_permission' => 'default permissions for all users',
+        // 'updatePollOwned',
+        // 'updatePoll'
     ];
 
 
     public $routes = [
+
+        '/datecontrol/*',
+        '/gridview/*',
+
         '/site/login',
         '/site/logout',
         '/site/error',
@@ -74,222 +81,256 @@ class RbacController extends Controller
         '/organizer/view',
         '/organizer/index',
 
-        '/emails/send',
+        '/email/*',
+        '/email/sendmultiple',
+        '/email/sendsingle',
     ];
 
 
     public function actionInit()
     {
-        $authManager = \Yii::$app->authManager;
+        $auth = \Yii::$app->authManager;
 
 
 
 
         $userGroupRule = new UserGroupRule();
-        $authManager->add($userGroupRule);
+        $auth->add($userGroupRule);
 
-        //$guest = $authManager->createRole('guest');
+        // $ownerRule = new OwnerRule();
+        // $auth->add($ownerRule);
+
+
+        //$guest = $auth->createRole('guest');
         //$guest->ruleName = $userGroupRule->name;
 
         // Add roles in Yii::$app->authManager
-        //$authManager->add($guest);
+        //$auth->add($guest);
 
 
-        $index = $authManager->createPermission('index');
+        $index = $auth->createPermission('index');
 
         if ($this->roles && is_array($this->roles)) {
             foreach ($this->roles as $roleName => $roleSettings) {
-                $role = $authManager->createRole($roleName);
+                $role = $auth->createRole($roleName);
                 $role->description = !empty($roleSettings['description']) ? $roleSettings['description'] : '';
 
                 // Add rule "UserGroupRule" in roles
                 $role->ruleName = $userGroupRule->name;
                 //$role->ruleName = !empty($roleSettings['ruleName']) ? $roleSettings['ruleName'] : '';
 
-                $authManager->add($role);
+                $auth->add($role);
             }
         }
 
 
         if ($this->permissions && is_array($this->permissions)) {
             foreach ($this->permissions as $permissionName => $permissionDescription) {
-                $permission = $authManager->createPermission($permissionName);
+                $permission = $auth->createPermission($permissionName);
                 $permission->description = $permissionDescription;
-                $authManager->add($permission);
+                $auth->add($permission);
             }
         }
 
         // Add permissions in Yii::$app->authManager
-        //$authManager->add($default_permission);
+        //$auth->add($default_permission);
 
 
         if ($this->routes && is_array($this->routes)) {
             foreach ($this->routes as $routeName) {
                 if ($routeName[0] == '/') {
-                    $route = $authManager->createPermission($routeName);
-                    $authManager->add($route);
+                    $route = $auth->createPermission($routeName);
+                    $auth->add($route);
                 }
             }
         }
 
         // assignments
-        $guest=$authManager->getRole('guest');
+        $guest=$auth->getRole('guest');
 
-        $admin=$authManager->getRole('Admin');
-        $Organizer=$authManager->getRole('Organizer');
+        $admin=$auth->getRole('Admin');
+        $Organizer=$auth->getRole('Organizer');
 
 
 
-        $default_permission=$authManager->getPermission('default_permission');
+        $default_permission=$auth->getPermission('default_permission');
 
-        $login=$authManager->getPermission('/site/login');
-        $logout=$authManager->getPermission('/site/logout');
-        $contact=$authManager->getPermission('/site/contact');
-        $about=$authManager->getPermission('/site/about');
-        $vote_route=$authManager->getPermission('/vote/*');
-        $user_route=$authManager->getPermission('/user/*');
-        $gii_route=$authManager->getPermission('/gii/*');
-        $admin_route=$authManager->getPermission('/admin/*');
-        $debug_route=$authManager->getPermission('/debug/*');
-        $organizer_route=$authManager->getPermission('/organizer/*');
+        $datecontrol=$auth->getPermission('/datecontrol/*');
+        $gridview=$auth->getPermission('/gridview/*');
+
+        $login=$auth->getPermission('/site/login');
+        $logout=$auth->getPermission('/site/logout');
+        $contact=$auth->getPermission('/site/contact');
+        $about=$auth->getPermission('/site/about');
+        $vote_route=$auth->getPermission('/vote/*');
+        $user_route=$auth->getPermission('/user/*');
+        $gii_route=$auth->getPermission('/gii/*');
+        $admin_route=$auth->getPermission('/admin/*');
+        $debug_route=$auth->getPermission('/debug/*');
+        $organizer_route=$auth->getPermission('/organizer/*');
 
 
         // poll permissions
-        $poll_route=$authManager->getPermission('/poll/*');
-        $poll_index=$authManager->getPermission('/poll/index');
-        $poll_view=$authManager->getPermission('/poll/view');
-        $poll_update=$authManager->getPermission('/poll/update');
-        $poll_delete=$authManager->getPermission('/poll/delete');
-        $poll_create=$authManager->getPermission('/poll/create');
+        $poll_route=$auth->getPermission('/poll/*');
+        $poll_index=$auth->getPermission('/poll/index');
+        $poll_view=$auth->getPermission('/poll/view');
+        $poll_update=$auth->getPermission('/poll/update');
+        $poll_delete=$auth->getPermission('/poll/delete');
+        $poll_create=$auth->getPermission('/poll/create');
 
+
+        // // update only owned test start
+        // $updatePoll = $auth->createPermission('updatePoll');
+        // $updatePoll->description = 'Update poll';
+        // $auth->add($updatePoll);
+        // $auth->addChild($updatePoll, $poll_update);
+
+        // // add the "updateOwnPoll" permission and associate the rule with it.
+        // $updatePollOwned = $auth->createPermission('updatePollOwned');
+        // $updatePollOwned->description = 'Update own poll';
+        // $updatePollOwned->ruleName = $ownerRule->name;
+        // $auth->add($updatePollOwned);
+
+        // // "updateOwnPoll" will be used from "updatePoll"
+        // $auth->addChild($updatePollOwned, $updatePoll);
+        // $auth->addChild($updatePollOwned, $poll_update);
+
+        // update only owned test end
 
         // member permissions
-        $member_route=$authManager->getPermission('/member/*');
-        $member_index=$authManager->getPermission('/member/index');
-        $member_view=$authManager->getPermission('/member/view');
-        $member_update=$authManager->getPermission('/member/update');
-        $member_delete=$authManager->getPermission('/member/delete');
-        $member_create=$authManager->getPermission('/member/create');
-        $member_import=$authManager->getPermission('/member/import');
-        $member_clear=$authManager->getPermission('/member/clear');
-        //$member_email=$authManager->getPermission('/member/email');
+        $member_route=$auth->getPermission('/member/*');
+        $member_index=$auth->getPermission('/member/index');
+        $member_view=$auth->getPermission('/member/view');
+        $member_update=$auth->getPermission('/member/update');
+        $member_delete=$auth->getPermission('/member/delete');
+        $member_create=$auth->getPermission('/member/create');
+        $member_import=$auth->getPermission('/member/import');
+        $member_clear=$auth->getPermission('/member/clear');
+        //$member_email=$auth->getPermission('/member/email');
 
-        $code_invalidate=$authManager->getPermission('/code/invalidate');
-        $code_create=$authManager->getPermission('/code/create');
+        $code_invalidate=$auth->getPermission('/code/invalidate');
+        $code_create=$auth->getPermission('/code/create');
 
-        $emails_send=$authManager->getPermission('/emails/send');
+        $emails_route=$auth->getPermission('/email/*');
+        $emails_sendmultiple=$auth->getPermission('/email/sendmultiple');
+        $emails_sendsingle=$auth->getPermission('/email/sendsingle');
 
         // guest
         echo "adding guest permissions\n";
-        $authManager->addChild($guest, $login);
-        $authManager->addChild($guest, $contact);
-        $authManager->addChild($guest, $about);
-        $authManager->addChild($guest, $vote_route);
+        $auth->addChild($guest, $login);
+        $auth->addChild($guest, $contact);
+        $auth->addChild($guest, $about);
+        $auth->addChild($guest, $vote_route);
 
         //default_permission permissions
         echo "adding default_permission permissions\n";
-        $authManager->addChild($default_permission, $logout);
-        $authManager->addChild($default_permission, $contact);
-        $authManager->addChild($default_permission, $about);
-        $authManager->addChild($default_permission, $vote_route);
+        $auth->addChild($default_permission, $logout);
+        $auth->addChild($default_permission, $contact);
+        $auth->addChild($default_permission, $about);
+        $auth->addChild($default_permission, $vote_route);
+
+        $auth->addChild($default_permission, $datecontrol);
+        $auth->addChild($default_permission, $gridview);
 
 
         // Organizer Role
-        $authManager->addChild($Organizer, $default_permission);
+        $auth->addChild($Organizer, $default_permission);
 
         // poll actions
-        $authManager->addChild($Organizer, $poll_create);
-        $authManager->addChild($Organizer, $poll_update);
-        $authManager->addChild($Organizer, $poll_delete);
-        $authManager->addChild($Organizer, $poll_view);
-        $authManager->addChild($Organizer, $poll_index);
+        $auth->addChild($Organizer, $poll_create);
+        $auth->addChild($Organizer, $poll_update);
+        $auth->addChild($Organizer, $poll_delete);
+        $auth->addChild($Organizer, $poll_view);
+        $auth->addChild($Organizer, $poll_index);
 
         // member actions
-        $authManager->addChild($Organizer, $member_create);
-        $authManager->addChild($Organizer, $member_update);
-        $authManager->addChild($Organizer, $member_delete);
-        $authManager->addChild($Organizer, $member_view);
-        $authManager->addChild($Organizer, $member_index);
-        $authManager->addChild($Organizer, $member_import);
-        $authManager->addChild($Organizer, $member_clear);
-        //$authManager->addChild($Organizer, $member_email);
+        $auth->addChild($Organizer, $member_create);
+        $auth->addChild($Organizer, $member_update);
+        $auth->addChild($Organizer, $member_delete);
+        $auth->addChild($Organizer, $member_view);
+        $auth->addChild($Organizer, $member_index);
+        $auth->addChild($Organizer, $member_import);
+        $auth->addChild($Organizer, $member_clear);
+        //$auth->addChild($Organizer, $member_email);
 
         // send member emails
-        $authManager->addChild($Organizer, $emails_send);
+        $auth->addChild($Organizer, $emails_sendmultiple);
+        $auth->addChild($Organizer, $emails_sendsingle);
 
         // code actions
-        $authManager->addChild($Organizer, $code_invalidate);
-        $authManager->addChild($Organizer, $code_create);
+        $auth->addChild($Organizer, $code_invalidate);
+        $auth->addChild($Organizer, $code_create);
 
 
         // admin
         echo "adding admin permissions\n";
-        $authManager->addChild($admin, $default_permission);
-        $authManager->addChild($admin, $Organizer);
-        $authManager->addChild($admin, $gii_route);
-        $authManager->addChild($admin, $debug_route);
-        $authManager->addChild($admin, $admin_route);
-        $authManager->addChild($admin, $user_route);
-        $authManager->addChild($admin, $organizer_route);
+        $auth->addChild($admin, $default_permission);
+        $auth->addChild($admin, $Organizer);
+        $auth->addChild($admin, $gii_route);
+        $auth->addChild($admin, $debug_route);
+        $auth->addChild($admin, $admin_route);
+        $auth->addChild($admin, $user_route);
+        $auth->addChild($admin, $organizer_route);
 
 
 
-
+        /* not needed if we are using the UserGroupRule to check is_admin in the User Table
         // assign the "AdminUser" the AdminRole
         $admin_user = User::findByUsername($this->adminUsername);
         if ($admin_user) {
-            $authManager->assign($admin, $admin_user->id);
+            $auth->assign($admin, $admin_user->id);
         }
+        */
 
         /*
         // Create roles
-        $guest = $authManager->createRole('guest');
-        // $brand = $authManager->createRole('BRAND');
-        // $talent = $authManager->createRole('TALENT');
+        $guest = $auth->createRole('guest');
+        // $brand = $auth->createRole('BRAND');
+        // $talent = $auth->createRole('TALENT');
 
-        $admin = $authManager->createRole('admin');
+        $admin = $auth->createRole('admin');
         // Create simple, based on action{$NAME} permissions
-        $login = $authManager->createPermission('login');
+        $login = $auth->createPermission('login');
         $login->description = 'Allows Guest Users to login';
 
-        $logout = $authManager->createPermission('logout');
+        $logout = $auth->createPermission('logout');
         $logout->description = 'Allows Users to logout';
 
-        $error = $authManager->createPermission('error');
+        $error = $auth->createPermission('error');
         $error->description = 'Allows Everyone to display Errors';
 
-        $default_permission = $authManager->createPermission('default_permission');
+        $default_permission = $auth->createPermission('default_permission');
         $default_permission->description = 'default_permissions for all users';
 
 
 
-        //$signUp = $authManager->createPermission('sign-up');
+        //$signUp = $auth->createPermission('sign-up');
         //$signUp->description = 'Allows Everyone to use the Sign-Up page';
 
-        $index = $authManager->createPermission('index');
-        $view = $authManager->createPermission('view');
-        $update = $authManager->createPermission('update');
-        $delete = $authManager->createPermission('delete');
+        $index = $auth->createPermission('index');
+        $view = $auth->createPermission('view');
+        $update = $auth->createPermission('update');
+        $delete = $auth->createPermission('delete');
 
 
 
-        //$testroute = $authManager->createRoute('testroute');
+        //$testroute = $auth->createRoute('testroute');
 
 
         // Add permissions in Yii::$app->authManager
-        $authManager->add($login);
-        $authManager->add($logout);
-        $authManager->add($error);
-        $authManager->add($signUp);
-        $authManager->add($index);
-        $authManager->add($view);
-        $authManager->add($update);
-        $authManager->add($delete);
-        $authManager->add($default_permission);
+        $auth->add($login);
+        $auth->add($logout);
+        $auth->add($error);
+        $auth->add($signUp);
+        $auth->add($index);
+        $auth->add($view);
+        $auth->add($update);
+        $auth->add($delete);
+        $auth->add($default_permission);
 
         // Add rule, based on UserExt->group === $user->group
         $userGroupRule = new UserGroupRule();
-        $authManager->add($userGroupRule);
+        $auth->add($userGroupRule);
 
         // Add rule "UserGroupRule" in roles
         $guest->ruleName = $userGroupRule->name;
@@ -298,61 +339,69 @@ class RbacController extends Controller
         $admin->ruleName = $userGroupRule->name;
 
         // Add roles in Yii::$app->authManager
-        $authManager->add($guest);
-        // $authManager->add($brand);
-        // $authManager->add($talent);
-        $authManager->add($admin);
+        $auth->add($guest);
+        // $auth->add($brand);
+        // $auth->add($talent);
+        $auth->add($admin);
 
         // Add permission-per-role in Yii::$app->authManager
         // Guest
-        // $authManager->addChild($guest, $login);
-        // $authManager->addChild($guest, $logout);
-        // $authManager->addChild($guest, $error);
-        // $authManager->addChild($guest, $signUp);
-        // $authManager->addChild($guest, $index);
-        // $authManager->addChild($guest, $view);
+        // $auth->addChild($guest, $login);
+        // $auth->addChild($guest, $logout);
+        // $auth->addChild($guest, $error);
+        // $auth->addChild($guest, $signUp);
+        // $auth->addChild($guest, $index);
+        // $auth->addChild($guest, $view);
 
         // // BRAND
-        // $authManager->addChild($brand, $update);
-        // $authManager->addChild($brand, $guest);
+        // $auth->addChild($brand, $update);
+        // $auth->addChild($brand, $guest);
 
         // // TALENT
-        // $authManager->addChild($talent, $update);
-        // $authManager->addChild($talent, $guest);
+        // $auth->addChild($talent, $update);
+        // $auth->addChild($talent, $guest);
 
 
         // Admin
-        $authManager->addChild($admin, $delete);
-        // $authManager->addChild($admin, $talent);
-        // $authManager->addChild($admin, $brand);
+        $auth->addChild($admin, $delete);
+        // $auth->addChild($admin, $talent);
+        // $auth->addChild($admin, $brand);
 
         */
     }
 
     public function actionClear()
     {
-        $authManager = \Yii::$app->authManager;
+        $auth = \Yii::$app->authManager;
 
         $userGroupRule = new UserGroupRule();
-        $userGroupRuleItem = $authManager->getRule($userGroupRule->name);
+        $userGroupRuleItem = $auth->getRule($userGroupRule->name);
         if ($userGroupRuleItem) {
-            $authManager->remove($userGroupRuleItem);
+            $auth->remove($userGroupRuleItem);
         }
+
+        $OwnerRule = new OwnerRule();
+        $OwnerRuleItem = $auth->getRule($OwnerRule->name);
+        if ($OwnerRuleItem) {
+            $auth->remove($OwnerRuleItem);
+        }
+
+
 
         if ($this->roles && is_array($this->roles)) {
             foreach ($this->roles as $roleName => $roleSettings) {
-                $role=$authManager->getRole($roleName);
+                $role=$auth->getRole($roleName);
                 if ($role) {
-                    $authManager->remove($role);
+                    $auth->remove($role);
                 }
             }
         }
 
         if ($this->permissions && is_array($this->permissions)) {
             foreach ($this->permissions as $permissionName => $permissionDescription) {
-                $permission = $authManager->getPermission($permissionName);
+                $permission = $auth->getPermission($permissionName);
                 if ($permission) {
-                    $authManager->remove($permission);
+                    $auth->remove($permission);
                 }
             }
         }
@@ -360,15 +409,29 @@ class RbacController extends Controller
         if ($this->routes && is_array($this->routes)) {
             foreach ($this->routes as $routeName) {
                 if ($routeName[0] == '/') {
-                    $route = $authManager->getPermission($routeName);
+                    $route = $auth->getPermission($routeName);
                     if ($route) {
-                        $authManager->remove($route);
+                        $auth->remove($route);
                     }
                 }
             }
         }
 
+        $permission = $auth->getPermission('updatePoll');
+        if ($permission) {
+            $auth->remove($permission);
+        }
+
+        $permission = $auth->getPermission('updatePollOwned');
+        if ($permission) {
+            $auth->remove($permission);
+        }
 
     }
-}
 
+    public function actionClearAll()
+    {
+        $auth = \Yii::$app->authManager;
+        $auth->removeAll();
+    }
+}
