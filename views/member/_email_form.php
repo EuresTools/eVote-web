@@ -10,7 +10,7 @@ use app\components\helpers\PollUrl;
 <?= Html::tag('p', Html::encode(Yii::t('app', 'You can use the tags <member-name>, <member-group> and <voting-code> to customize your message for each member.'))); ?>
 <div class="email-form">
 <?php
-    $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL, 'action' => PollUrl::toRoute(['email/email', 'member_id' => $member->id])]);
+    $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL, 'action' => PollUrl::toRoute(['email/sendsingle', 'member_id' => $member->id])]);
     echo Form::widget([
         'model' => $model,
         'form' => $form,

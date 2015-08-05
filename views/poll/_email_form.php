@@ -15,7 +15,7 @@ use app\components\helpers\PollUrl;
         EmailForm::EMAIL_TO_USED => Yii::t('app', 'Members who have already voted'),
         EmailForm::EMAIL_TO_ALL => Yii::t('app', 'All Members'),
     ];
-    $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL, 'action' => PollUrl::toRoute(['email/send', 'poll_id' => $poll->id])]);
+    $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL, 'action' => PollUrl::toRoute(['email/sendmultiple', 'poll_id' => $poll->id])]);
     echo Form::widget([
         'model' => $model,
         'form' => $form,

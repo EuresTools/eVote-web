@@ -13,7 +13,7 @@ class EmailController extends PollDependedController
 {
 
     // Sends an email to multiple members.
-    public function actionSend()
+    public function actionSendmultiple()
     {
         $email = new EmailForm();
         if ($email->load(Yii::$app->request->post())) {
@@ -33,7 +33,7 @@ class EmailController extends PollDependedController
             $failure = 0;
 
             foreach ($members as $member) {
-                if($this->sendEmailToMember($email, $member)) {
+                if ($this->sendEmailToMember($email, $member)) {
                     $success++;
                 } else {
                     $failure++;
@@ -50,7 +50,8 @@ class EmailController extends PollDependedController
     }
 
     // Sends an email to a single member.
-    public function actionEmail($member_id) {
+    public function actionSendsingle($member_id)
+    {
         $member = Member::find()->primary_key($member_id)->poll_searchOptions($this->getPollSearchOptions())->one();
 
         if ($member === null) {
