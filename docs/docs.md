@@ -112,3 +112,20 @@ This endpoint requires the `token` URL parameter to be set to a valid voting cod
         ]
       }
     }
+
+
+## Apps
+
+The [EuresTools Github page](https://github.com/EuresTools) contains an [iOS project](https://github.com/EuresTools/eVote-iOS) and an [Android project](https://github.com/EuresTools/eVote-Android). These apps are functional and can be used to submit votes (if the server URL is configured correctly). However, they have not been styled at all and have a minimalistic default appearance on both platforms. One might entertain the thought of enhancing them before production.
+
+### App Distribution
+
+If these apps are used, they need to be distributed. A public distribution service (App Store and Google Play) may not be the optimal solution because the apps will (at least initially) only be distributed to a limited audience.
+
+#### Android
+
+Distributing Android apps is fairly easy and they can be distributed by simple means via a website or via email. Refer to the official documentation on [Alternative Distribution Options](http://developer.android.com/distribute/tools/open-distribution.html).
+
+#### iOS
+
+Distributing iOS apps is a bit harder. [This article](http://mobiledan.net/2012/03/02/5-options-for-distributing-ios-apps-to-a-limited-audience-legally/) covers some distribution options. Eurescom should probably consider option 2, the iOS Developer Enterprise Program, for distribution of this app. For mdetails, refer to the official [App Distribution Guide](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/Introduction/Introduction.html).
