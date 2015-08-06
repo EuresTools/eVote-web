@@ -13,12 +13,16 @@ class Code extends \app\models\base\CodeBase
     const CODE_STATUS_USED = 2;
 
 
+
     /**
      * @return returns representingColumn default null
      */
     public static function representingColumn()
     {
-        return ['token'];
+        if (\Yii::$app->user->identity->isAdmin()) {
+            return ['token'];
+        }
+        return ['ScrambleToken'];
     }
 
     /**
@@ -142,5 +146,19 @@ class Code extends \app\models\base\CodeBase
     {
         $poll = $this->getPoll()->one();
         return isset($poll) ? $poll->organizer_id : null;
+    }
+
+    // return just first and last token char rest scrabled
+    public function getScrambleToken()
+    {
+        if (isset(Yii::$app->params['readable-token-chars'])) {
+            $readableChars = Yii::$app->params['readable-token-chars'];
+        } else {
+            $readableChars = 0;
+        }
+        $start = $readableChars;
+        $maxlength = strlen($this->token) - ($readableChars * 2);
+        $replace = implode('', array_fill($start, $maxlength, '*'));
+        return substr_replace($this->token, $replace, $start, $maxlength);
     }
 }
