@@ -101,6 +101,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => function($data) {
                     return $data->getHTMLOptions();
                 },
+                'value' => function ($data) { // use the __toString to print out either the cleartext token or scrabled.
+                    return $data->__toString();
+                }
             ],
             [
                 'label' => 'Valid',

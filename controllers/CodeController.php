@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Poll;
 use app\models\Code;
 use app\models\Member;
 use app\models\search\CodeSearch;
@@ -37,7 +38,7 @@ class CodeController extends PollDependedController
                         'roles' => ['@'],
                     ],
                 ],
-                'ruleConfig' => ['class' => OrganizationAccessRule::className(), 'modelClass' => Code::className()],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(), 'modelClass'=> Poll::className(), 'queryParam'=>'poll_id'],
             ],
         ];
     }
