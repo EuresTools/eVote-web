@@ -36,9 +36,9 @@ $columns = [
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => \Yii::t('app', 'Any Organizer')],
-            'value' => function ($data) {
-                return Html::a(Html::encode($data->organizer), Url::toRoute(['organizer/view', 'id' => $data->organizer_id]));
-            }
+            'value'=>function ($data, $key, $index, $widget) {
+                return $this->render('//system/columnviews/_organizer', ['data' => $data->organizer]);
+            },
         ],
         // 'created_at',
         // 'updated_at',

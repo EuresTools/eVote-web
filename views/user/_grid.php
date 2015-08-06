@@ -32,43 +32,20 @@ $columns = [
         //         //'value' => $model->isOrganizer() ? Html::a(Html::encode($model->getOrganizer()->one()->name), ['/organizer/view', 'id' => $model->getOrganizer()->one()->id]) : 'None'
         // ],
         [
-            'attribute'=>'organizer_id',
-            'vAlign'=>'middle',
-            'width'=>'180px',
-
-            //render with a view through inline function
-            'value'=>function ($data, $key, $index, $widget) {
-                return $this->render('//system/columnviews/_organizer', ['data' => $data->organizer]);
-            },
-
-            // render with inline function
-            // 'value'=>function ($model, $key, $index, $widget) {
-            //     if ($model->organizer) {
-            //         return Html::a(
-            //             $model->organizer,
-            //             ['/organizer/view', 'id' => $model->organizer->getPrimaryKey()],
-            //             ['title'=>'View organizer detail']
-            //         );
-            //     }
-            // },
+            'attribute' => 'organizer_id',
+            'headerOptions'=> ['style' => 'width: 200px; white-space: nowrap;'],
+            'header' => \Yii::t('app', 'Organizer'),
+            'format' => 'raw',
             'filterType'=>GridView::FILTER_SELECT2,
             'filter'=>ArrayHelper::map(Organizer::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
             'filterWidgetOptions'=>[
-                'pluginOptions'=>['allowClear'=>true],
-            ],
-            'filterInputOptions' => ['placeholder' => 'Any Organizer'],
-
-            /*
-            'filterType'=>GridView::FILTER_TYPEAHEAD,
-            'filterWidgetOptions'=>[
                 'pluginOptions' => ['allowClear' => true],
-                'dataset'=>[['local'=>ArrayHelper::map(Organizer::find()->orderBy('name')->asArray()->all(), 'id', 'name')]],
             ],
-            'filterInputOptions' => ['placeholder' => 'Any Organizer'],
-            */
-            'format'=>'raw'
+            'filterInputOptions' => ['placeholder' => \Yii::t('app', 'Any Organizer')],
+            'value'=>function ($data, $key, $index, $widget) {
+                return $this->render('//system/columnviews/_organizer', ['data' => $data->organizer]);
+            },
         ],
-
         'creator',
         'editor',
 ];
