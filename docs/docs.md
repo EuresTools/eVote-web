@@ -128,4 +128,4 @@ Distributing Android apps is fairly easy and they can be distributed by simple m
 
 #### iOS
 
-Distributing iOS apps is a bit harder. [This article](http://mobiledan.net/2012/03/02/5-options-for-distributing-ios-apps-to-a-limited-audience-legally/) covers some distribution options. Eurescom should probably consider option 2, the iOS Developer Enterprise Program, for distribution of this app. For mdetails, refer to the official [App Distribution Guide](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/Introduction/Introduction.html).
+Distributing iOS apps is a bit harder. [This article](http://mobiledan.net/2012/03/02/5-options-for-distributing-ios-apps-to-a-limited-audience-legally/) covers some distribution options. Eurescom should probably consider option 2, the iOS Developer Enterprise Program, for distribution of this app. For details, refer to the official [App Distribution Guide](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/Introduction/Introduction.html).
