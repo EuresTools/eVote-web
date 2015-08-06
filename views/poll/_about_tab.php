@@ -56,6 +56,8 @@ if ($model->isLocked()){
             'method' => 'post',
         ],
     ]) ?>
+    <?= Html::a(Yii::t('app', 'Preview'), ['//vote/preview', 'id' => $model->id], ['target'=>'_blank', 'class' => 'pull-right btn btn-primary']) ?>
+
 </p>
 
 <?= DetailView::widget([

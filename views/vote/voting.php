@@ -15,8 +15,12 @@ $this->title = Yii::t('app', 'voting for {pollQuestion}: ', [
 ]) . ' ' . $model->__toString();
 */
 
+if (empty($preview)) {
+    $preview = false;
+}
+
 // autoforward after x seconds to the "home" Url
-if (Yii::$app->params['autoforward-after']) {
+if (Yii::$app->params['autoforward-after'] && $preview == false) {
     $seconds = Yii::$app->params['autoforward-after'];
     $url=Yii::$app->urlManager->createUrl(['vote/expire', 'voting-expired' => 1]);
     $this->registerMetaTag(['http-equiv' => 'refresh', 'content' => $seconds.'; URL='.$url]);
@@ -43,6 +47,7 @@ if (Yii::$app->params['autoforward-after']) {
     } elseif ($show_form === true && isset($model)) {
         echo $this->render('_form', [
             'model' => $model,
+            'preview' => $preview,
         ]);
     }
     ?>

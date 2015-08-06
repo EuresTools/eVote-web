@@ -28,13 +28,9 @@ $dataProvider = new ArrayDataProvider([
     ],
 ]);
 
-//$dataProvider->prepare($forcePrepare = true);
-?>
-
-<?php
 Pjax::begin(['id' => 'options']);
-// Status.
 
+// Status.
 if ($model->isOver()) {
     echo Html::tag('h2', Yii::t('app', 'Status: Finished'), ['class' => 'status status-finished']);
 } else if ($model->isOpen()) {
@@ -43,14 +39,8 @@ if ($model->isOver()) {
     echo Html::tag('h2', Yii::t('app', 'Status: Not Started'), ['class' => 'status status-closed']);
 }
 
-?>
-
-
-<?php
 // Column chart.
-
 if ($model->hasStarted()) {
-
     echo Highcharts::widget([
         'htmlOptions' => ['id' => 'chartcontainer'],
         'options' => [

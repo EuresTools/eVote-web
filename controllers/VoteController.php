@@ -20,6 +20,8 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use app\components\filters\OrganizationAccessRule;
+
 
 /**
  * VoteController implements all the actions which are used in the public voting
@@ -41,7 +43,23 @@ class VoteController extends BaseController
                         'actions' => ['index','voting', 'expire'],
                         'allow' => true,
                     ],
+                    [
+                        'actions' => ['preview'],
+                        'roles' => ['@'],
+                        'allow' => true,
+                    ],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['preview'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(),],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -54,11 +72,11 @@ class VoteController extends BaseController
             ],
             'tokenFilter' => [
                'class' => TokenFilter::className(),
-               'except' => ['index'],
+               'except' => ['index', 'preview', 'expire'],
             ],
             'openPollFilter' => [
                'class' => OpenPollFilter::className(),
-               'except' => ['index'],
+               'except' => ['index', 'preview', 'expire'],
             ],
         ];
     }
@@ -79,8 +97,6 @@ class VoteController extends BaseController
      */
     public function actionIndex($token = null)
     {
-
-
 
         $model = new TokenInputForm();
         if (!empty($token)) {
@@ -173,7 +189,12 @@ class VoteController extends BaseController
     }
 
 
-
+    public function actionPreview($id)
+    {
+        $code = false;
+        $model = new VotingForm($code, $id);
+        return $this->render('voting', ['show_form'=>true, 'model'=>$model, 'preview'=> true]);
+    }
 
     /**
      * Finds the Code model based on its primary key value.

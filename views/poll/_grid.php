@@ -27,7 +27,7 @@ $columns = [
         [
             'attribute' => 'organizer_id',
             'headerOptions'=> ['style' => 'width: 200px; white-space: nowrap;'],
-            'header' => \Yii::t('app', 'Organizer'),
+            'header' => \Yii::t('app', 'Organizer'). ' (admin only)',
             'format' => 'raw',
             'visible' => \Yii::$app->user->identity->isAdmin(),
             'filterType'=>GridView::FILTER_SELECT2,

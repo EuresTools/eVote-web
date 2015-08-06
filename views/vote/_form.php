@@ -31,7 +31,13 @@ use kartik\datecontrol\DateControl;
     ?>
     <div class="form-group">
         <?php
-        echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Submit your vote') : Yii::t('app', 'Update your vote'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+
+        if ($preview) {
+            echo Html::a($model->isNewRecord ? Yii::t('app', 'Submit your vote') : Yii::t('app', 'Update your vote'), '#', ['onclick'=>'alert("This will submit the vote.\n\nDisabled for this preview!"); return false;', 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        } else {
+            echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Submit your vote') : Yii::t('app', 'Update your vote'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        }
+
         ?>
     </div>
 <?php
