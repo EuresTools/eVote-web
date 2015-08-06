@@ -152,13 +152,16 @@ class Code extends \app\models\base\CodeBase
     public function getScrambleToken()
     {
         if (isset(Yii::$app->params['readable-token-chars'])) {
-            $readableChars = Yii::$app->params['readable-token-chars'];
+            $readableChars = (int) Yii::$app->params['readable-token-chars'];
         } else {
             $readableChars = 0;
         }
         $start = $readableChars;
         $maxlength = strlen($this->token) - ($readableChars * 2);
-        $replace = implode('', array_fill($start, $maxlength, '*'));
+        $replace='';
+        if ($start <= $maxlength) {
+            $replace = implode('', array_fill($start, $maxlength, '*'));
+        }
         return substr_replace($this->token, $replace, $start, $maxlength);
     }
 }
