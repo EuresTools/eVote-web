@@ -34,6 +34,8 @@ class EmailController extends PollDependedController
     // Sends an email to multiple members.
     public function actionSendmultiple()
     {
+        $poll = $this->getPoll();
+
         $email = new EmailForm();
         if ($email->load(Yii::$app->request->post())) {
             $members = null;
@@ -65,7 +67,7 @@ class EmailController extends PollDependedController
         if ($failure > 0) {
             Yii::$app->getSession()->addFlash('error', Yii::t('app', 'Failed to send {n, plural, =0{no Email} =1{one Email} other{# Emails}}!', ['n' =>$failure]));
         }
-        return $this->redirect(['poll/view', 'id' => $poll->id]);
+        return $this->redirect(['poll/view', 'id'=>$poll->id, 'tab'=>'members']);
     }
 
     // Sends an email to a single member.
