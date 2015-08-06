@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Member;
 use app\models\Code;
+use app\models\Poll;
 use app\components\controllers\PollDependedController;
 use yii\helpers\ArrayHelper;
 use app\models\forms\EmailForm;
@@ -25,7 +26,7 @@ class EmailController extends PollDependedController
                         'roles' => ['@'],
                     ],
                 ],
-                'ruleConfig' => ['class' => OrganizationAccessRule::className(),],
+                'ruleConfig' => ['class' => OrganizationAccessRule::className(), 'modelClass'=> Poll::className(), 'queryParam'=>'poll_id'],
             ],
         ];
     }
