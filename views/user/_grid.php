@@ -19,7 +19,7 @@ $columns = [
         'username',
         // 'password_hash',
         // 'auth_key',
-        'is_admin:boolean',
+        //'is_admin:boolean',
         // 'organizer_id',
         // 'created_at',
         // 'updated_at',
@@ -31,6 +31,12 @@ $columns = [
         //         'value' => $model->isOrganizer() ? Html::a(Html::encode($model->organizer), ['/organizer/view', 'id' => $model->organizer->getPrimaryKey()]) : 'None'
         //         //'value' => $model->isOrganizer() ? Html::a(Html::encode($model->getOrganizer()->one()->name), ['/organizer/view', 'id' => $model->getOrganizer()->one()->id]) : 'None'
         // ],
+        [
+            'class' => '\kartik\grid\BooleanColumn',
+            'attribute' => 'is_admin',
+            'trueLabel' => 'Yes',
+            'falseLabel' => 'No',
+        ],
         [
             'attribute' => 'organizer_id',
             'headerOptions'=> ['style' => 'width: 200px; white-space: nowrap;'],
