@@ -151,15 +151,15 @@ class VoteController extends BaseController
                                 $code->code_status = Code::CODE_STATUS_USED;
                                 if (!$code->save()) {
                                     if ($code->getErrors()) {
-                                        Yii::$app->getSession()->addFlash('error', Html::errorSummary($code, $options = ['header'=>'Failed to save due to error:']));
+                                        Yii::$app->getSession()->addFlash('error', Html::errorSummary($code, $options = ['header'=>Yii::t('app/error', 'Failed to save due to error:')]));
                                     }
-                                    throw new \Exception("Code Couldn't be saved ", 1);
+                                    throw new \Exception(Yii::t('app/error', "Code Couldn't be saved "), 1);
                                 }
                             } else {
                                 if ($vote->getErrors()) {
-                                    Yii::$app->getSession()->addFlash('error', Html::errorSummary($vote, $options = ['header'=>'Failed to save due to error:']));
+                                    Yii::$app->getSession()->addFlash('error', Html::errorSummary($vote, $options = ['header'=>Yii::t('app/error', 'Failed to save due to error:')]));
                                 }
-                                throw new \Exception("Vote Couldn't be saved ", 1);
+                                throw new \Exception(Yii::t('app/error', "Vote Couldn't be saved "), 1);
                             }
                             $transaction->commit();
                             $success = true;
@@ -209,7 +209,7 @@ class VoteController extends BaseController
         if (($model = Code::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('app/error', 'The requested page does not exist.'));
         }
     }
 }

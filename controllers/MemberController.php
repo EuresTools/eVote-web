@@ -299,7 +299,7 @@ class MemberController extends PollDependedController
                     Yii::$app->getSession()->addFlash('import', $error);
                 }
             } catch (Exception $e) {
-                throw new Exception("Error Processing Request ". $e->getMessage(), 1);
+                throw new Exception(Yii::t('app/error', "Error Processing Request ") . $e->getMessage(), 1);
             }
         } else {
             // todo : print error message in popup possible? e.g. on failed file upload?
