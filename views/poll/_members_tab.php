@@ -66,6 +66,7 @@ $demoCodes .= Html::endTag('ul');
 echo GridView::widget([
     'dataProvider' => $memberDataProvider,
     'filterModel' => $memberSearchModel,
+    'showFooter' => true,
     'columns' => [
         [
             'class' => 'app\components\grid\ActionColumn',
@@ -84,10 +85,11 @@ echo GridView::widget([
         'group',
         //'ContactsCount', // Is this column needed? Members should not be able to have 0 contacts.
         [
-            'attribute' => 'code',
+            'attribute' => 'codes.code_status',
             'label' => Yii::t('app', 'Voting Code'),
             'format' => 'raw',
-            'filter' => $demoCodes,
+            'footer' => $demoCodes,
+            'filter' => [Code::CODE_STATUS_INVALID_UNUSED => 'Invalid Code', Code::CODE_STATUS_UNUSED => 'Unused Code', Code::CODE_STATUS_USED => 'Used Code'],
             'value' => function ($data) {
                 $codes = $data->codes;
                 // Display the invalid tokens before the valid ones.
