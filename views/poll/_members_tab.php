@@ -64,6 +64,7 @@ $demoCodes .= Html::tag('li', Html::tag('span', 'Used Code', Code::getUsedHTMLOp
 $demoCodes .= Html::endTag('ul');
 
 echo GridView::widget([
+    'id'=>'members-gridview',
     'dataProvider' => $memberDataProvider,
     'filterModel' => $memberSearchModel,
     'showFooter' => true,
