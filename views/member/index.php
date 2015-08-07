@@ -11,7 +11,7 @@ use kartik\widgets\Alert;
 */
 
 $this->title = Yii::t('app', 'Members');
-$this->params['breadcrumbs'][] = ['label' => 'Polls', 'url' => ['/poll/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Polls'), 'url' => ['/poll/index']];
 $this->params['breadcrumbs'][] = ['label' => $this->context->getPollDisplay(), 'url' => ['/poll/view', 'id'=>$this->context->getPollId()]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -41,7 +41,7 @@ foreach(Yii::$app->getSession()->getAllFlashes() as $key => $arr) {
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
         <?= Html::a(Yii::t('app', 'Create {modelClass}', ['modelClass' => 'Member']), ['create', 'poll_id'=>$this->context->getPollId()], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Import From Excel', ['import', 'poll_id'=>$this->context->getPollId()], ['class' => 'btn btn-info']) ?>
+        <?= Html::a(Yii::t('app', 'Import From Excel'), ['import', 'poll_id'=>$this->context->getPollId()], ['class' => 'btn btn-info']) ?>
     </p>
     <?php echo $this->render('_grid', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]); ?>
 </div>

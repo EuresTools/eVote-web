@@ -23,10 +23,10 @@ use app\models\Organizer;
         'form' => $form,
         'columns' => 1,
         'attributes' => [
-            'username'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Username...', 'maxlength'=>true]],
-            'new_password'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Password to set one', 'maxlength'=>true]],
-            'is_admin'=>['type'=> Form::INPUT_CHECKBOX, 'options'=>['placeholder'=>'Enter Is Admin...']],
-            'organizer_id'=>['type'=> Form::INPUT_DROPDOWN_LIST, 'items'=>ArrayHelper::map(Organizer::find()->all(), 'id', 'name'), 'options'=>['prompt'=>'None']],
+            'username'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Username...'), 'maxlength'=>true]],
+            'new_password'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Password to set one'), 'maxlength'=>true]],
+            'is_admin'=>['type'=> Form::INPUT_CHECKBOX, 'options'=>['placeholder' => Yii::t('app', 'Enter Is Admin...')]],
+            'organizer_id'=>['type'=> Form::INPUT_DROPDOWN_LIST, 'items'=>ArrayHelper::map(Organizer::find()->all(), 'id', 'name'), 'options'=>['prompt' => Yii::t('app', 'None')]],
 
             //'created_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(), 'options'=>['type'=>DateControl::FORMAT_DATETIME]],
             //'updated_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(), 'options'=>['type'=>DateControl::FORMAT_DATETIME]],

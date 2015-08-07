@@ -20,13 +20,13 @@ use kartik\datecontrol\DateControl;
     'columns' => 1,
     'attributes' => [
 
-'token'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Token...', 'maxlength'=>255]],
+'token'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Token...'), 'maxlength'=>255]],
 
-'poll_id'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Poll ID...']],
+'poll_id'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Poll ID...')]],
 
-'member_id'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Member ID...']],
+'member_id'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Member ID...')]],
 
-'code_status'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Is Valid...']],
+'code_status'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Is Valid...')]],
 
 'created_at'=>['type'=> Form::INPUT_WIDGET, 'widgetClass'=>DateControl::classname(),'options'=>['type'=>DateControl::FORMAT_DATETIME]],
 

@@ -29,12 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     $items = [
         [
-            'label' => '<i class="glyphicon glyphicon-info-sign"></i> About',
+            'label' => '<i class="glyphicon glyphicon-info-sign"></i> ' . Yii::t('app', 'About'),
             'content' => $this->render('_about_tab', ['model' => $model]),
             'active' => !isset($tab) || $tab === 'about',
         ],
         [
-            'label' => '<i class="glyphicon glyphicon-user"></i> Members',
+            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::t('app', 'Members'),
             'content' => $this->render('_members_tab', [
                 'model' => $model,
                 'memberDataProvider' => $memberDataProvider,
@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'active' => isset($tab) && $tab === 'members',
         ],
         [
-            'label' => '<i class="glyphicon glyphicon-signal"></i> Results',
+            'label' => '<i class="glyphicon glyphicon-signal"></i> ' . Yii::t('app', 'Results'),
             'content' => $this->render('_results_tab', ['model' => $model]),
             'active' => isset($tab) && $tab === 'results',
         ],

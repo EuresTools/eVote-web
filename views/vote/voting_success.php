@@ -12,7 +12,7 @@ $this->title = Yii::t('app', 'voting for {pollQuestion}: ', [
     'pollQuestion' => 'Poll Question',
 ]) . ' ' . $model->__toString();
 */
-$this->title = 'Vote success';
+$this->title = Yii::t('app', 'Vote success');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Token Input'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'voting');
 ?>

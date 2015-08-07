@@ -10,8 +10,8 @@ use kartik\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Member */
-$this->title = 'Import From Excel';
-$this->params['breadcrumbs'][] = ['label' => 'Polls', 'url' => ['/poll/index']];
+$this->title = Yii::t('app', 'Import From Excel');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Polls'), 'url' => ['/poll/index']];
 //$this->params['breadcrumbs'][] = ['label' => $this->context->getPollDisplay(), 'url' => ['/poll/view', 'id'=>$this->context->getPollId()]];
 //$this->params['breadcrumbs'][] = ['label' => $this->context->getPollDisplay(), 'url' => PollUrl::toRoute(['/poll/view'])];
 $this->params['breadcrumbs'][] = ['label' => $this->context->getPollDisplay(), 'url' => $this->context->createUrl(['/poll/view'])];
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->context->getPollDisplay(), '
 
 
 //$this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => $this->context->createUrl(['index'])];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Members'), 'url' => $this->context->createUrl(['index'])];
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -52,7 +52,7 @@ foreach(Yii::$app->getSession()->getAllFlashes() as $key => $arr) {
 
         <?= $form->field($model, 'excelFile')->fileInput() ?>
         <div class="form-group">
-            <?= Html::submitButton('Import', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Import'), ['class' => 'btn btn-success']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

@@ -30,7 +30,7 @@ use app\components\helpers\PollUrl;
 ?>
     <div class="form-group">
         <?php
-        echo Html::submitButton('Send', ['class' => 'btn btn-primary']);
+        echo Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary']);
         ?>
     </div>
 <?php

@@ -140,7 +140,7 @@ echo GridView::widget([
         [
             'attribute' => 'validVotesCount',
             'headerOptions'=> ['class' => 'sort-numerical'],
-            'label' => 'Votes',
+            'label' => Yii::t('app', 'Votes'),
         ],
     ],
 ]);

@@ -19,8 +19,8 @@ use kartik\datecontrol\DateControl;
         'form' => $form,
         'columns' => 1,
         'attributes' => [
-            'name' => ['type'=> Form::INPUT_TEXT, 'options' => ['placeholder' => 'Enter Name...', 'maxlength' => 255]],
-            'email' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Enter Email...', 'maxlength' => 255]],
+            'name' => ['type'=> Form::INPUT_TEXT, 'options' => ['placeholder' => Yii::t('app', 'Enter Name...'), 'maxlength' => 255]],
+            'email' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => Yii::t('app', 'Enter Email...'), 'maxlength' => 255]],
         ],
     ]);
 

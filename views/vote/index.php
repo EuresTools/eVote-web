@@ -68,7 +68,7 @@ $this->title = 'Voting';
                     ?>
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <?= Html::submitButton('Submit', ['class' => 'btn btn-lg btn-block btn-success', 'name' => 'token-input-button']) ?>
+                            <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-lg btn-block btn-success', 'name' => 'token-input-button']) ?>
                         </div>
                     </div>
                     <a href="<?=Url::to('site/contact')?>" class="pull-right need-help">Need help? </a><span class="clearfix"></span>

@@ -26,8 +26,8 @@ $columns = [
         [
             'class' => '\kartik\grid\BooleanColumn',
             'attribute' => 'is_admin',
-            'trueLabel' => 'Yes',
-            'falseLabel' => 'No',
+            'trueLabel' => Yii::t('app', 'Yes'),
+            'falseLabel' => Yii::t('app', 'No'),
         ],
         [
             'attribute' => 'organizer_id',

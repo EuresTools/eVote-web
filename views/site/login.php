@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
 
-$this->title = 'Login';
+$this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
@@ -28,12 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'password')->passwordInput() ?>
 
     <?= $form->field($model, 'rememberMe', [
-    'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} Remember Me</div>\n<div class=\"col-lg-8\">{error}</div>",
+    'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} " . Yii::t('app', 'Remember Me') . "</div>\n<div class=\"col-lg-8\">{error}</div>",
     ])->checkbox([], false) ?>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
     </div>
 

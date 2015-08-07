@@ -31,7 +31,7 @@ Modal::begin([
 
     ?>
     <div class="form-group">
-        <?= Html::submitButton('Import', [
+        <?= Html::submitButton(Yii::t('app', 'Import'), [
             'class' => 'btn btn-success',
             'data' => ['confirm' => Yii::t('app', 'This will delete all existing contacts. Are you sure you want to import?')],
         ]) ?>

@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label' => 'Valid',
+                'label' => Yii::t('app', 'Valid'),
                 'attribute' => 'code_status',
                 'format' => 'boolean',
                 'value' => function ($data) {
@@ -114,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label' => 'Used',
+                'label' => Yii::t('app', 'Used'),
                 'format' => 'boolean',
                 'value' => function($data) {
                     return $data->isUsed();
@@ -124,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'width:80px; text-align: center;'],
-                'header'=>'Actions',
+                'header'=>Yii::t('app', 'Actions'),
                 'template' => '{invalidate}',
                 'buttons' => [
                     'invalidate' => function ($url, $model) {
@@ -147,7 +147,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]);
-    echo Html::a(Yii::t('app', 'Create New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right', 'data-confirm'=>'Creating a new code will invalidate any existing codes for this member. Are you sure you want to create a new code?']);
+    echo Html::a(Yii::t('app', 'Create New Code'), $this->context->createUrl(['code/create', 'member_id' => $model->id, 'poll_id' => $model->poll_id]), ['class' => 'btn btn-success pull-right', 'data-confirm'=>Yii::t('app', 'Creating a new code will invalidate any existing codes for this member. Are you sure you want to create a new code?')]);
     ?>
 </div>
 

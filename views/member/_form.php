@@ -20,9 +20,9 @@ use kartik\datecontrol\DateControl;
     'columns' => 2,
     'attributes' => [
 
-'name'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Name...', 'maxlength'=>255]],
+'name'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Name...'), 'maxlength'=>255]],
 
-'group'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter Group...', 'maxlength'=>255]],
+'group'=>['type'=> Form::INPUT_TEXT, 'options'=>['placeholder' => Yii::t('app', 'Enter Group...'), 'maxlength'=>255]],
 
     ]
     ]);
