@@ -16,16 +16,19 @@ use yii\bootstrap\ButtonDropdown;
 use yii\bootstrap\Dropdown;
 use yii\helpers\Url;
 use yii\web\Cookie;
+use app\assets\FlagsAsset;
+
 
 class languageSwitcher extends Nav
 {
     public $type;
+    public $encodeLabels = false;
 
     public $languages = [
-        'en-GB' => 'English',
+        'en-GB' => '<span class="flag-icon flag-icon-gb"></span> English',
         //'en-US'=>'American English',
-        'de-DE' => 'German',
-        'fr' => 'French',
+        'de-DE' => '<span class="flag-icon flag-icon-de"></span> German',
+        'fr' => '<span class="flag-icon flag-icon-fr"></span> French',
 //        'th' => 'Thai',
     ];
 
@@ -79,6 +82,7 @@ class languageSwitcher extends Nav
             'label' => $current,
             'items' => $items,
         ];
+        FlagsAsset::register($this->view);
         echo parent::run();
     }
 
