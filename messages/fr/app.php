@@ -58,7 +58,7 @@ return [
     'Participation' => '',
     'Password Hash' => '',
     'Please enter your token' => '',
-    'Please fill in your token in the form below to start voting!' => '',
+    'Please fill in your token in the form below to start voting!' => 'S\'il vous plaît remplir dans votre jeton dans le formulaire ci-dessous pour commencer à voter!',
     'Please fill with an option text' => '',
     'Please select a maximum of {count} options' => '',
     'Please select at least {count} options' => '',

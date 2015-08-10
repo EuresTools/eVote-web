@@ -18,7 +18,6 @@
 * ~~Fix highcharts default rendering width to fullwidth.~~
 * ~~Owner access rights checking on delete/update actions.~~
 * ~~Add a send email function to sent only the token for one specific member e.g. when a new token was generated after invalidation.~~
-* On vote access freeze the poll, but there should be an option to preview it.
+* ~~On vote access freeze the poll, but there should be an option to preview it.~~
+* ~~Owner view rights checking on index/view and other grid listings etc.~~
 * Config interface by organizer to set parameters like after what attempts the poll is freezed.
-* Dynamic menue depend on the user rights.
-* Owner view rights checking on index/view and other grid listings etc.

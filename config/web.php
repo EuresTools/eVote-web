@@ -48,6 +48,16 @@ $config = [
                 //         'yii' => 'yii.php',
                 //     ],
                 // ],
+                'kvgrid' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@kvgrid/messages',
+                    'forceTranslation' => true,
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
             ],
         ],
         'languageSwitcher' => [
@@ -147,7 +157,7 @@ $config = [
         'allowActions' => [
         //     'site/*',
         //     'admin/*', // add or remove allowed actions to this list
-        //     'debug/*',
+            'debug/*',
         //     'gii/*',
              //'*',
         ]
@@ -197,14 +207,17 @@ $config = [
             // other module settings
             'downloadAction' => 'gridview/export/download',
             // i18n requires an alias named '@kvgrid' => '@vendor/kartik-v/yii2-grid/messages',
-            /*
+
             'i18n' => [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'basePath' => '@kvgrid/messages',
                 'forceTranslation' => true
             ],
-            */
+
         ],
+    ],
+    'aliases' => [
+        '@kvgrid' => '@vendor/kartik-v/yii2-grid',
     ],
 ];
 
