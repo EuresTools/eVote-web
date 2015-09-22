@@ -71,7 +71,7 @@ $this->title = 'Voting';
                             <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-lg btn-block btn-success', 'name' => 'token-input-button']) ?>
                         </div>
                     </div>
-                    <a href="<?=Url::to('site/contact')?>" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                    <a href="<?=Url::to('/site/contact')?>" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
                     <?php ActiveForm::end(); ?>
                 </div> <!--account-wall end -->
                 <?php if (Yii::$app->user->isGuest): ?>
