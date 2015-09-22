@@ -37,9 +37,10 @@ $columns = [
             'filterType'=>GridView::FILTER_SELECT2,
             'filter'=>ArrayHelper::map(Organizer::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
             'filterWidgetOptions'=>[
+                'pluginLoading' => false,
                 'pluginOptions' => ['allowClear' => true],
             ],
-            'filterInputOptions' => ['placeholder' => \Yii::t('app', 'Any Organizer')],
+            'filterInputOptions' => ['placeholder' => \Yii::t('app', 'Any Organizer'), 'class'=> 'input-md',],
             'value'=>function ($data, $key, $index, $widget) {
                 return $this->render('//system/columnviews/_organizer', ['data' => $data->organizer]);
             },
