@@ -74,9 +74,9 @@ $this->title = 'Voting';
                     <a href="<?=Url::to('site/contact')?>" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
                     <?php ActiveForm::end(); ?>
                 </div> <!--account-wall end -->
-                <? if (Yii::$app->user->isGuest): ?>
+                <?php if (Yii::$app->user->isGuest): ?>
                 <a href="<?=Url::to('site/login')?>" class="text-center login-account">Login with an account?</a>
-                <? endif;?>
+                <?php endif;?>
             </div>
         </div>
     </div>
