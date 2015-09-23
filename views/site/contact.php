@@ -27,12 +27,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+            <?php $form = ActiveForm::begin([
+                'id' => 'contact-form',
+                'enableAjaxValidation' => true,
+                'enableClientValidation' => false,
+                'validateOnSubmit' => false,
+            ]); ?>
                 <?= $form->field($model, 'name') ?>
                 <?= $form->field($model, 'email') ?>
                 <?= $form->field($model, 'subject') ?>
                 <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                    'captchaAction' => 'site/captcha',
                     'template' => '<div class="row"><div class="col-lg-offset-2  col-lg-4">{image}</div><div class="col-lg-6">{input}</div></div>',
                 ]) ?>
                 <div class="form-group">
