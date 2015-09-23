@@ -28,10 +28,12 @@ if (Yii::$app->user->isGuest) {
         'linkOptions' => ['data-method' => 'post']];
 }
 
-echo languageSwitcher::Widget([
-    'options' => ['class' => 'navbar-nav navbar-left'],
-]);
-
+// language switcher moved to footer
+// if (Yii::$app->params['multilanguage-app']) {
+//     echo languageSwitcher::Widget([
+//         'options' => ['class' => 'navbar-nav navbar-left'],
+//     ]);
+// }
 
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
