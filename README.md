@@ -1,5 +1,14 @@
 # eVote
-## TODO
+
+
+[How to Setup](docs/setup.md)
+
+[Additional documentation](docs/docs.md)
+
+
+## TODO-List
+* Config interface by organizer to set parameters like after what attempts the poll is freezed.
+* Possibility that user accounts is part of multiple Organizers (e.g. if one organizer is created per contribiuting project and only one account should handle those polls).
 * ~~Add email field to organizer (to add to the `replyTo` field).~~
 * ~~Create email functionality.~~
 * ~~Create API endpoints and actions.~~
@@ -20,4 +29,3 @@
 * ~~Add a send email function to sent only the token for one specific member e.g. when a new token was generated after invalidation.~~
 * ~~On vote access freeze the poll, but there should be an option to preview it.~~
 * ~~Owner view rights checking on index/view and other grid listings etc.~~
-* Config interface by organizer to set parameters like after what attempts the poll is freezed.
