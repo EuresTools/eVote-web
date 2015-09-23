@@ -233,7 +233,7 @@ class RbacController extends Controller
         $auth->addChild($default_permission, $gridview);
 
 
-                // poll actions
+        // poll actions
         $auth->addChild($organizer_permissions, $poll_create);
         $auth->addChild($organizer_permissions, $poll_update);
         $auth->addChild($organizer_permissions, $poll_delete);
