@@ -2,12 +2,19 @@
 
 function print_pre($var, $header = null, $debug = true, $return = false, $depth = 3, $highlight = null)
 {
-    if ($header) {
-        echo '<strong>'.$header.'</strong>';
+    if ($debug&&YII_DEBUG) {
+        if (!isset($highlight)) {
+            $highlight=false;
+        }
+        \Yii::trace($header.' '.yii\helpers\VarDumper::dumpAsString($var, $depth, $highlight), 'firebug');
+    } else {
+        if ($header) {
+            echo '<strong>'.$header.'</strong>';
+        }
+        echo '<br><br><pre>';
+        print_r($var);
+        echo '</pre>';
     }
-    echo '<pre>';
-    print_r($var);
-    echo '</pre>';
 }
 
 function print_model(&$model_or_array, $description = "", $debug = true, $return = false)
