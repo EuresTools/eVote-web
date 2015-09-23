@@ -42,6 +42,7 @@ class RbacController extends Controller
         '/site/error',
         '/site/contact',
         '/site/about',
+        '/site/captcha',
         '/site/*',
         '/vote/*',
         '/debug/*',
@@ -176,6 +177,8 @@ class RbacController extends Controller
         $login=$auth->getPermission('/site/login');
         $logout=$auth->getPermission('/site/logout');
         $contact=$auth->getPermission('/site/contact');
+        $captcha=$auth->getPermission('/site/captcha');
+
         $about=$auth->getPermission('/site/about');
         $vote_route=$auth->getPermission('/vote/*');
         $user_route=$auth->getPermission('/user/*');
@@ -215,6 +218,7 @@ class RbacController extends Controller
         echo "adding guest permissions\n";
         $auth->addChild($guest, $login);
         $auth->addChild($guest, $contact);
+        $auth->addChild($guest, $captcha);
         $auth->addChild($guest, $about);
         $auth->addChild($guest, $vote_route);
 
