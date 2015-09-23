@@ -120,9 +120,11 @@ class RbacController extends Controller
                 $role = $auth->createRole($roleName);
                 $role->description = !empty($roleSettings['description']) ? $roleSettings['description'] : '';
 
-                // Add rule "UserGroupRule" in roles
-                $role->ruleName = $userGroupRule->name;
-                //$role->ruleName = !empty($roleSettings['ruleName']) ? $roleSettings['ruleName'] : '';
+                if ($roleName !='guest') {
+                    // Add rule "UserGroupRule" in roles
+                    $role->ruleName = $userGroupRule->name;
+                    //$role->ruleName = !empty($roleSettings['ruleName']) ? $roleSettings['ruleName'] : '';
+                }
 
                 $auth->add($role);
             }
