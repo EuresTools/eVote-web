@@ -62,10 +62,12 @@ Composer requires the following plugin installed otherwise it would fail on comp
 Then install the application's dependencies by executing the following command in the project's root directory
 
 run composer install on console to install required files (in the correct directory).
+
     use --no-dev to "NOT" install the required development packages.
 	use -vvv to get more detailed debug information on errors
 
 e.g.
+
 	composer.phar install --prefer-dist --no-dev -vvv
 	
 to update run
