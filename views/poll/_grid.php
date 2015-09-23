@@ -33,6 +33,7 @@ $columns = [
             'filterType'=>GridView::FILTER_SELECT2,
             'filter'=>ArrayHelper::map(Organizer::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
             'filterWidgetOptions'=>[
+                'pluginLoading' => false,
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => \Yii::t('app', 'Any Organizer')],

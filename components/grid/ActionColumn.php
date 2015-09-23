@@ -40,4 +40,13 @@ class ActionColumn extends \kartik\grid\ActionColumn
         //$this->header = '';
         //$this->contentOptions = ArrayHelper::merge(['class'=>'buttonColumn', ], $this->contentOptions);
     }
+
+    // protected function renderDataCellContent($model, $key, $index)
+    // {
+    //     // a simple check for each button could be inserted here
+    //     // as an example check if the user is the creator
+    //     if ($model->created_by == Yii::$app->user->identity->id) {
+    //         return parent::renderDataCellContent($model, $key, $index);
+    //     }
+    // }
 }
