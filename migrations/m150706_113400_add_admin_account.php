@@ -7,6 +7,9 @@ class m150706_113400_add_admin_account extends Migration
 {
     public function up()
     {
+        // account details which are added with this migration
+        // username: admin
+        // password: password
         $this->insert('user', ['username' => 'admin',
             'password_hash' => '$2y$13$tGXqc0xkHdB89no1kdFnqujEsDufvJKRLg62CtznRCcWeMRJIz81a',
             'is_admin' => true,
@@ -20,13 +23,13 @@ class m150706_113400_add_admin_account extends Migration
     {
         return true;
     }
-    
+
     /*
     // Use safeUp/safeDown to run migration code within a transaction
     public function safeUp()
     {
     }
-    
+
     public function safeDown()
     {
     }
