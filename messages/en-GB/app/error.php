@@ -17,10 +17,17 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Code Couldn\'t be saved ' => '',
+    'Error Processing Request ' => '',
+    'Error when deleting Member Data' => '',
+    'Failed to save due to error:' => '',
+    'Incorrect username or password' => '',
     'Invalid voting code' => '',
     'Row {row}: The contact with name "{name}" and email "{email}" could not be imported.' => '',
     'Row {row}: The member with name "{name}" could not be imported.' => '',
     'The requested page does not exist.' => '',
     'The selected file could not be imported.' => '',
+    'The voting page has expired.<br />Please re-enter your voting code.' => '',
     'This voting code has already been used' => '',
+    'Vote Couldn\'t be saved ' => '',
 ];

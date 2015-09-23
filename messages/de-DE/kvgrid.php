@@ -17,6 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Add Book' => '',
     'Disable any popup blockers in your browser to ensure proper download.' => '',
     'Export' => 'Exportieren',
+    'Reset Grid' => '',
 ];
