@@ -38,10 +38,6 @@ if (\Yii::$app->user->isAdmin()) {
     ]);
 }
 
-//echo Yii::$app->formatter->datetimeFormat;
-echo Yii::$app->formatter->dateFormat;
-
-
     echo Form::widget([
         'model' => $model,
         'form' => $form,
