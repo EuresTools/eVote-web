@@ -25,6 +25,17 @@ class SiteController extends Controller
                     ],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['test'],
+                'rules' => [
+                    [
+                        'actions' => ['test'],
+                        'allow' => \Yii::$app->user->identity->isAdmin(),
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -74,6 +85,11 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionTest()
+    {
+        return $this->render('test');
     }
 
     public function actionLogout()
