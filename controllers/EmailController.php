@@ -112,7 +112,7 @@ class EmailController extends PollDependedController
     {
         $string = str_replace('<member-name>', $member->name, $string);
         $string = str_replace('<member-group>', $member->group, $string);
-        $string = str_replace('<voting-code>', $member->getValidCode(), $string);
+        $string = str_replace('<voting-code>', $member->getValidCode()->getAttribute('token'), $string);
         return $string;
     }
 }
