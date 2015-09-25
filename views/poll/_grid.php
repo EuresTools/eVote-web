@@ -26,14 +26,12 @@ $columns = [
         // 'end_time',
         [
             'attribute' => 'organizer_id',
-            'headerOptions'=> ['style' => 'width: 200px; white-space: nowrap;'],
             'header' => \Yii::t('app', 'Organizer'). ' (admin only)',
             'format' => 'raw',
             'visible' => \Yii::$app->user->identity->isAdmin(),
             'filterType'=>GridView::FILTER_SELECT2,
             'filter'=>ArrayHelper::map(Organizer::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
             'filterWidgetOptions'=>[
-                'pluginLoading' => false,
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['placeholder' => \Yii::t('app', 'Any Organizer')],
@@ -50,5 +48,5 @@ $columns = [
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
-    'columns' => $columns
+    'columns' => $columns,
 ]);

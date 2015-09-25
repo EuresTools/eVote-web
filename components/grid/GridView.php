@@ -62,10 +62,13 @@ class GridView extends \kartik\grid\GridView
     /**
     * @inheritdoc
     */
+    public $persistResize = false;
+
+
+    /**
+    * @inheritdoc
+    */
     public $pjaxSettings = ['loadingCssClass'=>'grid-loading'];
-
-
-
 
     /**
     * @inheritdoc
@@ -97,6 +100,12 @@ class GridView extends \kartik\grid\GridView
             $this->condensed == true;
             $this->presetPanelIcon();
         }
+
+        if ($this->resizableColumns && $this->persistResize) {
+            // set the default resizeStorageKey
+            $this->resizeStorageKey = Yii::$app->user->id . '-' . date("m");
+        }
+
 
         // enable first and last pager button
         $this->pager = [

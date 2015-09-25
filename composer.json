@@ -19,7 +19,7 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "kartik-v/yii2-widget-datetimepicker": "@dev",
-        "kartik-v/yii2-grid": "*",
+        "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-mpdf": "*",
         "kartik-v/yii2-krajee-base": "*",
         "kartik-v/yii2-widgets": "*",
