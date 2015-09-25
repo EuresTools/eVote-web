@@ -32,8 +32,8 @@ foreach ($model->getOptions()->all() as $index => $option) {
 <?= Html::tag('h2', Poll::label(1)); ?>
 
 <p>
-<?
-if ($model->isLocked()){
+<?php
+if ($model->isLocked()) {
     echo AlertBlock::widget([
         'useSessionFlash' => false,
         'type' => AlertBlock::TYPE_ALERT,

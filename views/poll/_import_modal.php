@@ -20,7 +20,7 @@ Modal::begin([
     echo Html::tag('p', Yii::t('app', 'Importing members will delete all existing members.'));
     ?>
     <?php $form = ActiveForm::begin(['action' => PollUrl::toRoute(['member/import', 'poll_id' => $poll->id]), 'options' => ['enctype' => 'multipart/form-data']]); ?>
-    <?
+    <?php
     echo $form->field($model, 'excelFile')->widget(FileInput::classname(), [
         'pluginOptions' => [
             'showPreview' => false,

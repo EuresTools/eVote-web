@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?= Html::tag('h2', 'Contact Persons') ?>
-    <?
+    <?php
     $contacts = $model->contacts;
     echo GridView::widget([
         'dataProvider' => new ArrayDataProvider([
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?= Html::tag('h2', 'Voting Codes') ?>
-    <?
+    <?php
     $codes = $model->codes;
     usort($codes, function($a, $b) {
         return $a->code_status > $b->code_status;
