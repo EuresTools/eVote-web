@@ -79,3 +79,9 @@ if --no-dev set remove the lines from the ./yii file and /web/index.php
 	defined('YII_DEBUG') or define('YII_DEBUG', true);
 
 Otherwise the gii module would be required which is not installed. And remove/comment the gii settings in the /config/console.php file.
+
+Also make sure that the following PHP extension is installed (used von i18n internationalization)
+	
+	http://php.net/manual/en/intl.installation.php
+	sudo apt-get install php5-intl
+
