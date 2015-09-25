@@ -8,8 +8,6 @@ use yii\widgets\DetailView;
 use miloschuman\highcharts\Highcharts;
 use yii\widgets\Pjax;
 
-$this->registerJsFile('@web/js/reflowChart.js', ['depends' => \yii\web\JqueryAsset::className(), 'depends' => miloschuman\highcharts\HighchartsAsset::className()]);
-
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
 $options = $model->getOptions()->all();
@@ -41,6 +39,7 @@ if ($model->isOver()) {
 
 // Column chart.
 if ($model->hasStarted()) {
+    $this->registerJsFile('@web/js/reflowChart.js', ['depends' => \yii\web\JqueryAsset::className(), 'depends' => miloschuman\highcharts\HighchartsAsset::className()]);
     echo Highcharts::widget([
         'htmlOptions' => ['id' => 'chartcontainer'],
         'options' => [
