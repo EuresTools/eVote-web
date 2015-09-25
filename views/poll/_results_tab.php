@@ -145,4 +145,4 @@ echo GridView::widget([
     ],
 ]);
 Pjax::end();
-?>
+
