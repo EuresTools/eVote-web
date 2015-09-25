@@ -65,9 +65,16 @@ class PollBase extends \app\models\base\BaseModel
 
     public function scenarios()
     {
-        return [
-            'default' => ['title', 'question', 'info', 'select_min', 'select_max', 'start_time', 'end_time', '!organizer_id'],
-        ];
+        // admin accounts are allowed to set the organizer_id
+        if (\Yii::$app->user->identity->isAdmin()) {
+            return [
+                'default' => ['title', 'question', 'info', 'select_min', 'select_max', 'start_time', 'end_time', 'organizer_id'],
+            ];
+        } else {
+            return [
+                'default' => ['title', 'question', 'info', 'select_min', 'select_max', 'start_time', 'end_time', '!organizer_id'],
+            ];
+        }
     }
 
     /**

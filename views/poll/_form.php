@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use kartik\datecontrol\DateControl;
+use yii\helpers\ArrayHelper;
+use app\models\Organizer;
 
 /**
  * @var yii\web\View $this
@@ -25,6 +27,19 @@ use kartik\datecontrol\DateControl;
         ]
     ]);
 
+if (\Yii::$app->user->identity->isAdmin()) {
+    echo Form::widget([
+        'model' => $model,
+        'form' => $form,
+        'columns' => 2,
+        'attributes' => [
+            'organizer_id'=>['type'=> Form::INPUT_DROPDOWN_LIST, 'items'=>ArrayHelper::map(Organizer::find()->all(), 'id', 'name'), 'options'=>['prompt' => Yii::t('app', 'None')]],
+        ],
+    ]);
+}
+
+echo $model->start_time;
+
     echo Form::widget([
         'model' => $model,
         'form' => $form,
@@ -37,7 +52,7 @@ use kartik\datecontrol\DateControl;
                 'widgetClass'=>DateControl::classname(),
                 'options' => [
                     'type'=>DateControl::FORMAT_DATETIME,
-                    // 'displayFormat' => 'd MMM, yyyy HH:mm',
+                    //'displayFormat' => 'd MMM, yyyy HH:mm',
                     // 'saveFormat' => 'php:Y-m-d H:i:s',
                 ],
             ],

@@ -36,23 +36,35 @@ class Poll extends \app\models\base\PollBase
      */
     public function rules()
     {
-        return array_merge(parent::rules(), [
-        ]);
+        if (\Yii::$app->user->identity->isAdmin()) {
+            $additional_rules = [
+                [['organizer_id'], 'required'],
+            ];
+        } else {
+            $additional_rules = [];
+        }
+        return array_merge(parent::rules(), $additional_rules);
     }
 
     public function behaviors()
     {
-        return array_merge(parent::behaviors(), [
-            [
-                'class' => AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'organizer_id',
+        // if user is not an admin get the organizer id of the user account
+        // admin users can and must set the organizer_id from a dropdown.
+        if (!\Yii::$app->user->identity->isAdmin()) {
+            return array_merge(parent::behaviors(), [
+                [
+                    'class' => AttributeBehavior::className(),
+                    'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => 'organizer_id',
+                    ],
+                    'value' => function ($event) {
+                        return Yii::$app->user->identity->getOrganizer()->one()->getPrimaryKey();
+                    },
                 ],
-                'value' => function ($event) {
-                    return Yii::$app->user->identity->getOrganizer()->one()->getPrimaryKey();
-                },
-            ],
-         ]);
+             ]);
+        } else {
+            return array_merge(parent::behaviors(), []);
+        }
     }
 
     public function isOver()
