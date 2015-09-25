@@ -59,6 +59,7 @@ class PollBase extends \app\models\base\BaseModel
             [['question', 'info'], 'string'],
             [['select_min', 'select_max', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
             [['start_time', 'end_time'], 'safe'],
+            [['start_time', 'end_time'], 'date', 'format'=>'yyyy-MM-dd kk:mm:ss'],
             [['title'], 'string', 'max' => 255]
         ];
     }
@@ -66,7 +67,7 @@ class PollBase extends \app\models\base\BaseModel
     public function scenarios()
     {
         // admin accounts are allowed to set the organizer_id
-        if (\Yii::$app->user->identity->isAdmin()) {
+        if (\Yii::$app->user->isAdmin()) {
             return [
                 'default' => ['title', 'question', 'info', 'select_min', 'select_max', 'start_time', 'end_time', 'organizer_id'],
             ];

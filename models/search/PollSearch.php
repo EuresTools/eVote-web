@@ -25,7 +25,7 @@ class PollSearch extends Poll
     {
         // bypass scenarios() implementation in the parent class
         //return Model::scenarios();
-        if (\Yii::$app->user->identity->isAdmin()) {
+        if (\Yii::$app->user->isAdmin()) {
             return ['default' => ['id', 'select_min', 'select_max', 'start_time', 'end_time', 'organizer_id', 'title', 'question']];
         } else {
             return ['default' => ['id', 'select_min', 'select_max', 'start_time', 'end_time', 'title', 'question']];
@@ -43,8 +43,10 @@ class PollSearch extends Poll
     {
         $query = Poll::find();
 
-        if (!\Yii::$app->user->identity->isAdmin()) {
-            $query->organizer_id(Yii::$app->user->identity->organizer_id);
+        if (\Yii::$app->user->identity) {
+            if (!\Yii::$app->user->identity->isAdmin()) {
+                $query->organizer_id(Yii::$app->user->identity->organizer_id);
+            }
         }
 
         $dataProvider = new ActiveDataProvider([

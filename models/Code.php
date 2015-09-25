@@ -19,7 +19,7 @@ class Code extends \app\models\base\CodeBase
      */
     public static function representingColumn()
     {
-        if (\Yii::$app->user->identity->isAdmin()) {
+        if (\Yii::$app->user->isAdmin()) {
             return ['token'];
         }
         return ['ScrambleToken'];

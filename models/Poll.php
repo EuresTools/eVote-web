@@ -36,7 +36,7 @@ class Poll extends \app\models\base\PollBase
      */
     public function rules()
     {
-        if (\Yii::$app->user->identity->isAdmin()) {
+        if (\Yii::$app->user->isAdmin()) {
             $additional_rules = [
                 [['organizer_id'], 'required'],
             ];
@@ -50,7 +50,7 @@ class Poll extends \app\models\base\PollBase
     {
         // if user is not an admin get the organizer id of the user account
         // admin users can and must set the organizer_id from a dropdown.
-        if (!\Yii::$app->user->identity->isAdmin()) {
+        if (!\Yii::$app->user->isAdmin()) {
             return array_merge(parent::behaviors(), [
                 [
                     'class' => AttributeBehavior::className(),

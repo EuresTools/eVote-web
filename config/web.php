@@ -6,6 +6,7 @@ $params = require(__DIR__ . '/params.php');
 // override the ArrayHelper to fix multisort problem see https://github.com/yiisoft/yii2/issues/8348
 Yii::$classMap['yii\helpers\ArrayHelper'] = '@app/components/helpers/ArrayHelper.php';
 
+
 $config = [
     'sourceLanguage' => 'en-GB',
     'language' => 'en-GB',
@@ -126,6 +127,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'class' => 'app\components\web\User',
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],

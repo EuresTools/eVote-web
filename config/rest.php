@@ -45,6 +45,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'class' => 'app\components\web\User',
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
             'enableSession' => false, // disable session for api interface

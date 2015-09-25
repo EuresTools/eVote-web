@@ -27,7 +27,7 @@ use app\models\Organizer;
         ]
     ]);
 
-if (\Yii::$app->user->identity->isAdmin()) {
+if (\Yii::$app->user->isAdmin()) {
     echo Form::widget([
         'model' => $model,
         'form' => $form,
@@ -38,7 +38,9 @@ if (\Yii::$app->user->identity->isAdmin()) {
     ]);
 }
 
-echo $model->start_time;
+//echo Yii::$app->formatter->datetimeFormat;
+echo Yii::$app->formatter->dateFormat;
+
 
     echo Form::widget([
         'model' => $model,
@@ -54,6 +56,13 @@ echo $model->start_time;
                     'type'=>DateControl::FORMAT_DATETIME,
                     //'displayFormat' => 'd MMM, yyyy HH:mm',
                     // 'saveFormat' => 'php:Y-m-d H:i:s',
+                    // datepicker options
+                    'options'=> [
+                        'pluginOptions' => [
+                            'todayHighlight' => true,
+                            'initialDate'=> date('Y-m-d H:i:00'),
+                        ],
+                    ]
                 ],
             ],
             'end_time' => [
@@ -63,6 +72,13 @@ echo $model->start_time;
                     'type'=>DateControl::FORMAT_DATETIME,
                     // 'displayFormat' => 'd MMM, yyyy HH:mm',
                     // 'saveFormat' => 'php:Y-m-d H:i:s',
+                    // datepicker options
+                    'options'=> [
+                        'pluginOptions' => [
+                            'todayHighlight' => true,
+                            'initialDate'=> date('Y-m-d H:i:00'),
+                        ],
+                    ],
                 ],
             ],
         ],

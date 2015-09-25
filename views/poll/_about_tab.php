@@ -75,7 +75,7 @@ if ($model->isLocked()) {
         [
             'attribute' => 'organizer',
             'format' => 'raw',
-            'value' => Yii::$app->user->identity->isAdmin() ? Html::a(Html::encode($model->getOrganizer()->one()->name), ['organizer/view', 'id' => $model->getOrganizer()->one()->id]) : Html::encode($model->getOrganizer()->one()->name),
+            'value' => Yii::$app->user->isAdmin() ? Html::a(Html::encode($model->getOrganizer()->one()->name), ['organizer/view', 'id' => $model->getOrganizer()->one()->id]) : Html::encode($model->getOrganizer()->one()->name),
         ],
         'select_min',
         'select_max',
@@ -89,4 +89,3 @@ if ($model->isLocked()) {
         'editor',
     ],
 ])?>
-

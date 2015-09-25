@@ -31,7 +31,7 @@ class SiteController extends Controller
                 'rules' => [
                     [
                         'actions' => ['test'],
-                        'allow' => \Yii::$app->user->identity->isAdmin(),
+                        'allow' => \Yii::$app->user->isAdmin(),
                         'roles' => ['@'],
                     ],
                 ],
