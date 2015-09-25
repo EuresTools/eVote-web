@@ -115,6 +115,7 @@ class MemberController extends PollDependedController
         $modelContacts = [new Contact()];
 
         if ($model->load(Yii::$app->request->post())) {
+            $modelContacts = Model::createMultiple(Contact::classname());
             Model::loadMultiple($modelContacts, Yii::$app->request->post());
             // ajax validation
             if (Yii::$app->request->isAjax) {
