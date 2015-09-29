@@ -37,7 +37,7 @@ class PollController extends BaseController
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['update', 'view', 'delete'],
+                'only' => ['update', 'view', 'delete', 'ajax-update'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -47,6 +47,48 @@ class PollController extends BaseController
                 'ruleConfig' => ['class' => OrganizationAccessRule::className(),],
             ],
         ];
+    }
+
+    public function actionAjaxUpdate()
+    {
+        $model = new Poll;
+        // Check if there is an Editable ajax request
+        if (isset($_POST['hasEditable'])) {
+            $id = Yii::$app->request->post('editableKey');
+            $model=$this->findModel($id);
+            $model->setScenario('editable');
+
+            $message='';
+            // use Yii's response format to encode output as JSON
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            // fetch the first entry in posted data (there should
+            // only be one entry anyway in this array for an
+            // editable submission)
+            // - $posted is the posted data for model without any indexes
+            // - $post is the converted array for single model validation
+            $post = [];
+            $posted = current($_POST[$model->formName()]);
+            $post[$model->formName()] = $posted;
+
+            // read your posted model attributes
+            if ($model->load($post)) {
+
+                if (!$model->save()) {
+                    $errors = \yii\helpers\Html::errorSummary($model);
+                    $message.= Yii::t('app/error', 'Poll wasn\'t saved!{errors}', ['errors'=>$errors]);
+                }
+
+                // custom output to return to be displayed as the editable grid cell
+                // data. Normally this is empty - whereby whatever value is edited by
+                // in the input by user is updated automatically.
+                $output = '';
+                return ['output'=>$output, 'message'=>$message];
+            } else {
+                // else if nothing to do always return an empty JSON encoded output
+                return ['output'=>'', 'message'=>''];
+            }
+        }
     }
 
     /**

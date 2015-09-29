@@ -64,7 +64,7 @@ class PollBase extends \app\models\base\BaseModel
             //[['start_time', 'end_time'], 'date', 'format'=>'yyyy-MM-dd kk:mm:ss'],
             [['start_time', 'end_time'], 'date', 'format'=>'php:Y-m-d H:i:s'],
             ['start_time', DateTimeCompareValidator::className(), 'compareAttribute' => 'end_time', 'format' => 'Y-m-d H:i:s', 'operator' => '<', 'message' => Yii::t('yii', '"{attribute}" must be less than "{compareAttribute}".')],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -74,6 +74,7 @@ class PollBase extends \app\models\base\BaseModel
         if (\Yii::$app->user->isAdmin()) {
             return [
                 'default' => ['title', 'question', 'info', 'select_min', 'select_max', 'start_time', 'end_time', 'organizer_id'],
+                'editable' => ['locked'],
             ];
         } else {
             return [
