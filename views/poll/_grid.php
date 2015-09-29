@@ -22,8 +22,8 @@ $columns = [
         //'select_min',
         //'select_max',
         'membersCount',
-        'start_time',
-        'end_time',
+        'start_time:datetime',
+        'end_time:datetime',
         // [
         //     'attribute' => 'locked',
         //     'header' => \Yii::t('app', 'locked'). ' (admin only)',
