@@ -149,3 +149,8 @@ a.desc:after {
 .status-closed {
     color: red;
 }
+
+.grid-view thead th {
+    text-align: center;
+    vertical-align: middle !important;
+}
