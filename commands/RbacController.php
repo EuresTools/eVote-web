@@ -56,6 +56,7 @@ class RbacController extends Controller
         '/poll/delete',
         '/poll/view',
         '/poll/index',
+        '/poll/ajax-update',
 
         '/member/*',
         '/member/create',
@@ -195,6 +196,7 @@ class RbacController extends Controller
         $poll_update=$auth->getPermission('/poll/update');
         $poll_delete=$auth->getPermission('/poll/delete');
         $poll_create=$auth->getPermission('/poll/create');
+        $poll_ajax_update=$auth->getPermission('/poll/ajax-update');
 
         // member permissions
         $member_route=$auth->getPermission('/member/*');
@@ -272,6 +274,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $admin_route);
         $auth->addChild($admin, $user_route);
         $auth->addChild($admin, $organizer_route);
+        $auth->addChild($admin, $poll_ajax_update);
 
 
 
