@@ -2,18 +2,24 @@
 
 function print_pre($var, $header = null, $debug = true, $return = false, $depth = 3, $highlight = null)
 {
-    if ($debug&&YII_DEBUG) {
-        if (!isset($highlight)) {
+    if (!isset($highlight)) {
             $highlight=false;
-        }
+    }
+    if ($debug && YII_DEBUG) {
         \Yii::trace($header.' '.yii\helpers\VarDumper::dumpAsString($var, $depth, $highlight), 'firebug');
     } else {
+        $html = '';
         if ($header) {
-            echo '<strong>'.$header.'</strong>';
+            $html = "<strong>".$header."</strong>\n";
         }
-        echo '<br><br><pre>';
-        print_r($var);
-        echo '</pre>';
+        $html .= "\n<pre class='debug'>";
+        //$html .= print_r($var, true);
+        $html .= yii\helpers\VarDumper::dumpAsString($var, $depth, $highlight);
+        $html .= "</pre>\n";
+        if ($return) {
+            return $html;
+        }
+        echo $html;
     }
 }
 
