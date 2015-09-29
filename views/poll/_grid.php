@@ -25,10 +25,12 @@ $columns = [
         'start_time:datetime',
         'end_time:datetime',
         // [
+        //     'class' => '\kartik\grid\BooleanColumn',
         //     'attribute' => 'locked',
-        //     'header' => \Yii::t('app', 'locked'). ' (admin only)',
+        //     'trueLabel' => Yii::t('app', 'Locked'),
+        //     'falseLabel' => Yii::t('app', 'Open'),
+        //     'headerOptions'=> ['style' => 'white-space: nowrap;'],
         //     'visible' => \Yii::$app->user->isAdmin(),
-        //     'format' => 'boolean',
         // ],
         [
             'class'=>'kartik\grid\EditableColumn',
@@ -46,6 +48,10 @@ $columns = [
                     'action'=>Url::to(['ajax-update']),
                 ],
                 'displayValueConfig' => [ 0 => 'Open', 1 => 'Locked'],
+                'containerOptions'=> [
+                    'style' => 'text-align: center; display:block;',
+                ],
+                // 'displayValueConfig' => [ 0 => '<span class="glyphicon glyphicon-remove text-danger"> Open</span>', 1 => '<span class="glyphicon glyphicon-ok text-success"> Locked</span>'],
             ],
         ],
         [
