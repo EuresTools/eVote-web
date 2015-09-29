@@ -41,7 +41,7 @@ class UserSearch extends User
 
     public function search($params)
     {
-        $query = User::find();
+        $query = User::find()->indexBy('id');
 
         $query->joinWith(['organizer']);
 

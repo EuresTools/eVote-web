@@ -41,7 +41,7 @@ class PollSearch extends Poll
 
     public function search($params)
     {
-        $query = Poll::find();
+        $query = Poll::find()->indexBy('id');
 
         if (\Yii::$app->user->identity) {
             if (!\Yii::$app->user->identity->isAdmin()) {

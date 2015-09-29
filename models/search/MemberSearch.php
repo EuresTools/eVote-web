@@ -44,7 +44,7 @@ class MemberSearch extends Member
 
     public function search($params)
     {
-        $query = Member::find();
+        $query = Member::find()->indexBy('id');
         $query->poll_id($this->poll_id);
         $query->distinct(); // also possible is to group by member.id to get only the unique member entries.
         //$query->addGroupBy($this->tableName().'.id');

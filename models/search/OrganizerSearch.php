@@ -36,7 +36,7 @@ class OrganizerSearch extends Organizer
 
     public function search($params)
     {
-        $query = Organizer::find();
+        $query = Organizer::find()->indexBy('id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -36,7 +36,7 @@ class CodeSearch extends Code
 
     public function search($params)
     {
-        $query = Code::find();
+        $query = Code::find()->indexBy('id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
