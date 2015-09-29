@@ -63,7 +63,7 @@ class TokenFilter extends BaseFilter {
 
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $startTime = new \DateTime($poll->start_time, new \DateTimeZone('UTC'));
-        $endTime = new \DateTime($poll->start_time, new \DateTimeZone('UTC'));
+        $endTime = new \DateTime($poll->end_time, new \DateTimeZone('UTC'));
         // only lock Poll if it also at least started.
         if (!$poll->isLocked() && ($now >= $startTime) && ($now <= $endTime)) {
             $poll->lock();
