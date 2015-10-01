@@ -51,6 +51,7 @@ class PollSearch extends Poll
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['id'=>SORT_ASC]],
             'pagination' => [
                 'pageSize' => 20,
             ],
