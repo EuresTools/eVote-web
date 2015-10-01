@@ -28,7 +28,7 @@ class languageSwitcher extends Nav
         'en-GB' => '<span class="flag-icon flag-icon-gb"></span> English',
         //'en-US'=>'American English',
         'de-DE' => '<span class="flag-icon flag-icon-de"></span> German',
-        'fr' => '<span class="flag-icon flag-icon-fr"></span> French',
+        //'fr' => '<span class="flag-icon flag-icon-fr"></span> French',
 //        'th' => 'Thai',
     ];
 
