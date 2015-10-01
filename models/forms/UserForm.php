@@ -19,7 +19,8 @@ class UserForm extends User
         ]);
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['username', 'new_password', 'is_admin', 'organizer_id'],
             'create' => ['username', 'new_password', 'is_admin', 'organizer_id'],
