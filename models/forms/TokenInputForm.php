@@ -19,6 +19,13 @@ class TokenInputForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'token' => Yii::t('app', 'Token'),
+        ];
+    }
+
     public function validateToken($attribute, $params)
     {
         if (!$this->hasErrors()) {
