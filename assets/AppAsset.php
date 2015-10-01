@@ -27,6 +27,7 @@ class AppAsset extends AssetBundle
         'js/main.js',
     ];
     public $depends = [
+        'xj\modernizr\ModernizrAsset',
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];

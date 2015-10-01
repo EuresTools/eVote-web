@@ -36,7 +36,8 @@
         "kartik-v/yii2-tabs-x": "dev-master",
         "miloschuman/yii2-highcharts-widget": "dev-master",
         "components/flag-icon-css": "*",
-        "nepstor/yii2-datetime-compare-validator": "@dev"
+        "nepstor/yii2-datetime-compare-validator": "@dev",
+        "xj/yii2-modernizr-widget": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
