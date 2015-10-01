@@ -6,7 +6,6 @@ $params = require(__DIR__ . '/params.php');
 // override the ArrayHelper to fix multisort problem see https://github.com/yiisoft/yii2/issues/8348
 Yii::$classMap['yii\helpers\ArrayHelper'] = '@app/components/helpers/ArrayHelper.php';
 
-
 $config = [
     'sourceLanguage' => 'en-GB',
     'language' => 'en-GB',
@@ -18,7 +17,7 @@ $config = [
     //'timeZone'=> 'Europe/Berlin',
 
     'id' => 'eVote',
-    'name'=>'eVote',
+    'name'=>'EuresTools eVoting',
 
     'layout'=>'default',
     'defaultRoute' => 'vote/index',
