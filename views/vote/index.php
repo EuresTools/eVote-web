@@ -12,7 +12,7 @@ $this->title = 'Voting';
 <div class="vote-index">
 
     <div class="jumbotron">
-        <h1><?= Yii::$app->name ?></h1>
+        <h1><?=Yii::t('app', 'Welcome to {appName}', ['appName'=>Yii::$app->name])?></h1>
         <p class="lead"><?=Yii::t('app', 'Please fill in your token in the form below to start voting!')?></p>
     </div>
 
