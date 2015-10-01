@@ -25,12 +25,12 @@ class UserSearch extends User
         ];
     }
 
-     public function scenarios()
-     {
-         // bypass scenarios() implementation in the parent class
-         //return Model::scenarios();
-         return ['default' => ['username', 'is_admin', 'organizer_id']];
-     }
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        //return Model::scenarios();
+        return ['default' => ['username', 'is_admin', 'organizer_id']];
+    }
 
     public function behaviors()
     {
@@ -47,6 +47,7 @@ class UserSearch extends User
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['id'=>SORT_ASC]],
             'pagination' => [
                 'pageSize' => 20,
             ],
