@@ -23,6 +23,8 @@ return [
     'Failed to save due to error:' => '',
     'Incorrect username or password' => '',
     'Invalid voting code' => '',
+    'Model wasn\'t saved!{errors}' => '',
+    'Poll wasn\'t saved!{errors}' => '',
     'Row {row}: The contact with name "{name}" and email "{email}" could not be imported.' => '',
     'Row {row}: The member with name "{name}" could not be imported.' => '',
     'The requested page does not exist.' => '',

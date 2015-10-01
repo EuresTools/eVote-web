@@ -18,7 +18,7 @@
  */
 return [
     'Add Book' => '',
-    'Disable any popup blockers in your browser to ensure proper download.' => '',
+    'Disable any popup blockers in your browser to ensure proper download.' => 'Deaktivieren Sie pop-up blocker in Ihrem Browser, um ein korrektes Herunterladen sicherzustellen.',
     'Export' => 'Exportieren',
-    'Reset Grid' => '',
+    'Reset Grid' => 'Tabelle zurücksetzen',
 ];
