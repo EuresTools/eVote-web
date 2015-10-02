@@ -53,6 +53,12 @@ class GridView extends \kartik\grid\GridView
      */
     public $condensed = false;
 
+    /*
+    enable responsive mode for mobile devices
+     */
+    public $responsive = true;
+
+    public $responsiveWrap = false;
 
     /**
     * @inheritdoc
