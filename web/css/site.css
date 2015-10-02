@@ -171,3 +171,8 @@ a.desc:after {
       margin-right: 0px;
   }
 }
+
+.table-responsive
+{
+    overflow-x: auto;
+}
