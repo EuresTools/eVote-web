@@ -112,7 +112,14 @@ class EmailController extends PollDependedController
     {
         $string = str_replace('<member-name>', $member->name, $string);
         $string = str_replace('<member-group>', $member->group, $string);
-        $string = str_replace('<voting-code>', $member->getValidCode()->getAttribute('token'), $string);
+        $validCode = $member->getValidCode();
+        if (strpos($string, '<voting-code>') !== false) {
+            if ($validCode) {
+                $string = str_replace('<voting-code>', $validCode->getTokenForEmail(), $string);
+            } else {
+                $string = str_replace('<voting-code>', 'no valid '.Yii::t('app', 'token').' contact support!', $string);
+            }
+        }
         return $string;
     }
 }

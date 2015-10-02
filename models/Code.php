@@ -4,6 +4,9 @@ namespace app\models;
 
 use Yii;
 use \app\models\query\CodeQuery;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
+use yii\base\ModelEvent;
 
 class Code extends \app\models\base\CodeBase
 {
@@ -12,7 +15,13 @@ class Code extends \app\models\base\CodeBase
     const CODE_STATUS_UNUSED = 1;
     const CODE_STATUS_USED = 2;
 
+    const EVENT_SEND_TOKEN = 'sendToken';
 
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_SEND_TOKEN, [$this, 'sendToken']);
+    }
 
     /**
      * @return returns representingColumn default null
@@ -33,6 +42,20 @@ class Code extends \app\models\base\CodeBase
     {
         return new CodeQuery(get_called_class());
     }
+
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    self::EVENT_SEND_TOKEN => ['sent_at'],
+                ],
+                'value' => new Expression('UTC_TIMESTAMP()'),
+            ],
+        ]);
+    }
+
 
     /**
      * @inheritdoc
@@ -163,5 +186,18 @@ class Code extends \app\models\base\CodeBase
             $replace = implode('', array_fill($start, $maxlength, '*'));
         }
         return substr_replace($this->token, $replace, $start, $maxlength);
+    }
+
+    public function sendToken($event)
+    {
+        $this->touch('sent_at');
+        return $event->isValid;
+    }
+
+    public function getTokenForEmail()
+    {
+        $event = new ModelEvent;
+        $this->trigger(self::EVENT_SEND_TOKEN, $event);
+        return $this->getAttribute('token');
     }
 }
