@@ -33,14 +33,14 @@ class TokenInputForm extends Model
 
             if (!$code) {
                 // no code with token found
-                $this->addError($attribute, 'Incorrect token or token already used.');
+                $this->addError($attribute, Yii::t('app', 'Incorrect token or token already used.'));
             } else {
                 // code with token found now check if is was already used or disabled.
                 if ($code->isUsed()) {
-                    $this->addError($attribute, 'Token was already used to vote.');
+                    $this->addError($attribute, Yii::t('app', 'Token was already used to vote.'));
                 }
                 if (!$code->isValid()) {
-                    $this->addError($attribute, 'Incorrect token or token already used.');
+                    $this->addError($attribute, Yii::t('app', 'Incorrect token or token already used.'));
                 }
             }
 
