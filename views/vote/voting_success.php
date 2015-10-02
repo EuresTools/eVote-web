@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'voting');
         <h1><?= Html::encode($this->title) ?></h1>
     </div>
     <div class="jumbotron">
-        <h1>Vote successfully submitted!</h1>
-        <p>You have successfully submitted your vote. Thank you for your collaboration.<br /> We will get an information about the voting result after the voting period is over.</p>
-        <p><a class="btn btn-primary btn-lg" href="<?=Url::home()?>" role="button">Back to Home</a></p>
+        <h1><?=Yii::t('app', 'Vote successfully submitted!')?></h1>
+        <p><?=Yii::t('app', 'You have successfully submitted your vote. Thank you.')?></p>
+        <p><a class="btn btn-primary btn-lg" href="<?=Url::home()?>" role="button"><?=Yii::t('app', 'Back to Home')?></a></p>
     </div>
 </div>
