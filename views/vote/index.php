@@ -75,7 +75,7 @@ $this->title = 'Voting';
                     <?php ActiveForm::end(); ?>
                 </div> <!--account-wall end -->
                 <?php if (Yii::$app->user->isGuest): ?>
-                <a href="<?=Url::to('site/login')?>" class="text-center login-account"><?= Yii::t('app', 'Login with an account?') ?></a>
+                <a href="<?=Url::to('/site/login')?>" class="text-center login-account"><?= Yii::t('app', 'Login with an account?') ?></a>
                 <?php endif;?>
             </div>
         </div>
