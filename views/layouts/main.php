@@ -9,6 +9,8 @@ use kartik\widgets\AlertBlock;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+// <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+// <meta name="viewport" content="width=device-width, initial-scale=1">
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -36,7 +38,7 @@ AppAsset::register($this);
     }
     ?>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <?= Html::csrfMetaTags() ?>
     <title><?= $this->title ? Html::encode(Yii::$app->name." | $this->title") : (Yii::$app->name.' | Home') ?></title>
     <?php $this->head() ?>
