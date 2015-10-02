@@ -52,7 +52,8 @@ class OptionBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['text', '!poll_id'],
         ];
@@ -63,20 +64,16 @@ class OptionBase extends \app\models\base\BaseModel
     */
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'ID'),
             'text' => Yii::t('app', 'Option'),
             'poll_id' => Yii::t('app', 'Poll ID'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_by' => Yii::t('app', 'Updated By'),
-        ];
+        ]);
     }
 
     public function beforeDelete()
     {
-        if(parent::beforeDelete()) {
+        if (parent::beforeDelete()) {
             // Delete all votes associated with the option.
             foreach ($this->votes as $vote) {
                 if ($vote->delete() === false) {

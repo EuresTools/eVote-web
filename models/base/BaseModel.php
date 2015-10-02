@@ -82,6 +82,21 @@ class BaseModel extends ActiveRecord
         }
     }
 
+    /**
+    * @inheritdoc
+    */
+    public function attributeLabels()
+    {
+        return [
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_by' => Yii::t('app', 'Updated By'),
+            'creator' => Yii::t('app', 'Created By'),
+            'editor' => Yii::t('app', 'Updated By'),
+        ];
+    }
+
 
     public function transactions()
     {
@@ -134,5 +149,4 @@ class BaseModel extends ActiveRecord
     {
         return $this->hasOne(User::className(), ['id'=> 'updated_by']);
     }
-
 }

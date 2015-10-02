@@ -66,7 +66,8 @@ class UserBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['username', 'is_admin'],
             'login' => ['username', 'password_hash'],
@@ -79,18 +80,14 @@ class UserBase extends \app\models\base\BaseModel
     */
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
             'password_hash' => Yii::t('app', 'Password Hash'),
             'auth_key' => Yii::t('app', 'Auth Key'),
             'is_admin' => Yii::t('app', 'Is Admin'),
             'organizer_id' => Yii::t('app', 'Organizer'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_by' => Yii::t('app', 'Updated By'),
-        ];
+        ]);
     }
 
     /**

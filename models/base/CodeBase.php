@@ -67,17 +67,13 @@ class CodeBase extends \app\models\base\BaseModel
     */
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'ID'),
             'token' => Yii::t('app', 'Token'),
             'poll_id' => Yii::t('app', 'Poll ID'),
             'member_id' => Yii::t('app', 'Member ID'),
             'code_status' => Yii::t('app', 'Is Valid'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_by' => Yii::t('app', 'Updated By'),
-        ];
+        ]);
     }
 
     public function beforeDelete()

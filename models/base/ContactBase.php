@@ -50,7 +50,8 @@ class ContactBase extends \app\models\base\BaseModel
         ];
     }
 
-    public function scenarios() {
+    public function scenarios()
+    {
         return [
             'default' => ['name', 'email', '!member_id'],
         ];
@@ -61,16 +62,12 @@ class ContactBase extends \app\models\base\BaseModel
     */
     public function attributeLabels()
     {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'email' => Yii::t('app', 'Email'),
             'member_id' => Yii::t('app', 'Member ID'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_by' => Yii::t('app', 'Updated By'),
-        ];
+        ]);
     }
 
     /**
