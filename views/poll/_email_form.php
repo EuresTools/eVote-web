@@ -7,7 +7,7 @@ use app\models\forms\EmailForm;
 use app\components\helpers\PollUrl;
 
 ?>
-<?= Html::tag('p', Html::encode(Yii::t('app', 'You can use the tags <member-name>, <member-group> and <voting-code> to customize your message for each member.'))); ?>
+<?= Html::tag('p', Html::encode(Yii::t('app', 'You can use the tags <member-name>, <member-group> and <voting-code> or <voting-link> (for clickable link) to customize your message for each member.'))); ?>
 <div class="email-form">
 <?php
     $sendOptions = [

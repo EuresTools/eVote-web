@@ -120,6 +120,14 @@ class EmailController extends PollDependedController
                 $string = str_replace('<voting-code>', 'no valid '.Yii::t('app', 'token').' contact support!', $string);
             }
         }
+
+        if (strpos($string, '<voting-link>') !== false) {
+            if ($validCode) {
+                $string = str_replace('<voting-link>', Yii::$app->urlManager->createAbsoluteUrl(['/', 'token' => $validCode->getTokenForEmail()]), $string);
+            } else {
+                $string = str_replace('<voting-link>', 'no valid '.Yii::t('app', 'token').' contact support!', $string);
+            }
+        }
         return $string;
     }
 }
