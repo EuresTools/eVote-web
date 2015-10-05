@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin([
                 'id' => 'contact-form',
-                'enableAjaxValidation' => true,
+                'enableAjaxValidation' => false,
                 'enableClientValidation' => false,
                 'validateOnSubmit' => false,
             ]); ?>
