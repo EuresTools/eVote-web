@@ -160,7 +160,6 @@ return [
     'is valid' => '',
     'locked' => '',
     'the "modelClass" must be set for "{class}".' => '',
-    'token' => '',
     'voting' => '',
     '{n, plural, =0{no Codes} =1{Code} other{Codes}}' => '',
     '{n, plural, =0{no Contacts} =1{Contact} other{Contacts}}' => '',
