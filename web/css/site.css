@@ -160,13 +160,15 @@ a.desc:after {
 }
 
 
-.fixfixed .navbar-fixed-top, 
-.fixfixed .navbar-fixed-bottom { 
+.Navfixed .navbar-fixed-top {
     position: absolute;
-    visibility: hidden;
+}
+.Navfixed .navbar-fixed-bottom { 
+    position: relative;
 } 
 
 /* Override Bootstrap Responsive CSS fixed navbar */
+/*
 @media (max-width: 979px) {
   .navbar-fixed-top,
   .navbar-fixed-bottom {
@@ -175,6 +177,7 @@ a.desc:after {
       margin-right: 0px;
   }
 }
+*/
 
 .table-responsive
 {
