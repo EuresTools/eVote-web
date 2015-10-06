@@ -59,7 +59,7 @@ class PollBase extends \app\models\base\BaseModel
             [['title', 'question', 'select_min', 'select_max', 'start_time', 'end_time'], 'required'],
             [['question', 'info'], 'string'],
             [['select_min', 'select_max', 'organizer_id', 'created_by', 'updated_by'], 'integer'],
-            ['select_max', 'compare', 'compareAttribute' => 'select_min', 'operator' => '>='],
+            ['select_max', 'compare', 'compareAttribute' => 'select_min', 'operator' => '>=', 'type'=>'number'],
             [['start_time', 'end_time'], 'safe'],
             //[['start_time', 'end_time'], 'date', 'format'=>'yyyy-MM-dd kk:mm:ss'],
             [['start_time', 'end_time'], 'date', 'format'=>'php:Y-m-d H:i:s'],
