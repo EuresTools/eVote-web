@@ -159,7 +159,7 @@ return [
     'Yes' => 'Ja',
     'You can use the tags <member-name>, <member-group> and <voting-code> or <voting-link> (for clickable link) to customize your message for each member.' => 'Sie können die Tags <member-name>, <member-group> und <voting-code> oder <voting-link> (für klickbaren Link) verwenden um Ihre Nachricht für jedes Mitglied individuell gestalten.',
     'You have submitted too many invalid voting codes. Your IP address has been temporarily blocked.' => 'Sie haben zuviele ungültige Abstimmungscodes gesendet. Ihre Ip-Adresse wird daher temporär blockiert.',
-    'You have successfully submitted your vote. Thank you.' => 'Sie haben erfolgreich Ihre Abstimmung übertragen. Vielen Dank.',
+    'You have successfully submitted your vote. Thank you.' => 'Sie haben erfolgreich Ihre Stimme abgegeben. Vielen Dank.',
     'ajaxtest' => 'ajaxtest',
     'is valid' => 'ist gültig',
     'locked' => 'blockiert',
