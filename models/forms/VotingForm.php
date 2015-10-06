@@ -46,6 +46,7 @@ class VotingForm extends DynamicModel
             $this->_max_options= $this->_poll->select_max;
 
             $this->defineAttribute('options', $value = null);
+            $this->defineAttribute('vote_submitted', $value = 1);
             $this->setOptionRules();
         } elseif (isset($poll_id)) {
             $this->setPreviewMode($poll_id);
@@ -69,6 +70,7 @@ class VotingForm extends DynamicModel
         $this->_max_options= $this->_poll->select_max;
 
         $this->defineAttribute('options', $value = null);
+        $this->defineAttribute('vote_submitted', $value = 1);
         $this->setOptionRules();
         return true;
     }
@@ -84,11 +86,16 @@ class VotingForm extends DynamicModel
 
     protected function setOptionRules()
     {
-        if ($this->_min_options >= 1) {
-            $this->addRule(['options'], 'required', ['message'=>'{attribute} must be selected']);
-        }
-        $this->addRule(['options'], 'safe');                          // enables submittion of the attribute
-        $this->addRule(['options'], 'validateOptions');               // does the validation
+
+        // if ($this->_min_options >= 1) {
+        //     $this->addRule(['options'], 'required', ['message'=>'{attribute} must be selected']);
+        // }
+
+        $this->addRule(['vote_submitted'], 'safe');
+        $this->addRule(['vote_submitted'], 'required');
+
+        $this->addRule(['options'], 'safe');  // enables submittion of the attribute
+        $this->addRule(['options'], 'validateOptions', ['skipOnEmpty'=>false, 'skipOnError'=>false]);               // does the validation
         $this->addRule(['options'], 'each', ['rule' => ['integer']]); // checks if every options ID is an integer
     }
 
@@ -97,27 +104,31 @@ class VotingForm extends DynamicModel
         // check for maximum selection
         if (isset($this->_max_options)) {
             if (sizeof($this->$attribute) > $this->_max_options) {
-                $this->addError($attribute, Yii::t('app', 'Please select a maximum of {count} options', ['count' => $this->_max_options]));
+                //$this->addError($attribute, Yii::t('app', 'Please select a maximum of {count} options', ['count' => $this->_max_options]));
+                $this->addError($attribute, Yii::t('app', 'Please select maximum {count, plural, =0{# Option} =1{# Option} other{# Options}}', ['count' => $this->_max_options]));
             }
         }
 
         // check for minumum selection
         if (isset($this->_min_options)) {
             if (sizeof($this->$attribute) < $this->_min_options) {
-                $this->addError($attribute, Yii::t('app', 'Please select at least {count} options', ['count' => $this->_min_options]));
+                //$this->addError($attribute, Yii::t('app', 'Please select at least {count} options', ['count' => $this->_min_options]));
+                $this->addError($attribute, Yii::t('app', 'Please select at least {count, plural, =0{# Option} =1{# Option} other{# Options}}', ['count' => $this->_min_options]));
             }
         }
 
         // check that only available options are selected
-        if (is_array($this->$attribute)) {
+        if (sizeof($this->$attribute)) {
+            if (is_array($this->$attribute)) {
             // for multiple selection e.g. checkbox list all entries must available in the form options array
-            if (array_diff($this->$attribute, array_keys($this->getFormOptions()))) {
-                $this->addError($attribute, 'Please selection only from the available options.');
-            }
-        } else {
-            // for single selection e.g. radio
-            if (!in_array($this->$attribute, array_keys($this->getFormOptions()))) {
-                $this->addError($attribute, 'Please selection only from the available options.');
+                if (array_diff($this->$attribute, array_keys($this->getFormOptions()))) {
+                    $this->addError($attribute, 'Please select only from the available options.');
+                }
+            } else {
+                // for single selection e.g. radio
+                if (!in_array($this->$attribute, array_keys($this->getFormOptions()))) {
+                    $this->addError($attribute, 'Please select only from the available options.');
+                }
             }
         }
     }
@@ -159,6 +170,26 @@ class VotingForm extends DynamicModel
     }
 
 
+
+    public function getOptionsCountText()
+    {
+        $selected_options =  $this->options ? sizeof($this->options) : 0;
+        $counter_text= yii\helpers\Html::tag('span', $selected_options, ['class'=>'options-counter']);
+
+        $html='<strong>Note:</strong> ';
+        if ($this->poll->select_min && $this->poll->select_max) {
+            $html.= Yii::t('app', 'Select minimum {minimum}, maximum {maximum} of options. Options selected: {count}.', ['minimum'=>$this->poll->select_min, 'maximum'=>$this->poll->select_max, 'count'=>$counter_text]);
+        } elseif ($this->poll->select_min) {
+            $html.= Yii::t('app', 'Select minimum {minimum} of options. Options selected: {count}.', ['minimum'=>$this->poll->select_min, 'count'=>$counter_text]);
+        } elseif ($this->poll->select_max) {
+            $html.= Yii::t('app', 'Select maximum {maximum} of options. Options selected: {count}.', ['maximum'=>$this->poll->select_max, 'count'=>$counter_text]);
+        } else {
+            $html.= Yii::t('app', 'Options selected: {count}.', ['count'=>$counter_text]);
+        }
+        return $html;
+    }
+
+
     /**
      * @return array the validation rules.
      */
@@ -179,14 +210,21 @@ class VotingForm extends DynamicModel
                     $fields[$attribute] = $fields[$attribute] = [
                             'type'=>Form::INPUT_CHECKBOX_LIST,
                             'items'=>$this->getFormOptions(),
+                            'options'=>['unselect'=>null],
                             //'options'=>['inline'=>true]
                         ];
                     break;
+                // case 'vote_submitted':
+                //     $fields[$attribute] = $fields[$attribute] = [
+                //             'type'=>Form::INPUT_HIDDEN,
+                //             'options'=>['label'=>false],
+                //     ];
+                //     break;
                 case 'options2':
                         $fields[$attribute] = [
                             'type'=>Form::INPUT_RADIO_LIST,
                             'items'=>$this->getFormOptions(),
-                            'options'=>['inline'=>true]
+                            'options'=>['inline'=>true],
                         ];
                     break;
             }

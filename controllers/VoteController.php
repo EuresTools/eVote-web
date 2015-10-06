@@ -140,13 +140,15 @@ class VoteController extends BaseController
                             $vote = new Vote();
                             $vote->code_id = $code->id;
                             if ($vote->save()) {
-                                // save selected options
-                                foreach ($model->options as $optionId) {
-                                    $option = $model->getOptionById($optionId);
-                                    $vote->link('options', $option);
-                                    /*if (!$vote->link('options', $option)) {
-                                        throw new \Exception("Option couldn't be linked to vote", 1);
-                                    }*/
+                                // save selected options if there are any submitted, votes without options selected could also be done.
+                                if (is_array($model->options)) {
+                                    foreach ($model->options as $optionId) {
+                                        $option = $model->getOptionById($optionId);
+                                        $vote->link('options', $option);
+                                        /*if (!$vote->link('options', $option)) {
+                                            throw new \Exception("Option couldn't be linked to vote", 1);
+                                        }*/
+                                    }
                                 }
                                 $code->code_status = Code::CODE_STATUS_USED;
                                 if (!$code->save()) {

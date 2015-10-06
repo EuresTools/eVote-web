@@ -15,6 +15,7 @@ use kartik\datecontrol\DateControl;
 <?php
     echo Html::tag('h1', $model->header);
     echo Html::tag('p', $model->question, ['class'=>'well']);
+    echo Html::tag('p', $model->getOptionsCountText(), ['class'=>'options-count']);  // text like Note: Please select minimum {min} maximum {maximum} of options.
     $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]);
 
     echo Form::widget([
@@ -24,10 +25,7 @@ use kartik\datecontrol\DateControl;
         'attributes'=> $model->getFormFields(),
     ]);
 
-    //print_pre($model->attributes(),'attributes');
-
-    // test to submit option which is not an available option
-    // <input type="checkbox" value="100000" name="VotingForm[options][]">
+    echo $form->field($model, 'vote_submitted')->hiddenInput()->label(false);
     ?>
     <div class="form-group">
         <?php
@@ -44,4 +42,17 @@ use kartik\datecontrol\DateControl;
 ActiveForm::end();
 ?>
 </div>
-
+<script type="text/javascript">
+<?php $this->beginBlock('JS_READY') ?>
+    $('#votingform-options input[type="checkbox"]').on(
+        "change", // Bind handlers for multiple events change und click brauch ich doch nicht.
+        function(event) {
+            var checkboxes_checked = $('#votingform-options input[type="checkbox"]:checked').length;
+            $('.options-count .options-counter').html(checkboxes_checked);
+        }
+    );
+<?php $this->endBlock(); ?>
+</script>
+<?php
+yii\web\YiiAsset::register($this);
+$this->registerJs($this->blocks['JS_READY'], yii\web\View::POS_READY);
