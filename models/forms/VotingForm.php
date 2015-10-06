@@ -175,14 +175,13 @@ class VotingForm extends DynamicModel
     {
         $selected_options =  $this->options ? sizeof($this->options) : 0;
         $counter_text= yii\helpers\Html::tag('span', $selected_options, ['class'=>'options-counter']);
-        {count, plural, =0{# Option} =1{# Option} other{# Options}}
         $html='<strong>Note:</strong> ';
-        if ($this->poll->select_min && $this->poll->select_max) {
-            $html.= Yii::t('app', 'Select minimum {minimum}, maximum {maximum} Options. Options selected: {count}.', ['minimum'=>$this->poll->select_min, 'maximum'=>$this->poll->select_max, 'count'=>$counter_text]);
-        } elseif ($this->poll->select_min) {
-            $html.= Yii::t('app', 'Select minimum {minimum, plural, =0{# Option} =1{# Option} other{# Options}}. Options selected: {count}.', ['minimum'=>$this->poll->select_min, 'count'=>$counter_text]);
-        } elseif ($this->poll->select_max) {
-            $html.= Yii::t('app', 'Select maximum {maximum, plural, =0{# Option} =1{# Option} other{# Options}}. Options selected: {count}.', ['maximum'=>$this->poll->select_max, 'count'=>$counter_text]);
+        if ($this->_min_options && $this->_max_options) {
+            $html.= Yii::t('app', 'Select minimum {minimum}, maximum {maximum} Options. Options selected: {count}.', ['minimum'=>$this->_min_options, 'maximum'=>$this->_max_options, 'count'=>$counter_text]);
+        } elseif ($this->_min_options) {
+            $html.= Yii::t('app', 'Select minimum {minimum, plural, =0{# Option} =1{# Option} other{# Options}}. Options selected: {count}.', ['minimum'=>$this->_min_options, 'count'=>$counter_text]);
+        } elseif ($this->_max_options) {
+            $html.= Yii::t('app', 'Select maximum {maximum, plural, =0{# Option} =1{# Option} other{# Options}}. Options selected: {count}.', ['maximum'=>$this->_max_options, 'count'=>$counter_text]);
         } else {
             $html.= Yii::t('app', 'Options selected: {count}.', ['count'=>$counter_text]);
         }
