@@ -11,15 +11,16 @@ use yii\helpers\Url;
 $this->title = Yii::t('app', 'voting for {pollQuestion}: ', [
     'pollQuestion' => 'Poll Question',
 ]) . ' ' . $model->__toString();
+
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 */
 $this->title = Yii::t('app', 'Vote success');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Token Input'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'voting');
 ?>
 <div class="voting-success">
-    <div class="page-header">
-        <h1><?= Html::encode($this->title) ?></h1>
-    </div>
     <div class="jumbotron">
         <h1><?=Yii::t('app', 'Vote successfully submitted!')?></h1>
         <p><?=Yii::t('app', 'You have successfully submitted your vote. Thank you.')?></p>
