@@ -36,8 +36,7 @@ AppAsset::register($this);
         }
         */
     }
-    ?>
-    <meta charset="<?= Yii::$app->charset ?>">
+    ?><meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <?= Html::csrfMetaTags() ?>
     <title><?= $this->title ? Html::encode(Yii::$app->name." | $this->title") : (Yii::$app->name.' | Home') ?></title>
@@ -50,7 +49,6 @@ AppAsset::register($this);
         'type' => AlertBlock::TYPE_GROWL,
         'delay' => false, // Don't automatically disappear.
     ]);
-    //echo $this->render('_growl');
 ?>
 
 <?php $this->beginBody() ?>
