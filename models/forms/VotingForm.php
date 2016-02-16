@@ -7,6 +7,7 @@ use yii\base\DynamicModel;
 use kartik\builder\Form;
 use yii\helpers\ArrayHelper;
 use app\models\Poll;
+use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -175,8 +176,10 @@ class VotingForm extends DynamicModel
     {
         $selected_options =  $this->options ? sizeof($this->options) : 0;
         $counter_text= yii\helpers\Html::tag('span', $selected_options, ['class'=>'options-counter']);
-        $html='<strong>Note:</strong> ';
-        if ($this->_min_options && $this->_max_options) {
+        $html='<strong>'.Yii::t('app', 'Note:').'</strong> ';
+        if ($this->_min_options == 1 && $this->_max_options == 1) {
+            $html.= Yii::t('app', 'Please make your choice!');
+        } elseif ($this->_min_options && $this->_max_options) {
             $html.= Yii::t('app', 'Select minimum {minimum}, maximum {maximum} Options. Options selected: {count}.', ['minimum'=>$this->_min_options, 'maximum'=>$this->_max_options, 'count'=>$counter_text]);
         } elseif ($this->_min_options) {
             $html.= Yii::t('app', 'Select minimum {minimum, plural, =0{# Option} =1{# Option} other{# Options}}. Options selected: {count}.', ['minimum'=>$this->_min_options, 'count'=>$counter_text]);
@@ -198,6 +201,14 @@ class VotingForm extends DynamicModel
         ];
     }
 
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'options' => Yii::t('app', 'Options'),
+        ]);
+    }
+
+
 
     public function getFormFields()
     {
@@ -206,12 +217,23 @@ class VotingForm extends DynamicModel
         foreach ($this->attributes as $attribute => $value) {
             switch ($attribute) {
                 case 'options':
-                    $fields[$attribute] = $fields[$attribute] = [
+                    if ($this->_min_options == 1 && $this->_max_options == 1) {  // if max options == 1 render radio buttons instead of checkboxes
+                        $fields[$attribute] = [
+                            'type'=>Form::INPUT_RADIO_LIST,
+                            'items'=>$this->getFormOptions(),
+                            'options'=>[
+                                'unselect'=>null,
+                                'name'=> Html::getInputName($this, 'options').'[]',
+                            ],
+                        ];
+                    } else {
+                        $fields[$attribute] = [
                             'type'=>Form::INPUT_CHECKBOX_LIST,
                             'items'=>$this->getFormOptions(),
                             'options'=>['unselect'=>null],
-                            //'options'=>['inline'=>true]
+
                         ];
+                    }
                     break;
                 // case 'vote_submitted':
                 //     $fields[$attribute] = $fields[$attribute] = [
