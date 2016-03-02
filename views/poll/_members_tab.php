@@ -45,8 +45,14 @@ echo Html::beginTag('p');
             'confirm' => Yii::t('app', 'Are you sure you want to delete all members?'),
         ],
     ]);
-    echo '&nbsp;';
 
+if (\Yii::$app->user->isAdmin()) {
+    echo '&nbsp;';
+    echo Html::button(Yii::t('app', 'get Contact Emails'), ['class' => 'btn btn-success', 'data' => ['toggle' => 'modal', 'target' => '#contactEmailsModal']]);
+}
+
+
+    echo '&nbsp;';
     echo Html::button(Yii::t('app', 'Send Email'), ['class' => 'btn btn-warning pull-right', 'data' => ['toggle' => 'modal', 'target' => '#emailModal']]);
 
 echo Html::endTag('p');
@@ -55,6 +61,10 @@ echo Html::endTag('p');
 echo $this->render('_import_modal', ['poll' => $model, 'target'=>'importModal']);
 // render Email modal window
 echo $this->render('_email_modal', ['model' => $model, 'target'=>'emailModal']);
+
+if (\Yii::$app->user->isAdmin()) {
+    echo $this->render('_contact_emails_modal', ['model' => $model, 'target'=>'contactEmailsModal']);
+}
 
 
 $demoCodes = Html::beginTag('ul', ['class' => 'list-unstyled']);

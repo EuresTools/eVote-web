@@ -8,10 +8,12 @@ use yii\widgets\DetailView;
 use miloschuman\highcharts\Highcharts;
 use yii\widgets\Pjax;
 
+
+global $optionIDs, $total, $used;
 //$options = $model->getOptions()->with(['validVotes'])->all();
 //$options = $model->getOptions()->withVoteCount()->all();
 $options = $model->getOptions()->all();
-global $optionIDs;
+
 $optionIDs = ArrayHelper::getColumn($options, 'id');
 $dataProvider = new ArrayDataProvider([
     'allModels' => $options,
@@ -26,7 +28,7 @@ $dataProvider = new ArrayDataProvider([
     ],
 ]);
 
-Pjax::begin(['id' => 'options']);
+Pjax::begin(['id' => 'options', 'timeout'=>3000]); // increase Pjax Timeout default 1 sek
 
 // Status.
 if ($model->isOver()) {
@@ -36,6 +38,7 @@ if ($model->isOver()) {
 } else {
     echo Html::tag('h2', Yii::t('app', 'Status: Not Started'), ['class' => 'status status-closed']);
 }
+
 
 // Column chart.
 if ($model->hasStarted()) {
@@ -84,14 +87,18 @@ if ($model->hasStarted()) {
     ]);
 }
 
-?>
-
-<?php
 // Overview table.
-
 $used = $model->getUsedCodesCount();
 $unused = $model->getUnusedCodesCount();
 $total = $model->getValidCodesCount();
+$membersCount = $model->getMembersCount();
+$contactsCount = $model->getContactsCount();
+
+$show_total_percentage_columns = false;
+if ($model->select_min == 1 && $model->select_max== 1) {
+    $show_total_percentage_columns = true;
+}
+
 echo Html::tag('h2', Yii::t('app', 'Overview'));
 echo DetailView::widget([
     'model' => $model,
@@ -109,6 +116,14 @@ echo DetailView::widget([
             'value' => $unused,
         ],
         [
+            'label' => Yii::t('app', 'Total Members Count'),
+            'value' => $membersCount,
+        ],
+        [
+            'label' => Yii::t('app', 'Total Contacts Count'),
+            'value' => $contactsCount,
+        ],
+        [
             'label' => Yii::t('app', 'Participation'),
             'format' => ['percent', '2'],
             'value' => $total > 0 ? ($used / $total) : 0,
@@ -116,9 +131,6 @@ echo DetailView::widget([
     ],
 ]);
 
-?>
-
-<?php
 // Votes.
 echo Html::tag('h2', Yii::t('app', 'Votes'));
 echo GridView::widget([
@@ -140,6 +152,27 @@ echo GridView::widget([
             'attribute' => 'validVotesCount',
             'headerOptions'=> ['class' => 'sort-numerical'],
             'label' => Yii::t('app', 'Votes'),
+        ],
+        [
+            'attribute' => 'validVotesCount',
+            'label' => Yii::t('app', 'Percentage of Used Votes'),
+            'format' => ['percent', '2'],
+            'visible' => $show_total_percentage_columns,
+            'value' => function ($data, $key, $index, $widget) {
+                global $used;
+                return $used > 0 ? ($data->validVotesCount / $used) : 0;
+            }
+
+        ],
+        [
+            'attribute' => 'validVotesCount',
+            'label' => Yii::t('app', 'Percentage of Total Votes'),
+            'format' => ['percent', '2'],
+            'visible' => $show_total_percentage_columns,
+            'value' => function ($data, $key, $index, $widget) {
+                global $total;
+                return $total > 0 ? ($data->validVotesCount / $total) : 0;
+            }
         ],
     ],
 ]);
