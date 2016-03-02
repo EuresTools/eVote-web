@@ -50,7 +50,7 @@ AppAsset::register($this);
         'delay' => false, // Don't automatically disappear.
     ]);
 ?>
-
+<?= $this->render('@app/views/layouts/_saveTabs');?>
 <?php $this->beginBody() ?>
 <?= $content ?>
 <?php $this->endBody() ?>
