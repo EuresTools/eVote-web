@@ -23,7 +23,7 @@ function print_pre($var, $header = null, $debug = true, $return = false, $depth 
     }
 }
 
-function print_model(&$model_or_array, $description = "", $debug = true, $return = false)
+function print_model($model_or_array, $description = "", $debug = true, $return = false)
 {
     if (is_object($model_or_array)) {
         return print_pre($model_or_array->getAttributes(), '(Model) '.$description, $debug, $return);
