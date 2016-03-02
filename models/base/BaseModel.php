@@ -129,7 +129,6 @@ class BaseModel extends ActiveRecord
                 // 'updatedAtAttribute' => 'update_time',
                 //'value' => new Expression('NOW()'),
                 'value' => new Expression('UTC_TIMESTAMP()'),
-
             ],
         ];
     }
