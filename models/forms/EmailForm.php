@@ -15,6 +15,7 @@ class EmailForm extends Model
     const EMAIL_TO_UNUSED = 1;
     const EMAIL_TO_USED = 2;
 
+    const SCENARIO_MULTIPLE_EMAIL = 'multiEmail';
 
     public $subject;
     public $message;
@@ -27,7 +28,8 @@ class EmailForm extends Model
     public function rules()
     {
         return [
-            [[/*'sendMode', */'subject', 'message'], 'required'],
+            [['subject', 'message'], 'required'],
+            [['sendMode'], 'required',  'on' => self::SCENARIO_MULTIPLE_EMAIL],
         ];
     }
 

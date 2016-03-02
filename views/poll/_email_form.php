@@ -21,7 +21,7 @@ use app\components\helpers\PollUrl;
         'form' => $form,
         'columns' => 1,
         'attributes' => [
-            'sendMode' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => $sendOptions],
+            'sendMode' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => $sendOptions, 'options'=>['prompt'=>'Please select']],
             'subject' => ['type'=> Form::INPUT_TEXT, 'options' => ['maxlength'=>255]],
             'message' => ['type'=> Form::INPUT_TEXTAREA, 'options' => ['rows'=> 6]],
         ]

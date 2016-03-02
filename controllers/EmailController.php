@@ -35,31 +35,34 @@ class EmailController extends PollDependedController
     public function actionSendmultiple()
     {
         $poll = $this->getPoll();
+        $email = new EmailForm(['scenario' => EmailForm::SCENARIO_MULTIPLE_EMAIL]);
 
-        $email = new EmailForm();
-        if ($email->load(Yii::$app->request->post())) {
-            $members = null;
-            if ($email->sendMode == EmailForm::EMAIL_TO_ALL) {
+        if ($email->load(Yii::$app->request->post()) && $email->validate()) {
+            $members = [];
+            if (intval($email->sendMode) === EmailForm::EMAIL_TO_ALL) {
                 $members = Member::find()->where($this->getPollSearchOptions())->with('codes')->with('contacts')->all();
-            } elseif ($email->sendMode == EmailForm::EMAIL_TO_UNUSED) {
+            } elseif (intval($email->sendMode) === EmailForm::EMAIL_TO_UNUSED) {
                 $codes = Code::find()->where($this->getPollSearchOptions())->valid()->unused()->with('member.contacts')->all();
                 $members = ArrayHelper::getColumn($codes, 'member');
-            } elseif ($email->sendMode == EmailForm::EMAIL_TO_USED) {
+            } elseif (intval($email->sendMode) === EmailForm::EMAIL_TO_USED) {
                 $codes = Code::find()->where($this->getPollSearchOptions())->valid()->used()->with('member.contacts')->all();
                 $members = ArrayHelper::getColumn($codes, 'member');
             }
+
 
             // Count successful and failed emails.
             $success = 0;
             $failure = 0;
 
             foreach ($members as $member) {
+                set_time_limit(6);  // 6 seconds for each email to render
                 if ($this->sendEmailToMember($email, $member)) {
                     $success++;
                 } else {
                     $failure++;
                 }
             }
+
         }
         if ($success > 0) {
             Yii::$app->getSession()->addFlash('success', Yii::t('app', 'Successfully sent {n, plural, =0{no Email} =1{one Email} other{# Emails}}!', ['n' => $success]));
@@ -80,7 +83,7 @@ class EmailController extends PollDependedController
         }
 
         $email = new EmailForm();
-        if ($email->load(Yii::$app->request->post())) {
+        if ($email->load(Yii::$app->request->post()) && $email->validate()) {
             if ($this->sendEmailToMember($email, $member)) {
                 Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Email sent successfully.'));
             } else {
@@ -128,6 +131,11 @@ class EmailController extends PollDependedController
                 $string = str_replace('<voting-link>', 'no valid '.Yii::t('app', 'Token').' contact support!', $string);
             }
         }
+
+        if (strpos($string, '<application-link>') !== false) {
+            $string = str_replace('<application-link>', Yii::$app->urlManager->createAbsoluteUrl(['/']), $string);
+        }
+
         return $string;
     }
 }
