@@ -79,3 +79,9 @@ if (isMobile) {
     });
 }
 
+// set pjax timeout to 2sek (default 650ms)
+// https://github.com/yiisoft/jquery-pjax#pjax-options
+
+if (typeof $.pjax != 'undefined') {
+    $.pjax.defaults.timeout = 2000;
+}
