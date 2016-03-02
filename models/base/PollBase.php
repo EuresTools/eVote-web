@@ -4,6 +4,7 @@ namespace app\models\base;
 
 use Yii;
 use app\models\Code;
+use app\models\Contact;
 use app\models\Member;
 use app\models\Option;
 use app\models\User;
@@ -145,7 +146,32 @@ class PollBase extends \app\models\base\BaseModel
 
     public function getMembersCount()
     {
-        return $this->getMembers()->count();
+        //return $this->getMembers()->count();
+        return (new \yii\db\Query())
+         ->select('count(*)')
+         ->from('poll p')
+         ->leftJoin('member m', 'p.id=m.poll_id')
+         ->where(['p.id' => $this->id])
+         ->scalar();
+    }
+
+
+    public function getContacts()
+    {
+        return $this->hasMany(Contact::className(), ['member_id' => 'id'])
+                ->via('members');
+    }
+
+    public function getContactsCount()
+    {
+        //return $this->getContacts()->count();
+        return (new \yii\db\Query())
+         ->select('count(*)')
+         ->from('poll p')
+         ->leftJoin('member m', 'p.id=m.poll_id')
+         ->leftJoin('contact c', 'm.id=c.member_id')
+         ->where(['p.id' => $this->id])
+         ->scalar();
     }
 
     /**
